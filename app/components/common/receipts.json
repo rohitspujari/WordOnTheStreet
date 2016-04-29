@@ -1,0 +1,80 @@
+{ "receipts": [{
+ 	"id": "e688adea-2ac6-47f1-99e4-aaaf58daffa7",
+ 	"email": "rohitspujari@gmail.com",
+ 	"time": "1461322251",
+ 	"name": "India Garden",
+ 	"url":"https://geo1.ggpht.com/cbk?panoid=BsjCLFX-sr4AAAQY8xz6Ew&output=thumbnail&cb_client=search.TACTILE.gps&thumb=2&w=408&h=256&yaw=81.749634&pitch=0",
+ 	"address": "247 E Ontario St, Chicago, IL 60611",
+ 	"type": "restaurant",
+ 	"amount": "24.24",
+ 	"server": "John Doe",
+ 	"order_details": [
+ 						{"order":"Chicken Tikka Massala"},
+ 						{"order":"Gobi Manchurian"},
+ 						{"order":"Chicken 65"}
+ 					  ],
+ 	"active": "1",
+ 	"reward": "1"
+  
+},
+
+{
+ 	"id": "e688adea-2ac6-47f1-99e4-aaaf58daffa8",
+ 	"email": "rohitspujari@gmail.com",
+ 	"time": "1461323573",
+ 	"name": "Khan BBQ",
+ 	"url":"https://lh6.googleusercontent.com/-_4iio22lEPs/VWzYEN52kyI/AAAAAAAAAAY/pGIv_3SkVxs/s408-k-no/",
+ 	"address": "2401 W Devon Ave, Chicago, IL 60659",
+ 	"type": "restaurant",
+ 	"amount": "64.24",
+ 	"server": "Nicky Smith",
+ 	"order_details": [
+ 						{"order":"Chicken Boti"},
+ 						{"order":"Dal Fry"},
+ 						{"order":"Chicken Seekh Kabab"}
+ 					  ],
+ 	"active": "1",
+ 	"reward": "1"
+  
+},
+
+{
+ 	"id": "e688adea-2ac6-47f1-99e4-aaaf58daffa9",
+ 	"email": "rohitspujari@gmail.com",
+ 	"time": "1461323586",
+ 	"name": "Raj Darbar",
+ 	"url": "https://lh3.googleusercontent.com/proxy/-pSoewFe1Mts1qqxIcyh1RigVpi7oAqvqK_C2kc7U4-Z8QHdmUkVYYCqp6i7YTn_ap4KDq3FYp4y5N6xNzuBeDDaZa9rLMTz6ELlfmcVaZwC9Rm0O6ooZKmlbp6xyuExjkHED7ivqpMCvYS5W26QioBcfw=w408-h725",
+ 	"address": "2660 N Halsted St, Chicago, IL 60614",
+ 	"type": "restaurant",
+ 	"amount": "274.24",
+ 	"server": "Marin Cane",
+ 	"order_details": [
+ 						{"order":"Lamb Curry"},
+ 						{"order":"Paneer Tikka Masala"},
+ 						{"order":"Papaddam"}
+ 					  ],
+ 	"active": "1",
+ 	"reward": "1"
+  
+},
+
+{
+ 	"id": "e688adea-2ac6-47f1-99e4-aaaf58daffb0",
+ 	"email": "rpujari@gmail.com",
+ 	"time": "1461323604",
+ 	"name": "Sabri Nihari",
+ 	"url":"https://lh4.googleusercontent.com/-1pz5N-G6Ky8/VUs46RN11oI/AAAAAAAAAYg/9uU9nErsWxg/s455-k-no/",
+ 	"address": "2502 W Devon Ave, Chicago, IL 60659",
+ 	"type": "restaurant",
+ 	"amount": "22.11",
+ 	"server": "Karen Kohls",
+ 	"order_details": [
+ 						{"order":"Chicken Biryani"},
+ 						{"order":"Samosa"},
+ 						{"order":"Chilli Pakora"}
+ 					  ],
+ 	"active": "1",
+ 	"reward": "1"
+  
+}]}
+
