@@ -22,23 +22,12 @@ var REQUEST_URL = 'https://www.googleapis.com/books/v1/volumes?q=subject:suspens
 
 var styles = StyleSheet.create({
   container:{
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
+    //flex: 1,
+    //flexDirection: 'row',
+    //justifyContent: 'center',
+    //alignItems: 'center',
     //backgroundColor: '#F5FCFF'
-  },
-  item:{
-    flex:1,
-    fontSize:15,
-    paddingTop: 20,
-    paddingBottom: 20
-  },
-  separator: {
-       height: 1,
-       backgroundColor: '#dddddd'
-   }
-
+  }
 })
 
 class Itemlist extends Component{
@@ -54,12 +43,6 @@ class Itemlist extends Component{
        rowHasChanged: (r1, r2) => r1 !== r2
      })
    };
-  }
-
-  onStarRatingPress(rating) {
-    // this.setState({
-    //   starCount: rating
-    // });
   }
 
   componentDidMount(){
@@ -107,17 +90,7 @@ class Itemlist extends Component{
 
   renderRow(rowData){
     return(
-      <View>
-        <View>
-        <Item itemName={rowData.volumeInfo.title}/>
-        
-        </View>
-        <View>
-
-
-        </View>
-        <View style={styles.separator}/>
-      </View>
+        <Item itemName={rowData.volumeInfo.title} />
     );
   }
 }

@@ -122,7 +122,6 @@ var styles = StyleSheet.create({
   submit:{
     flex:2,
     justifyContent: 'center',
-    borderWidth: 0.5,
     borderColor: 'gray'
 
 
@@ -138,7 +137,7 @@ var styles = StyleSheet.create({
     flex: 1,
     padding: 20,
     justifyContent: 'center',
-    alignItems: 'stretch'
+    //alignItems: 'stretch'
   }
 });
 
