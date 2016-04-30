@@ -15,8 +15,6 @@ var {
 } = React;
 
 var ViewPager = require('react-native-viewpager');
-//var ViewPager = require('./ViewPager');
-
 
 var IMGS = [
   'https://images.unsplash.com/photo-1441742917377-57f78ee0e582?h=1024',
@@ -29,13 +27,12 @@ var IMGS = [
 ];
 
 var PageList = React.createClass({
+
   getInitialState: function() {
       var dataSource = new ViewPager.DataSource({
       pageHasChanged: (p1, p2) => p1 !== p2,
     });
-
     return {
-
       dataSource: dataSource.cloneWithPages(IMGS)
     };
   },
@@ -74,9 +71,11 @@ var PageList = React.createClass({
         source={{uri: data}}
         style={{flex:1}} />
       </View>
-      <View style={[styles.items,this.border('green')]}>
+
+      <View style={[styles.itemList,this.border('green')]}>
         <Itemlist />
       </View>
+
       <View style={[styles.comments,this.border('purple')]}>
       <TextInput placeholder='Comments'
       autofocus={true}
@@ -108,15 +107,14 @@ var styles = StyleSheet.create({
   info:{
     flex: 4
   },
-  items:{
+  itemList:{
     flex: 10,
-    paddingTop: 5,
-    paddingBottom: 5
   },
   comments:{
     flex:2,
-    alignItems: 'center',
-    justifyContent: 'center',
+    flexDirection: 'row',
+    //alignItems: 'center',
+    justifyContent: 'flex-end',
     //backgroundColor: '#F5FCFF'
   },
   submit:{
@@ -136,7 +134,7 @@ var styles = StyleSheet.create({
   container:{
     flex: 1,
     padding: 20,
-    justifyContent: 'center',
+    //justifyContent: 'center',
     //alignItems: 'stretch'
   }
 });

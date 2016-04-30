@@ -16,50 +16,46 @@ var Item = React.createClass({
     return(
       <View style={styles.container}>
         <View style={styles.name}>
-        <Text>{this.props.itemName}</Text>
+          <Text>{this.props.itemName}</Text>
         </View>
         <View style={styles.rating}>
-        <StarRating
-         disabled={false}
-         emptyStar={'ios-star-outline'}
-         fullStar={'ios-star'}
-         halfStar={'ios-star-half'}
-         iconSet={'Ionicons'}
-         maxStars={5}
-         rating={0}
-         selectedStar={(rating) => this.onStarRatingPress(rating)}
-         starColor={'gray'}
-         startSize={1}/>
-         </View>
-         <View style={styles.separator} />
+          <StarRating
+            disabled={false}
+            emptyStar={'ios-star-outline'}
+            fullStar={'ios-star'}
+            halfStar={'ios-star-half'}
+            iconSet={'Ionicons'}
+            maxStars={5}
+            rating={0}
+            selectedStar={(rating) => this.onStarRatingPress(rating)}
+            starColor={'gray'}
+            starSize={20}
+          />
+        </View>
       </View>
     );
   }
 });
 
 var styles = StyleSheet.create({
-  conainer:{
+  container:{
     flex: 1,
     flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF'
-
+    padding: 15
   },
   name:{
-    //flex:3,
-    borderWidth:4,
-    borderColor:'red'
+    flex:1,
+    alignSelf: 'center',
+    //borderWidth:1,
+    //borderColor:'red'
   },
   rating:{
     flex:1,
-    borderWidth:4,
-    borderColor:'blue'
+    alignItems: 'flex-end',
+    //borderWidth:1,
+    //borderColor:'blue'
   },
-  separator: {
-    height: 1,
-    backgroundColor: '#dddddd'
-   }
+
 });
 
 module.exports= Item;

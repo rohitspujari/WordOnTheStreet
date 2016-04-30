@@ -27,7 +27,11 @@ var styles = StyleSheet.create({
     //justifyContent: 'center',
     //alignItems: 'center',
     //backgroundColor: '#F5FCFF'
-  }
+  },
+  separator: {
+    height: 1,
+    backgroundColor: '#dddddd'
+   }
 })
 
 class Itemlist extends Component{
@@ -90,7 +94,10 @@ class Itemlist extends Component{
 
   renderRow(rowData){
     return(
+        <View>
         <Item itemName={rowData.volumeInfo.title} />
+        <View style={styles.separator} />
+        </View>
     );
   }
 }
