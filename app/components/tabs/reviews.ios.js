@@ -30,7 +30,8 @@ var styles = StyleSheet.create({
    container: {
      flex: 1,
      marginTop:20,
-     marginBottom:50
+     marginBottom:50,
+     //backgroundColor: '#b3cd52'
   }
 });
 

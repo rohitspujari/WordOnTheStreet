@@ -29,12 +29,12 @@ var IMGS = [
 var PageList = React.createClass({
 
   getInitialState: function() {
-      var dataSource = new ViewPager.DataSource({
-      pageHasChanged: (p1, p2) => p1 !== p2,
+    var dataSource = new ViewPager.DataSource({
+      pageHasChanged: (p1, p2) => p1 !== p2
     });
     return {
       dataSource: dataSource.cloneWithPages(IMGS)
-    };
+    }
   },
 
   border: function(color){
@@ -45,15 +45,13 @@ var PageList = React.createClass({
   },
   render: function() {
     return (
-
       <ViewPager
         style={this.props.style}
         dataSource={this.state.dataSource}
-        renderPage={this._renderPage}
+        renderPage={this.renderPage}
         isLoop={true}
         autoPlay={false}>
       </ViewPager>
-
     );
   },
 
@@ -61,38 +59,27 @@ var PageList = React.createClass({
   onPress: function(){
 
   },
-  _renderPage: function(
-    data: Object,
-    pageID: number | string,) {
+
+  renderPage: function(data: Object, pageID: number | string)
+
+    {
     return (
       <View style={[styles.container,this.border('red')]}>
       <View style={[styles.info, this.border('yellow')]}>
-      <Image
-        source={{uri: data}}
-        style={{flex:1}} />
+
       </View>
 
       <View style={[styles.itemList,this.border('green')]}>
         <Itemlist />
       </View>
 
-      <View style={[styles.comments,this.border('purple')]}>
-      <TextInput placeholder='Comments'
-      autofocus={true}
-      onChangeText={(text)=>this.setState({password: text})}
-      style={{
 
-        alignItems:'flex-start',
-        justifyContent:'flex-end',
-        flex: 1
-      }}/>
-      </View>
       <View style={[styles.submit,this.border('blue')]}>
       <TouchableHighlight
       underlayColor="gray"
       onPress={this.onPress}>
       <Text style={styles.buttonText}>
-      Post Review
+      Post Preview
       </Text>
       </TouchableHighlight>
       </View>
@@ -105,18 +92,14 @@ var PageList = React.createClass({
 
 var styles = StyleSheet.create({
   info:{
-    flex: 4
+    flex: 4,
+
   },
   itemList:{
     flex: 10,
+
   },
-  comments:{
-    flex:2,
-    flexDirection: 'row',
-    //alignItems: 'center',
-    justifyContent: 'flex-end',
-    //backgroundColor: '#F5FCFF'
-  },
+
   submit:{
     flex:2,
     justifyContent: 'center',
@@ -134,6 +117,7 @@ var styles = StyleSheet.create({
   container:{
     flex: 1,
     padding: 20,
+
     //justifyContent: 'center',
     //alignItems: 'stretch'
   }
