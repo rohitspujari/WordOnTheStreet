@@ -11,12 +11,12 @@ var {
   Image,
   TextInput,
   TouchableHighlight,
-  ScrollView
+  ScrollView,
 } = React;
 
 var ViewPager = require('react-native-viewpager');
 //var ViewPager = require('./ViewPager');
-var deviceWidth = Dimensions.get('window').width;
+
 
 var IMGS = [
   'https://images.unsplash.com/photo-1441742917377-57f78ee0e582?h=1024',
@@ -30,12 +30,13 @@ var IMGS = [
 
 var PageList = React.createClass({
   getInitialState: function() {
-    var dataSource = new ViewPager.DataSource({
+      var dataSource = new ViewPager.DataSource({
       pageHasChanged: (p1, p2) => p1 !== p2,
     });
 
     return {
-      dataSource: dataSource.cloneWithPages(IMGS),
+
+      dataSource: dataSource.cloneWithPages(IMGS)
     };
   },
 

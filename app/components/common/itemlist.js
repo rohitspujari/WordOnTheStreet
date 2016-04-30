@@ -9,13 +9,16 @@ import React, {
   ScrollView
 } from 'react-native';
 
+import StarRating from 'react-native-star-rating';
+
 var customData = require('./receipts.json');
 var ViewPager = require('react-native-viewpager');
-var StarRating = require('react-native-star-rating');
+var Item = require('../reviewcard/item')
+//var StarRating = require('react-native-star-rating');
 var FAKE_BOOK_DATA = [
     {volumeInfo: {title: 'The Catcher in the Rye', authors: "J. D. Salinger", imageLinks: {thumbnail: 'http://books.google.com/books/content?id=PCDengEACAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api'}}}
 ];
-var REQUEST_URL = 'https://www.googleapis.com/books/v1/volumes?q=subject:fiction';
+var REQUEST_URL = 'https://www.googleapis.com/books/v1/volumes?q=subject:suspense';
 
 var styles = StyleSheet.create({
   container:{
@@ -54,9 +57,9 @@ class Itemlist extends Component{
   }
 
   onStarRatingPress(rating) {
-    this.setState({
-      starCount: rating
-    });
+    // this.setState({
+    //   starCount: rating
+    // });
   }
 
   componentDidMount(){
@@ -106,10 +109,12 @@ class Itemlist extends Component{
     return(
       <View>
         <View>
-        <Text style={styles.item}>
-        {rowData.volumeInfo.title}
-        </Text>
+        <Item itemName={rowData.volumeInfo.title}/>
         
+        </View>
+        <View>
+
+
         </View>
         <View style={styles.separator}/>
       </View>

@@ -8,12 +8,16 @@ import React, {
   Text,
   View,
   TouchableHighlight,
-  ScrollView
+  ScrollView,
+  DeviceEventEmitter,
+  Dimensions
 } from 'react-native';
 
 var Swiper = require('react-native-swiper');
 var Itemlist = require('../common/itemlist');
 var PageList = require('../common/pagelist');
+
+var deviceWidth = Dimensions.get('window').width;
 
 var styles = StyleSheet.create({
   description: {
@@ -28,6 +32,8 @@ var styles = StyleSheet.create({
     marginBottom:50,
     justifyContent: 'center',
     alignItems: 'stretch',
+  //  height: this.state.visibleHeight
+
 
     //backgroundColor: '#000000'
   },
@@ -103,15 +109,18 @@ var Reviews = React.createClass({
   render: function(){
     return (
 
-    <View style={[styles.container, this.border('blue')]}>
+    <View style={[styles.container,this.border('blue')]}>
     <PageList />
     </View>
 
 
   );
   },
+
   getInitialState: function(){
-    return {}
+    return {
+        visibleHeight: Dimensions.get('window').height
+    }
   },
   border: function(color){
     return {
@@ -119,6 +128,8 @@ var Reviews = React.createClass({
       //borderWidth: 4
     }
   },
+
+
   infoSection: function() {
     return <View
     style={[this.border('red'),styles.info]}>
