@@ -10,6 +10,7 @@ import React, {
 } from 'react-native';
 
 import StarRating from 'react-native-star-rating';
+const Firebase = require('firebase');
 
 var customData = require('./receipts.json');
 var ViewPager = require('react-native-viewpager');
@@ -34,20 +35,31 @@ var styles = StyleSheet.create({
 })
 
 class Itemlist extends Component{
-
   constructor(props){
     super(props);
-
     this.state = {
-     isLoading: true,
-     dataSource: new ListView.DataSource({
-       rowHasChanged: (r1, r2) => r1 !== r2
-     })
-   };
+      dataSource: new ListView.DataSource({
+      rowHasChanged: (r1, r2) => r1 !== r2
+    })
+   }
   }
 
   componentDidMount(){
-    this.fetchData(REQUEST_URL);
+    //this.fetchData(REQUEST_URL);
+    this.fetchReceipts();
+
+
+  }
+
+  fetchReceipts(){
+    this.firebaseRef = new Firebase('https://wots.firebaseio.com/receipts');
+    this.firebaseRef.once("value",(dataSnapshot)=>{
+      var items = dataSnapshot.val();
+      this.setState({
+        items: items,
+        dataSource: this.state.dataSource.cloneWithRows(items)
+      });
+    })
   }
 
   fetchData(url){
@@ -73,15 +85,12 @@ class Itemlist extends Component{
   }
 
   render(){
-    if(this.state.isLoading){
-      return this.renderLoadingView();
-    }
     return(
       <ScrollView>
       <View style={styles.container}>
           <ListView
               dataSource={this.state.dataSource}
-              renderRow={this.renderRow.bind(this)} />
+              renderRow={this.renderRow} />
         </View>
         </ScrollView>
     );
@@ -91,7 +100,7 @@ class Itemlist extends Component{
   renderRow(rowData){
     return(
         <View>
-          <Item itemName={rowData.volumeInfo} />
+          <Item itemName={rowData.name} />
           <View style={styles.separator} />
         </View>
     );

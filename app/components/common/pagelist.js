@@ -1,20 +1,22 @@
-'use strict';
 
-var React = require('react-native');
-var Itemlist = require('./itemlist');
-var {
 
+
+import React, {
   StyleSheet,
+  Component,
   Text,
   View,
-  Dimensions,
-  Image,
+  ListView,
+  ActivityIndicatorIOS,
   TextInput,
-  TouchableHighlight,
   ScrollView,
-} = React;
+  TouchableHighlight
+} from 'react-native';
 
+var Itemlist = require('./itemlist');
 var ViewPager = require('react-native-viewpager');
+const url = "https://wots.firebaseio.com/receipts";
+var items = [];
 
 var IMGS = [
   'https://images.unsplash.com/photo-1441742917377-57f78ee0e582?h=1024',
@@ -26,24 +28,48 @@ var IMGS = [
   'https://images.unsplash.com/photo-1440847899694-90043f91c7f9?h=1024'
 ];
 
-var PageList = React.createClass({
+class PageList extends Component{
 
-  getInitialState: function() {
+ constructor(props) {
+   super(props);
     var dataSource = new ViewPager.DataSource({
-      pageHasChanged: (p1, p2) => p1 !== p2
+      pageHasChanged: (p1, p2) => p1 != p2
     });
-    return {
-      dataSource: dataSource.cloneWithPages(IMGS)
-    }
-  },
 
-  border: function(color){
-    return {
-      //borderColor: color,
-      //borderWidth: 4
-    }
-  },
-  render: function() {
+   this.state = {
+      dataSource: dataSource.cloneWithPages(IMGS)
+    };
+  }
+
+
+  componentDidMount(){
+    console.log("i am in component did mount phase")
+    this.fetchReceipts();
+
+
+
+
+  }
+
+
+
+  fetchReceipts(){
+    this.firebaseRef = new Firebase('https://wots.firebaseio.com/receipts');
+    this.firebaseRef.once("value",(dataSnapshot)=>{
+      var items = dataSnapshot.val();
+      console.log("fetch receipts");
+      console.log(items);
+      this.setState({
+        dataSource: this.state.dataSource.cloneWithPages(items)
+      });
+    })
+  }
+
+
+
+
+
+  render() {
     return (
       <ViewPager
         style={this.props.style}
@@ -53,28 +79,28 @@ var PageList = React.createClass({
         autoPlay={false}>
       </ViewPager>
     );
-  },
+  }
 
 
-  onPress: function(){
+  onPress(){
 
-  },
+  }
 
-  renderPage: function(data: Object, pageID: number | string)
+  renderPage(data: Object, pageID: number | string)
 
     {
     return (
-      <View style={[styles.container,this.border('red')]}>
-      <View style={[styles.info, this.border('yellow')]}>
-
+      <View style={styles.container}>
+      <View style={styles.info}>
+        <Text>{data.name}</Text>
       </View>
 
-      <View style={[styles.itemList,this.border('green')]}>
+      <View style={styles.itemList}>
         <Itemlist />
       </View>
 
 
-      <View style={[styles.submit,this.border('blue')]}>
+      <View style={styles.submit}>
       <TouchableHighlight
       underlayColor="gray"
       onPress={this.onPress}>
@@ -87,8 +113,8 @@ var PageList = React.createClass({
       </View>
 
     );
-  },
-});
+  }
+}
 
 var styles = StyleSheet.create({
   info:{

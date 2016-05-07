@@ -17,7 +17,7 @@ var Item = React.createClass({
     <View style={styles.container}>
       <View style={styles.container_itemReview}>
         <View style={styles.name}>
-          <Text>{this.props.itemName.title}</Text>
+          <Text>{this.props.itemName}</Text>
         </View>
         <View style={styles.rating}>
           <StarRating
