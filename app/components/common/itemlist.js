@@ -36,6 +36,7 @@ var styles = StyleSheet.create({
 
 class Itemlist extends Component{
   constructor(props){
+    //console.log("i am in itemlist constructor");
     super(props);
     this.state = {
       dataSource: new ListView.DataSource({
@@ -45,8 +46,12 @@ class Itemlist extends Component{
   }
 
   componentDidMount(){
+    //console.log("i am in Itemlist did mount");
     //this.fetchData(REQUEST_URL);
-    this.fetchReceipts();
+    //this.fetchReceipts();
+    this.setState({
+      dataSource: this.state.dataSource.cloneWithRows(this.props.items)
+    });
 
 
   }
@@ -100,7 +105,7 @@ class Itemlist extends Component{
   renderRow(rowData){
     return(
         <View>
-          <Item itemName={rowData.name} />
+          <Item itemName={rowData.order} />
           <View style={styles.separator} />
         </View>
     );

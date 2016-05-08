@@ -1,37 +1,84 @@
 //'use strict';
 import React, {
   Component,
-  StyleSheet,
   Text,
   View
 } from 'react-native';
 
 var PageList = require('../common/pagelist');
+var Carousel = require('../common/Carousel');
+const StyleSheet = require('F8StyleSheet');
 
-var Reviews = React.createClass({
+class Reviews extends React.Component{
 
-  render: function(){
+  constructor(props){
+    super(props);
+
+    this.state = {
+      count: 10,
+      selectedIndex: 0
+
+    };
+
+    (this: any).handleIndexChange = this.handleIndexChange.bind(this);
+  }
+
+  handleIndexChange(selectedIndex: number) {
+    //this.track(selectedIndex);
+    this.setState({
+      selectedIndex: selectedIndex
+    });
+  }
+
+  render(){
     return (
     <View style={[styles.container,this.border('blue')]}>
-    <PageList />
+    <Carousel
+          count={this.state.count}
+          selectedIndex={this.state.selectedIndex}
+          onSelectedIndexChange={this.handleIndexChange}
+          renderCard={this.renderCard}
+        />
     </View>
     );
-  },
+  }
 
-  border: function(color){
+  renderCard(index: number): ReactElement {
+    return (
+      <View style={styles.card}>
+      <Text >{index}</Text>
+      </View>
+    );
+  }
+
+
+
+  border(color){
     return {
       //borderColor: color,
       //borderWidth: 4
     }
   }
-});
+
+}
 
 var styles = StyleSheet.create({
    container: {
      flex: 1,
-     marginTop:20,
+     //marginTop:20,
      marginBottom:50,
+     backgroundColor: '#c8c864'
      //backgroundColor: '#b3cd52'
+  },
+  card: {
+    ios: {
+      flex:1,
+      marginTop:10,
+      borderRadius: 2,
+      marginHorizontal: 3,
+      backgroundColor: 'white'
+
+    },
   }
 });
 
