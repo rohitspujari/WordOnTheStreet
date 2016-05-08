@@ -58,7 +58,7 @@ class Itemlist extends Component{
 
   fetchReceipts(){
     this.firebaseRef = new Firebase('https://wots.firebaseio.com/receipts');
-    this.firebaseRef.once("value",(dataSnapshot)=>{
+    this.firebaseRef.on("value",(dataSnapshot)=>{
       var items = dataSnapshot.val();
       this.setState({
         items: items,

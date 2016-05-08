@@ -28,10 +28,11 @@ const ViewPage = require('./ViewPage');
 const StyleSheet = require('F8StyleSheet');
 
 type Props = {
-  count: number;
+
+  data: Array<Object>;
   selectedIndex: number;
   onSelectedIndexChange?: (index: number) => void;
-  renderCard: (index: number) => ReactElement;
+  renderCard: (index: number, data: Array<Object>) => ReactElement;
   style?: any;
 };
 
@@ -40,12 +41,12 @@ class Carousel extends React.Component {
 
   render() {
     let cards = [];
-    const {count, selectedIndex, renderCard} = this.props;
+    const {data, selectedIndex, renderCard} = this.props;
 
-    for (let i = 0; i < count; i++) {
+    for (let i = 0; i < data.length; i++) {
       let content = null;
       if (Math.abs(i - selectedIndex) < 2) {
-        content = renderCard(i);
+        content = renderCard(i, data);
       }
       cards.push(content);
     }
