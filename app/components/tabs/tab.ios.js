@@ -10,6 +10,7 @@ import React, {
 var Search = require('./search.ios');
 var Reviews = require('./reviews.ios');
 var Cash = require('./cash.ios');
+var Example = require('../common/modal')
 
 
 // var Tab = React.createClass({
@@ -37,7 +38,10 @@ class Tab extends Component {
   }
 
   render() {
+
+
     return (
+
       <TabBarIOS selectedTab={this.state.selectedTab}>
       <TabBarIOS.Item
       selected={this.state.selectedTab ==='search'}
@@ -60,7 +64,7 @@ class Tab extends Component {
         });
       }}>
 
-      <Reviews />
+      <Reviews {...this.props} />
 
       </TabBarIOS.Item>
 
@@ -72,7 +76,7 @@ class Tab extends Component {
           selectedTab: 'cash'
         });
       }}>
-      <Cash />
+      <Example />
       </TabBarIOS.Item>
       </TabBarIOS>
 

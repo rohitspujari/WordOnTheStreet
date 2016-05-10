@@ -7,84 +7,80 @@ import React, {
 } from 'react-native';
 
 import StarRating from 'react-native-star-rating';
+import Touchable from '../common/Touchable';
 
-var Item = React.createClass({
-  onStarRatingPress: function(){
 
-  },
-  render:function(){
+class Item extends Component{
+
+  constructor(props){
+    super(props);
+
+
+
+  }
+  onStarRatingPress(){
+
+  }
+  render(){
+
+    var starRating = <StarRating
+      disabled={false}
+      emptyStar={'ios-star-outline'}
+      fullStar={'ios-star'}
+      halfStar={'ios-star-half'}
+      iconSet={'Ionicons'}
+      maxStars={5}
+      rating={0}
+      selectedStar={(rating) => this.onStarRatingPress(rating)}
+      starColor={'gray'}
+      starSize={25}
+    />;
+
+
+
+
+
     return(
-    <View style={styles.container}>
-      <View style={styles.container_itemReview}>
-        <View style={styles.name}>
-          <Text>{this.props.itemName}</Text>
+      <View style={styles.container}>
+        <View style={styles.container_itemReview}>
+          <View style={styles.name}>
+            <Touchable onPress={this.props.onPress}>
+              <Text style={styles.nameText}>{this.props.itemName}</Text>
+            </Touchable>
+          </View>
+          <View style={styles.rating}>
+            {starRating}
+          </View>
         </View>
-        <View style={styles.rating}>
-          <StarRating
-            disabled={false}
-            emptyStar={'ios-star-outline'}
-            fullStar={'ios-star'}
-            halfStar={'ios-star-half'}
-            iconSet={'Ionicons'}
-            maxStars={5}
-            rating={0}
-            selectedStar={(rating) => this.onStarRatingPress(rating)}
-            starColor={'gray'}
-            starSize={20}
-          />
-        </View>
-      </View>
-      <View style={styles.container_itemComment}>
-
-      <TextInput
-        placeholder='Comments'
-        onChangeText={(text)=>this.setState({comment: text})}
-        style={{
-          alignItems:'center',
-          justifyContent:'center',
-          flex: 1,
-          height:20,
-          paddingLeft: 15,
-
-          //borderWidth: 1,
-          //borderColor: 'red',
-          //backgroundColor:'#e6e7ea'
-        }}/>
-      </View>
-     </View>
+       </View>
     );
   }
-});
+}
 
 var styles = StyleSheet.create({
   container:{
     flex:1,
-    padding:10,
+    padding:5
     //borderWidth:1,
     //borderColor: 'green'
   },
   container_itemReview:{
     flex: 1,
     flexDirection: 'row',
-    padding: 15,
+    padding: 5,
     //borderWidth:1,
     //borderColor:'red'
-
-  },
-  container_itemComment:{
-    flex:1,
-    paddingTop: 5,
-    paddingBottom: 5,
-
-
-    //borderWidth:1,
-    //borderColor:'blue'
   },
   name:{
     flex:1,
     alignSelf: 'center',
     //borderWidth:1,
     //borderColor:'red'
+  },
+  nameText:{
+    fontSize: 16,
+    fontWeight:'300',
+
   },
   rating:{
     flex:1,

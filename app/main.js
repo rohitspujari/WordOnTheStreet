@@ -44,12 +44,21 @@ var Main = React.createClass({
   },
   render: function () {
 
-    return <Navigator
-    style={styles.container}
-    initialRoute={true?{name:'tab'}:{name:'signin'}}
-    renderScene={this.renderScene}
-    confgureScene={()=>{return Navigator.SceneConfigs.FloatFromRight;}}/>
-  }
+    return (
+      <Navigator
+        ref="nav"
+        style={styles.container}
+        initialRoute={true?{name:'tab'}:{name:'signin'}}
+        renderScene={this.renderScene}
+        confgureScene={()=>{return Navigator.SceneConfigs.FloatFromBottom;}}
+      />
+  );
+},
+
+// renderScene: function(route, navigator){
+//       return null;
+// }
+
 });
 
 var styles = StyleSheet.create({
