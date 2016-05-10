@@ -33,8 +33,8 @@ import React, {
 
 function TouchableIOS(props: Object): ReactElement {
   return (
-    <TouchableHighlight
-      accessibilityTraits="link"
+    <TouchableHighlight style={{padding:5,borderRadius:5}}
+      accessibilityTraits="button"
       underlayColor="#c8c864"
       {...props}
     />

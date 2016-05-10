@@ -7,6 +7,7 @@ import React, {
   View
 } from 'react-native';
 var Itemlist = require('../common/itemlist');
+import Touchable from '../common/Touchable';
 import Modal from 'react-native-modalbox';
 import StarRating from 'react-native-star-rating';
 var PageList = require('../common/pagelist');
@@ -53,11 +54,29 @@ export default class Reviews extends Component{
 
   }
 
+  titlePress(){
+    console.log('hello from title')
+  }
+
   render(){
 
     //var commentModal = ();
     //var BContent = (<Button onPress={this.closeModal5.bind(this)} style={[styles.btn, styles.btnModal]}>X</Button>);
 
+    var starRating = function(size,ratingScore,active){ return <StarRating
+        disabled={active}
+        emptyStar={'ios-star-outline'}
+        fullStar={'ios-star'}
+        halfStar={'ios-star-half'}
+        iconSet={'Ionicons'}
+        maxStars={5}
+        rating={ratingScore}
+        selectedStar={(rating) => {
+          return null;
+        }}
+        starColor={'gray'}
+        starSize={size}
+      />;}
 
 
     return (
@@ -71,8 +90,25 @@ export default class Reviews extends Component{
             return(
               <View style={styles.container}>
                 <View style={styles.card}>
-                  <Text style={[styles.info,{fontSize:20,}]}>{data[index].name}</Text>
-                  <Itemlist item_click={this.openModal5.bind(this)} items={data[index].order_details} {...this.props}/>
+                  <View style={styles.info}>
+                    <Touchable onPress={this.titlePress.bind(this)}>
+                      <Text style={{fontSize:20,fontWeight:'bold', color:'#34495e'}}>{data[index].name}</Text>
+                    </Touchable>
+                  </View>
+                  <View style={{borderWidth:0, alignSelf: 'center', flexDirection:'row', marginBottom:50}}>
+                  {starRating(15,4,true)}
+                  <Text style={{fontSize:13,color:'#34495e'}}>{' (54)'}</Text>
+                  </View>
+                  <View style={{borderWidth:0}}>
+                    <Itemlist item_click={this.openModal5.bind(this)} items={data[index].order_details} {...this.props}/>
+                  </View>
+                  <View style={{flexDirection:'row', justifyContent:'space-around', padding:20, marginTop:20}}>
+                    <Text>Delivery</Text>
+                    <Text>Dine In</Text>
+                  </View>
+                  <View style={{justifyContent:'center',alignItems:'center', marginTop:20}}>
+                  <Button  text={'Submit'}  onPress={this.onSubmitPress}/>
+                  </View>
                 </View>
               </View>
             );
@@ -81,20 +117,7 @@ export default class Reviews extends Component{
 
 
         <Modal animationDuration={350} position='top' isOpen={this.state.isOpen} onClosed={this.closeModal5.bind(this)} style={[styles.modal, styles.modal4]} position={"center"}>
-
-          <StarRating
-            disabled={false}
-            emptyStar={'ios-star-outline'}
-            fullStar={'ios-star'}
-            halfStar={'ios-star-half'}
-            iconSet={'Ionicons'}
-            maxStars={5}
-            rating={0}
-            selectedStar={(rating) => this.onStarRatingPress(rating)}
-            starColor={'gray'}
-            starSize={25}
-          />
-
+          {starRating(25,0,false)}
           <TextInput
               placeholder={"Comments"}
               autoFocus={true}
@@ -195,7 +218,7 @@ var styles = StyleSheet.create({
       alignSelf: 'center',
       backgroundColor: 'white',
       marginTop:20,
-      marginBottom:50,
+      marginBottom:10,
       justifyContent: 'center',
       alignItems: 'center',
       borderRadius: 2,
@@ -207,10 +230,11 @@ var styles = StyleSheet.create({
   card: {
     ios: {
       flex:5,
-      marginTop:10,
-      borderRadius: 2,
+      marginTop:0,
+      borderRadius: 5,
       marginHorizontal: 3,
-      backgroundColor: '#dce79e'
+      backgroundColor: '#dce79e',
+      borderWidth:0
 
     },
   }

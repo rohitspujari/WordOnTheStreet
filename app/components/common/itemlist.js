@@ -29,7 +29,8 @@ var styles = StyleSheet.create({
     //justifyContent: 'center',
     //alignItems: 'center',
     //borderColor: 'red',
-    //borderWidth: 1
+    borderWidth: 0,
+    padding:0
 
   },
   separator: {
@@ -83,7 +84,7 @@ class Itemlist extends Component{
   }
 
   componentDidMount(){
-  
+
     //this.fetchData(REQUEST_URL);
     //this.fetchReceipts();
     this.setState({

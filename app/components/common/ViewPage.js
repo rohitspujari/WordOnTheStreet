@@ -176,6 +176,7 @@ var styles = StyleSheet.create({
   },
   card: {
     backgroundColor: 'transparent',
+  
   }
 });
 

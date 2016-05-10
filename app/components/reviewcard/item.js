@@ -60,8 +60,11 @@ class Item extends Component{
 var styles = StyleSheet.create({
   container:{
     flex:1,
-    padding:5
-    //borderWidth:1,
+    //padding:10,
+    paddingLeft:20,
+    paddingRight:20,
+    borderWidth:0,
+
     //borderColor: 'green'
   },
   container_itemReview:{
@@ -76,13 +79,14 @@ var styles = StyleSheet.create({
     alignItems: 'flex-start',
     alignSelf: 'center',
     borderWidth:0,
-    
+
 
     //borderColor:'red'
   },
   nameText:{
     fontSize: 16,
     fontWeight:'500',
+    color:'#34495e'
 
   },
   rating:{

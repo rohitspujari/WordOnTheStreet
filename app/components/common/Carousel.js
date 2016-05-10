@@ -63,6 +63,7 @@ var styles = StyleSheet.create({
     ios: {
       margin: 10,
       overflow: 'visible',
+        
       //backgroundColor: 'black',
     },
   }
