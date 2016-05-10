@@ -143,25 +143,23 @@ class Itemlist extends Component{
     var BContent = <Button onPress={this.closeModal5.bind(this)} style={[styles.btn, styles.btnModal]}>X</Button>;
 
     return(
-      <View style={styles.container}>
-      {commentModal}
+
       <ScrollView scrollEnabled={false}>
-      <View>
+      <View style={styles.container}>
           <ListView
               dataSource={this.state.dataSource}
               renderRow={(rowData)=>{
                 return(
                     <View>
-                      <Item itemName={rowData.order} onPress={()=>this.setState({isOpen: true})} {...this.props} />
+                      <Item itemName={rowData.order} onPress={this.props.item_click} {...this.props} />
                       <View style={styles.separator} />
                     </View>
                   );
               }}/>
         </View>
+        {commentModal}
         </ScrollView>
-        <View style={{borderWidth:0}}>
-        </View>
-        </View>
+
 
 
     );

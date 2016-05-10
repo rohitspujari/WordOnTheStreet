@@ -7,6 +7,7 @@ import React, {
   View
 } from 'react-native';
 var Itemlist = require('../common/itemlist');
+import Modal from 'react-native-modalbox';
 var PageList = require('../common/pagelist');
 var Carousel = require('../common/Carousel');
 var F8PageControl = require('../common/F8PageControl');
@@ -20,7 +21,11 @@ class Reviews extends React.Component{
     super(props);
     this.state = {
       cards: [],
-      selectedIndex: 0
+      selectedIndex: 0,
+      isOpen: false,
+      isDisabled: false,
+      swipeToClose: true,
+      sliderValue: 0.3
     };
     (this: any).handleIndexChange = this.handleIndexChange.bind(this);
   }
@@ -31,7 +36,20 @@ class Reviews extends React.Component{
     });
   }
 
+  closeModal5(id) {
+    this.setState({isOpen: false});
+  }
+
+  openModal5(id) {
+    this.setState({isOpen: true});
+  }
+
   render(){
+
+    var commentModal = <Modal isOpen={this.state.isOpen} onClosed={this.closeModal5.bind(this)} style={[styles.modal, styles.modal4]} position={"center"} backdropContent={BContent}>
+          <Text>{'Modal with backdrop content'}</Text>
+        </Modal>;
+    var BContent = <Button onPress={this.closeModal5.bind(this)} style={[styles.btn, styles.btnModal]}>X</Button>;
 
 
     return (
@@ -44,22 +62,23 @@ class Reviews extends React.Component{
           renderCard={(index: number, data)=>{
             return(
               <View style={styles.container}>
-                <View style={styles.info}>
-                  <Text style={{fontSize:20}}>{data[index].name}</Text>
-                </View>
                 <View style={styles.card}>
-                  <Itemlist items={data[index].order_details} {...this.props}/>
+
+                  <Text style={[styles.info,{fontSize:20}]}>{data[index].name}</Text>
+                  <Itemlist item_click={()=>this.setState({isOpen: true})} items={data[index].order_details} {...this.props}/>
+                  {commentModal}
                 </View>
               </View>
             );
           }}
         />
       </View>
-      <View style={{flex:1, borderWidth:0}}>
+      <View style={{ borderWidth:0}}>
         <F8PageControl style={{borderWidth:0,}}
               count={this.state.cards.length}
               selectedIndex={this.state.selectedIndex}
             />
+
       </View>
     </View>
     );
@@ -102,13 +121,40 @@ var styles = StyleSheet.create({
      //marginTop:20,
      marginBottom:50,
      //backgroundColor: '#c8c864',
-     backgroundColor: '#b3cd52'
+     backgroundColor: '#b3cd52',
+     //backgroundColor: 'black'
   },
+  modal: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#dadbca'
+
+  },
+  modal4: {
+    height: 300
+  },
+  btn: {
+    margin: 10,
+    backgroundColor: "black",
+    color: "white",
+    padding: 10
+  },
+
+  btnModal: {
+    position: "absolute",
+    top: 0,
+    right: 0,
+    width: 50,
+    height: 50,
+    backgroundColor: "transparent"
+  },
+
   info: {
     ios: {
-      flex:1,
+      alignSelf: 'center',
       backgroundColor: 'white',
-      marginTop:10,
+      marginTop:20,
+      marginBottom:50,
       justifyContent: 'center',
       alignItems: 'center',
       borderRadius: 2,
