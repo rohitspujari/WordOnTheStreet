@@ -83,7 +83,7 @@ class Itemlist extends Component{
   }
 
   componentDidMount(){
-    console.log("i am in Itemlist did mount");
+  
     //this.fetchData(REQUEST_URL);
     //this.fetchReceipts();
     this.setState({
@@ -137,10 +137,10 @@ class Itemlist extends Component{
   render(){
 
 
-    var commentModal = <Modal isOpen={this.state.isOpen} onClosed={this.closeModal5.bind(this)} style={[styles.modal, styles.modal4]} position={"center"} backdropContent={BContent}>
-          <Text>{'Modal with backdrop content'}</Text>
-        </Modal>;
-    var BContent = <Button onPress={this.closeModal5.bind(this)} style={[styles.btn, styles.btnModal]}>X</Button>;
+    // var commentModal = <Modal isOpen={this.state.isOpen} onClosed={this.closeModal5.bind(this)} style={[styles.modal, styles.modal4]} position={"center"} backdropContent={BContent}>
+    //       <Text>{'Modal with backdrop content'}</Text>
+    //     </Modal>;
+    // var BContent = <Button onPress={this.closeModal5.bind(this)} style={[styles.btn, styles.btnModal]}>X</Button>;
 
     return(
 
@@ -157,7 +157,7 @@ class Itemlist extends Component{
                   );
               }}/>
         </View>
-        {commentModal}
+
         </ScrollView>
 
 

@@ -19,12 +19,13 @@ var Styles = StyleSheet.create({
   button: {
     justifyContent: 'center',
     alignItems: 'center',
-    borderWidth: 1,
+    borderWidth: 0,
     //borderRadius: 5,
-    padding: 5,
+    padding: 15,
     borderColor: 'black',
-    marginTop: 10,
-    width: 300
+    margin:10,
+    width: 280,
+    backgroundColor:'#dce79e'
 
   },
   buttonText: {

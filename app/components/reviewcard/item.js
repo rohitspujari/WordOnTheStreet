@@ -73,19 +73,22 @@ var styles = StyleSheet.create({
   },
   name:{
     flex:1,
+    alignItems: 'flex-start',
     alignSelf: 'center',
-    //borderWidth:1,
+    borderWidth:0,
+    
+
     //borderColor:'red'
   },
   nameText:{
     fontSize: 16,
-    fontWeight:'300',
+    fontWeight:'500',
 
   },
   rating:{
     flex:1,
     alignItems: 'flex-end',
-    //borderWidth:1,
+    borderWidth:0,
     //borderColor:'blue'
   },
 

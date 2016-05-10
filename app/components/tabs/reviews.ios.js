@@ -3,19 +3,21 @@ import React, {
   Component,
   Text,
   ListContainer,
-  Button,
+  TextInput,
   View
 } from 'react-native';
 var Itemlist = require('../common/itemlist');
 import Modal from 'react-native-modalbox';
+import StarRating from 'react-native-star-rating';
 var PageList = require('../common/pagelist');
 var Carousel = require('../common/Carousel');
 var F8PageControl = require('../common/F8PageControl');
+var Button = require('../common/button');
 const StyleSheet = require('F8StyleSheet');
 const url = "https://wots.firebaseio.com/receipts";
 
 
-class Reviews extends React.Component{
+export default class Reviews extends Component{
 
   constructor(props){
     super(props);
@@ -44,12 +46,18 @@ class Reviews extends React.Component{
     this.setState({isOpen: true});
   }
 
+  onSubmitPress(){
+
+  }
+  onStarRatingPress() {
+
+  }
+
   render(){
 
-    var commentModal = <Modal isOpen={this.state.isOpen} onClosed={this.closeModal5.bind(this)} style={[styles.modal, styles.modal4]} position={"center"} backdropContent={BContent}>
-          <Text>{'Modal with backdrop content'}</Text>
-        </Modal>;
-    var BContent = <Button onPress={this.closeModal5.bind(this)} style={[styles.btn, styles.btnModal]}>X</Button>;
+    //var commentModal = ();
+    //var BContent = (<Button onPress={this.closeModal5.bind(this)} style={[styles.btn, styles.btnModal]}>X</Button>);
+
 
 
     return (
@@ -59,19 +67,45 @@ class Reviews extends React.Component{
           data={this.state.cards}
           selectedIndex={this.state.selectedIndex}
           onSelectedIndexChange={this.handleIndexChange}
-          renderCard={(index: number, data)=>{
+          renderCard={(index, data) => {
             return(
               <View style={styles.container}>
                 <View style={styles.card}>
-
-                  <Text style={[styles.info,{fontSize:20}]}>{data[index].name}</Text>
-                  <Itemlist item_click={()=>this.setState({isOpen: true})} items={data[index].order_details} {...this.props}/>
-                  {commentModal}
+                  <Text style={[styles.info,{fontSize:20,}]}>{data[index].name}</Text>
+                  <Itemlist item_click={this.openModal5.bind(this)} items={data[index].order_details} {...this.props}/>
                 </View>
               </View>
             );
           }}
         />
+
+
+        <Modal animationDuration={350} position='top' isOpen={this.state.isOpen} onClosed={this.closeModal5.bind(this)} style={[styles.modal, styles.modal4]} position={"center"}>
+
+          <StarRating
+            disabled={false}
+            emptyStar={'ios-star-outline'}
+            fullStar={'ios-star'}
+            halfStar={'ios-star-half'}
+            iconSet={'Ionicons'}
+            maxStars={5}
+            rating={0}
+            selectedStar={(rating) => this.onStarRatingPress(rating)}
+            starColor={'gray'}
+            starSize={25}
+          />
+
+          <TextInput
+              placeholder={"Comments"}
+              autoFocus={true}
+              multiline={true}
+              style={{height: 100, backgroundColor: 'white', borderWidth: 0, fontSize: 15, marginTop:10}}
+              onChangeText={(text) => this.setState({text})}
+              value={this.state.text}>
+              </TextInput>
+          <Button  text={'Submit'}  onPress={this.onSubmitPress}/>
+        </Modal>
+
       </View>
       <View style={{ borderWidth:0}}>
         <F8PageControl style={{borderWidth:0,}}
@@ -118,20 +152,27 @@ class Reviews extends React.Component{
 var styles = StyleSheet.create({
    container: {
      flex:1,
-     //marginTop:20,
-     marginBottom:50,
-     //backgroundColor: '#c8c864',
-     backgroundColor: '#b3cd52',
+     borderWidth:0,
+     borderColor: 'red',
+     marginTop:20,
+     marginBottom:19,
+     backgroundColor: 'white',
+     //backgroundColor: '#b3cd52',
      //backgroundColor: 'black'
   },
   modal: {
-    justifyContent: 'center',
+    //justifyContent: 'top',
     alignItems: 'center',
-    backgroundColor: '#dadbca'
+    backgroundColor: '#f6f7f8',
+    padding: 10
 
   },
   modal4: {
-    height: 300
+    height: 215,
+    width: 300,
+    borderRadius:2
+
+
   },
   btn: {
     margin: 10,
@@ -159,7 +200,7 @@ var styles = StyleSheet.create({
       alignItems: 'center',
       borderRadius: 2,
       marginHorizontal: 3,
-      backgroundColor: 'white'
+      backgroundColor: '#dce79e'
     }
 
   },
@@ -169,10 +210,10 @@ var styles = StyleSheet.create({
       marginTop:10,
       borderRadius: 2,
       marginHorizontal: 3,
-      backgroundColor: 'white'
+      backgroundColor: '#dce79e'
 
     },
   }
 });
 
-module.exports = Reviews;
+//module.exports = Reviews;

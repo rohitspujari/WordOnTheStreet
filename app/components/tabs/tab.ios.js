@@ -7,8 +7,9 @@ import React, {
   View
 } from 'react-native';
 
+import Reviews from './reviews.ios';
 var Search = require('./search.ios');
-var Reviews = require('./reviews.ios');
+//var Reviews = require('./reviews.ios');
 var Cash = require('./cash.ios');
 var Example = require('../common/modal')
 

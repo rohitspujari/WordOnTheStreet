@@ -21,7 +21,7 @@
  *
  * @flow
  */
-'use strict';
+//'use strict';
 
 const React = require('react-native');
 
