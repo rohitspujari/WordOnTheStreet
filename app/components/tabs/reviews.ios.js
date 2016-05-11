@@ -47,6 +47,8 @@ export default class Reviews extends Component{
   }
 
   openModal5(id) {
+    //console.log('in open modal5')
+    //console.log(id)
     this.setState({isOpen: true});
   }
 
@@ -58,7 +60,7 @@ export default class Reviews extends Component{
   }
 
   titlePress(){
-    console.log('hello from title')
+    //console.log('hello from title')
   }
 
   render(){
@@ -115,7 +117,7 @@ export default class Reviews extends Component{
                     <Button type="round" icon="bicycle" onPress={()=> null}/>
                     <Button type="round" icon="cutlery" onPress={this.onSubmitPress}/>
                   </View>
-                  
+
                   <View style={{justifyContent:'center',alignItems:'center', marginTop:20}}>
                   <Button  text="Submit" onPress={this.onSubmitPress}/>
 
@@ -127,7 +129,7 @@ export default class Reviews extends Component{
         />
 
 
-        <Modal animationDuration={100} position='top' isOpen={this.state.isOpen} onClosed={this.closeModal5.bind(this)} style={[styles.modal, styles.modal4]} position={"center"}>
+        <Modal animationDuration={400} position='top' isOpen={this.state.isOpen} onClosed={this.closeModal5.bind(this)} style={[styles.modal, styles.modal4]} position={"center"}>
           {starRating(25,0,false)}
           <TextInput
               placeholder={"Comments"}
@@ -137,7 +139,7 @@ export default class Reviews extends Component{
               onChangeText={(text) => this.setState({text})}
               value={this.state.text}>
               </TextInput>
-          <Button  text="Post"  onPress={this.onSubmitPress}/>
+          <Button  text="Post" onPress={this.onSubmitPress}/>
         </Modal>
 
       </View>
@@ -209,7 +211,7 @@ var styles = StyleSheet.create({
   modal4: {
     height: 215,
     width: 300,
-    borderRadius:2
+    borderRadius:5
 
 
   },
