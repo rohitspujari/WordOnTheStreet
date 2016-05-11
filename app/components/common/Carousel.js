@@ -43,11 +43,11 @@ class Carousel extends React.Component {
     let cards = [];
     const {data, selectedIndex, renderCard} = this.props;
 
-    for (let i = 0; i < data.length; i++) {
+    for (let i = 0; i < this.props.data.length; i++) {
       let content = null;
-      if (Math.abs(i - selectedIndex) < 2) {
-        content = renderCard(i, data);
-      }
+      //if (Math.abs(i - selectedIndex) < 2) {
+        content = this.props.renderCard(i, data);
+    //  }
       cards.push(content);
     }
     return (
@@ -63,7 +63,7 @@ var styles = StyleSheet.create({
     ios: {
       margin: 10,
       overflow: 'visible',
-        
+
       //backgroundColor: 'black',
     },
   }

@@ -34,6 +34,7 @@ export default class Reviews extends Component{
       sliderValue: 0.3
     };
     (this: any).handleIndexChange = this.handleIndexChange.bind(this);
+    this.renderCard = this.renderCard.bind(this);
   }
 
   handleIndexChange(selectedIndex: number) {
@@ -50,17 +51,49 @@ export default class Reviews extends Component{
     //console.log('in open modal5')
     //console.log(id)
     this.setState({isOpen: true});
+    console.log("this is openModal5 ")
   }
 
   onSubmitPress(){
-
+    console.log("this is onSubmitPress ")
   }
   onStarRatingPress() {
-
+    console.log("this is onRatingPress ")
   }
 
   titlePress(){
-    //console.log('hello from title')
+    console.log("this is titletPress ")
+  }
+
+  starRating(size,ratingScore,active){ return <StarRating
+      disabled={active}
+      emptyStar={'ios-star-outline'}
+      fullStar={'ios-star'}
+      halfStar={'ios-star-half'}
+      iconSet={'Ionicons'}
+      maxStars={5}
+      rating={ratingScore}
+      selectedStar={(rating) => {
+        return null;
+      }}
+      starColor={'#b2cb53'}
+      starSize={size}
+    />;
+  }
+
+  commentModal () {
+    return <Modal animationDuration={400} position='top' isOpen={this.state.isOpen} onClosed={this.closeModal5.bind(this)} style={[styles.modal, styles.modal4]} position={"center"}>
+      {this.starRating(25,0,false)}
+      <TextInput
+          placeholder={"Comments"}
+          autoFocus={true}
+          multiline={true}
+          style={{height: 100, backgroundColor: '#f6f7f8', borderWidth: 0, fontSize: 15, marginTop:10}}
+          onChangeText={(text) => this.setState({text})}
+          value={this.state.text}>
+          </TextInput>
+      <Button  text="Post" onPress={this.onSubmitPress}/>
+    </Modal>;
   }
 
   render(){
@@ -69,20 +102,7 @@ export default class Reviews extends Component{
     //var commentModal = ();
     //var BContent = (<Button onPress={this.closeModal5.bind(this)} style={[styles.btn, styles.btnModal]}>X</Button>);
 
-    var starRating = function(size,ratingScore,active){ return <StarRating
-        disabled={active}
-        emptyStar={'ios-star-outline'}
-        fullStar={'ios-star'}
-        halfStar={'ios-star-half'}
-        iconSet={'Ionicons'}
-        maxStars={5}
-        rating={ratingScore}
-        selectedStar={(rating) => {
-          return null;
-        }}
-        starColor={'#b2cb53'}
-        starSize={size}
-      />;}
+
 
 
     return (
@@ -93,54 +113,13 @@ export default class Reviews extends Component{
           data={this.state.cards}
           selectedIndex={this.state.selectedIndex}
           onSelectedIndexChange={this.handleIndexChange}
-          renderCard={(index, data) => {
-            return(
-              <View style={styles.container}>
-                <View style={styles.card}>
-                  <View style={styles.info}>
-                    <Touchable onPress={this.titlePress.bind(this)}>
-                      <Text style={{fontSize:20,fontWeight:'bold', color:'#34495e'}}>{data[index].name}</Text>
-                    </Touchable>
-                  </View>
-                  <View style={{borderWidth:0, alignSelf: 'center', flexDirection:'row', marginBottom:10}}>
-                  {starRating(15,4,true)}
-                  <Text style={{fontSize:13,color:'#34495e'}}>{' (54)'}</Text>
-                  </View>
-                  <View style={{flexDirection:'row', alignItems:'center', justifyContent:'center', margin:20}}>
-                  <Icon name="dollar" size={15} color="#34495e"/>
-                  <Text style={{alignSelf:'center', fontSize:25, color:"#34495e"}}>{" "+data[index].amount}</Text>
-                  </View>
-                  <View style={{borderWidth:0}}>
-                    <Itemlist item_click={this.openModal5.bind(this)} items={data[index].order_details} {...this.props}/>
-                  </View>
-                  <View style={{flexDirection:'row', justifyContent:'space-around', padding:20, marginTop:10}}>
-                    <Button type="round" icon="bicycle" onPress={()=> null}/>
-                    <Button type="round" icon="cutlery" onPress={this.onSubmitPress}/>
-                  </View>
+          renderCard={this.renderCard}
 
-                  <View style={{justifyContent:'center',alignItems:'center', marginTop:20}}>
-                  <Button  text="Submit" onPress={this.onSubmitPress}/>
 
-                  </View>
-                </View>
-              </View>
-            );
-          }}
         />
 
 
-        <Modal animationDuration={400} position='top' isOpen={this.state.isOpen} onClosed={this.closeModal5.bind(this)} style={[styles.modal, styles.modal4]} position={"center"}>
-          {starRating(25,0,false)}
-          <TextInput
-              placeholder={"Comments"}
-              autoFocus={true}
-              multiline={true}
-              style={{height: 100, backgroundColor: '#f6f7f8', borderWidth: 0, fontSize: 15, marginTop:10}}
-              onChangeText={(text) => this.setState({text})}
-              value={this.state.text}>
-              </TextInput>
-          <Button  text="Post" onPress={this.onSubmitPress}/>
-        </Modal>
+        {this.commentModal()}
 
       </View>
       <View style={{ borderWidth:0}}>
@@ -154,10 +133,40 @@ export default class Reviews extends Component{
     );
   }
 
-  // renderCard(index: number, data): ReactElement {
-  //   console.log(this);
-  //
-  // }
+  renderCard(index: number, data): ReactElement {
+    return(
+      <View key={index} style={styles.container}>
+        <View style={styles.card}>
+          <View style={styles.info}>
+            <Touchable onPress={this.titlePress.bind(this)}>
+              <Text style={{fontSize:20,fontWeight:'bold', color:'#34495e'}}>{data[index].name}</Text>
+            </Touchable>
+          </View>
+          <View style={{borderWidth:0, alignSelf: 'center', flexDirection:'row', marginBottom:10}}>
+          {this.starRating(15,4,true)}
+          <Text style={{fontSize:13,color:'#34495e'}}>{' (54)'}</Text>
+          </View>
+          <View style={{flexDirection:'row', alignItems:'center', justifyContent:'center', margin:20}}>
+          <Icon name="dollar" size={15} color="#34495e"/>
+          <Text style={{alignSelf:'center', fontSize:25, color:"#34495e"}}>{" "+data[index].amount}</Text>
+          </View>
+          <View style={{borderWidth:0}}>
+            <Itemlist item_click={this.openModal5.bind(this)} items={data[index].order_details} {...this.props}/>
+          </View>
+          <View style={{flexDirection:'row', justifyContent:'space-around', padding:20, marginTop:10}}>
+            <Button type="round" icon="bicycle" onPress={()=> null}/>
+            <Button type="round" icon="cutlery" onPress={this.onSubmitPress.bind(this)}/>
+          </View>
+
+          <View style={{justifyContent:'center',alignItems:'center', marginTop:20}}>
+          <Button  text="Submit" onPress={this.onSubmitPress}/>
+
+          </View>
+        </View>
+      </View>
+    );
+
+  }
 
   componentDidMount(){
     this.fetchReceipts();
