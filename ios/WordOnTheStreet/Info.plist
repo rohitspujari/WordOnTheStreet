@@ -34,6 +34,13 @@
 	<key>UIAppFonts</key>
 	<array>
 		<string>Ionicons.ttf</string>
+		<string>FontAwesome.ttf</string>
+		<string>Foundation.ttf</string>
+		<string>Zocial</string>
+		<string>Entypo</string>
+		<string>EvilIcons</string>
+		<string>Octicons</string>
+		<string>MaterialIcons</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>

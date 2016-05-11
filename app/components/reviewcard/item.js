@@ -32,7 +32,7 @@ class Item extends Component{
       maxStars={5}
       rating={0}
       selectedStar={(rating) => this.onStarRatingPress(rating)}
-      starColor={'gray'}
+      starColor={'#b2cb53'}
       starSize={25}
     />;
 

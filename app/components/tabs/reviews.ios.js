@@ -9,7 +9,10 @@ import React, {
 var Itemlist = require('../common/itemlist');
 import Touchable from '../common/Touchable';
 import Modal from 'react-native-modalbox';
+import ActionButton from 'react-native-action-button';
 import StarRating from 'react-native-star-rating';
+import Icon from 'react-native-vector-icons/FontAwesome';
+
 var PageList = require('../common/pagelist');
 var Carousel = require('../common/Carousel');
 var F8PageControl = require('../common/F8PageControl');
@@ -60,6 +63,7 @@ export default class Reviews extends Component{
 
   render(){
 
+
     //var commentModal = ();
     //var BContent = (<Button onPress={this.closeModal5.bind(this)} style={[styles.btn, styles.btnModal]}>X</Button>);
 
@@ -74,7 +78,7 @@ export default class Reviews extends Component{
         selectedStar={(rating) => {
           return null;
         }}
-        starColor={'gray'}
+        starColor={'#b2cb53'}
         starSize={size}
       />;}
 
@@ -82,6 +86,7 @@ export default class Reviews extends Component{
     return (
      <View style={[styles.container,this.border('blue')]}>
       <View style={{flex:5}}>
+
         <Carousel
           data={this.state.cards}
           selectedIndex={this.state.selectedIndex}
@@ -95,19 +100,25 @@ export default class Reviews extends Component{
                       <Text style={{fontSize:20,fontWeight:'bold', color:'#34495e'}}>{data[index].name}</Text>
                     </Touchable>
                   </View>
-                  <View style={{borderWidth:0, alignSelf: 'center', flexDirection:'row', marginBottom:50}}>
+                  <View style={{borderWidth:0, alignSelf: 'center', flexDirection:'row', marginBottom:10}}>
                   {starRating(15,4,true)}
                   <Text style={{fontSize:13,color:'#34495e'}}>{' (54)'}</Text>
+                  </View>
+                  <View style={{flexDirection:'row', alignItems:'center', justifyContent:'center', margin:20}}>
+                  <Icon name="dollar" size={15} color="#34495e"/>
+                  <Text style={{alignSelf:'center', fontSize:25, color:"#34495e"}}>{" "+data[index].amount}</Text>
                   </View>
                   <View style={{borderWidth:0}}>
                     <Itemlist item_click={this.openModal5.bind(this)} items={data[index].order_details} {...this.props}/>
                   </View>
-                  <View style={{flexDirection:'row', justifyContent:'space-around', padding:20, marginTop:20}}>
-                    <Text>Delivery</Text>
-                    <Text>Dine In</Text>
+                  <View style={{flexDirection:'row', justifyContent:'space-around', padding:20, marginTop:10}}>
+                    <Button type="round" icon="bicycle" onPress={()=> null}/>
+                    <Button type="round" icon="cutlery" onPress={this.onSubmitPress}/>
                   </View>
+                  
                   <View style={{justifyContent:'center',alignItems:'center', marginTop:20}}>
-                  <Button  text={'Submit'}  onPress={this.onSubmitPress}/>
+                  <Button  text="Submit" onPress={this.onSubmitPress}/>
+
                   </View>
                 </View>
               </View>
@@ -116,17 +127,17 @@ export default class Reviews extends Component{
         />
 
 
-        <Modal animationDuration={350} position='top' isOpen={this.state.isOpen} onClosed={this.closeModal5.bind(this)} style={[styles.modal, styles.modal4]} position={"center"}>
+        <Modal animationDuration={100} position='top' isOpen={this.state.isOpen} onClosed={this.closeModal5.bind(this)} style={[styles.modal, styles.modal4]} position={"center"}>
           {starRating(25,0,false)}
           <TextInput
               placeholder={"Comments"}
               autoFocus={true}
               multiline={true}
-              style={{height: 100, backgroundColor: 'white', borderWidth: 0, fontSize: 15, marginTop:10}}
+              style={{height: 100, backgroundColor: '#f6f7f8', borderWidth: 0, fontSize: 15, marginTop:10}}
               onChangeText={(text) => this.setState({text})}
               value={this.state.text}>
               </TextInput>
-          <Button  text={'Submit'}  onPress={this.onSubmitPress}/>
+          <Button  text="Post"  onPress={this.onSubmitPress}/>
         </Modal>
 
       </View>
@@ -179,14 +190,19 @@ var styles = StyleSheet.create({
      borderColor: 'red',
      marginTop:20,
      marginBottom:19,
-     backgroundColor: 'white',
+     //backgroundColor: 'white',
      //backgroundColor: '#b3cd52',
-     //backgroundColor: 'black'
+     backgroundColor: 'black'
+  },
+  actionButtonIcon: {
+    fontSize: 20,
+    height: 22,
+    color: 'white',
   },
   modal: {
     //justifyContent: 'top',
     alignItems: 'center',
-    backgroundColor: '#f6f7f8',
+    backgroundColor: 'white',
     padding: 10
 
   },
@@ -223,7 +239,7 @@ var styles = StyleSheet.create({
       alignItems: 'center',
       borderRadius: 2,
       marginHorizontal: 3,
-      backgroundColor: '#dce79e'
+      backgroundColor: 'white'
     }
 
   },
@@ -233,7 +249,8 @@ var styles = StyleSheet.create({
       marginTop:0,
       borderRadius: 5,
       marginHorizontal: 3,
-      backgroundColor: '#dce79e',
+      //backgroundColor: '#dce79e',
+      backgroundColor: 'white',
       borderWidth:0
 
     },

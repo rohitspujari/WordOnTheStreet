@@ -35,7 +35,7 @@ function TouchableIOS(props: Object): ReactElement {
   return (
     <TouchableHighlight style={{padding:5,borderRadius:5}}
       accessibilityTraits="button"
-      underlayColor="#c8c864"
+      underlayColor="#f6f7f8"
       {...props}
     />
   );
