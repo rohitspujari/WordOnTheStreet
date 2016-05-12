@@ -5,7 +5,7 @@ import React, {
   ListView,
   ScrollView
 } from 'react-native';
-import Item from '../reviewcard/item';
+import Item from '../reviewcard/Item';
 
 //var REQUEST_URL = 'https://www.googleapis.com/books/v1/volumes?q=subject:suspense';
 export default class ItemList extends Component{
