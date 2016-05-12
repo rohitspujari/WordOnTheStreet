@@ -10,7 +10,7 @@ const StyleSheet = require('F8StyleSheet');
 import Touchable from '../common/Touchable';
 import StarRating from 'react-native-star-rating';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import Itemlist from '../common/itemlist';
+import ItemList from '../common/ItemList';
 import Button from '../common/button';
 
 
@@ -51,7 +51,7 @@ export default class RestaurantCard extends Component {
           <Text style={{alignSelf:'center', fontSize:25, color:"#34495e"}}>{" "+this.props.data[this.props.index].amount}</Text>
         </View>
         <View style={{borderWidth:0}}>
-          <Itemlist item_click={this.props.itemClick} items={this.props.data[this.props.index].order_details} {...this.props}/>
+          <ItemList itemPress={this.props.itemPress} items={this.props.data[this.props.index].order_details} {...this.props}/>
         </View>
         <View style={{flexDirection:'row', justifyContent:'space-around', padding:20, marginTop:10}}>
           <Button type="round" icon="bicycle" onPress={()=> null}/>

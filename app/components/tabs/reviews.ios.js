@@ -8,6 +8,7 @@ import React, {
 import CommentModal from '../common/CommentModal';
 import RestaurantCard from '../common/RestaurantCard';
 import Carousel from '../common/Carousel';
+import Firebase from 'firebase';
 
 export default class Reviews extends Component{
 
@@ -52,6 +53,7 @@ export default class Reviews extends Component{
   }
 
   titlePress(){
+    console.log(this);
     console.log("this is titletPress ")
   }
 
@@ -83,7 +85,7 @@ export default class Reviews extends Component{
           data={data}
           index={index}
           titleClick={this.titlePress.bind(this)}
-          itemClick={this.openCommentModal.bind(this)}
+          itemPress={this.openCommentModal.bind(this)}
           onSubmitPress={this.onSubmitPress.bind(this)}
         />
     );

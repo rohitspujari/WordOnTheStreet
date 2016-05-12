@@ -23,8 +23,6 @@ class Item extends Component{
       swipeToClose: true,
       sliderValue: 0.3
     }
-
-
   }
 
   closeModal5(id) {
@@ -77,7 +75,7 @@ class Item extends Component{
       <View style={styles.container}>
         <View style={styles.container_itemReview}>
           <View style={styles.name}>
-            <Touchable onPress={this.props.item_click}>
+            <Touchable onPress={this.props.itemPress}>
               <Text style={styles.nameText}>{this.props.itemName}</Text>
             </Touchable>
           </View>
