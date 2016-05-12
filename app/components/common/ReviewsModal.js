@@ -31,10 +31,10 @@ export default class ReviewsModal extends Component {
   render() {
     return (
 
-      <Modal position="bottom" swipeArea={400} isOpen={this.props.isOpen} style={[styles.modal, styles.modal]}>
+      <Modal position={"bottom"} swipeArea={20} isOpen={this.props.isOpen} style={[styles.modal4, styles.modal]}>
 
         <ScrollView>
-          <View style={{width: window.width, paddingLeft: 10}}>
+          <View style={{width: window.width, paddingLeft: 10, height:100}}>
             {this.renderList()}
           </View>
         </ScrollView>
@@ -49,8 +49,8 @@ var styles = StyleSheet.create({
     alignItems: 'center'
   },
   modal4: {
-    height: 30,
-    borderWidth:4
+    height: 400,
+    borderWidth:0
   },
 
 });

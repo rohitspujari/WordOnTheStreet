@@ -81,9 +81,11 @@ export default class Reviews extends Component{
           onClosed={this.closeCommentModal}
           onPress={this.onPostComment}
         />
+
         <ReviewsModal
-          isOpen={this.state.isReviewModalOpen}          
+          isOpen={this.state.isReviewModalOpen}
         />
+
     </View>
     );
   }
