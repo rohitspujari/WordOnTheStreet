@@ -8,8 +8,7 @@ import React, {
 } from 'react-native';
 var Itemlist = require('../common/itemlist');
 import Touchable from '../common/Touchable';
-import Modal from 'react-native-modalbox';
-import ActionButton from 'react-native-action-button';
+import CommentModal from '../common/CommentModal';
 import StarRating from 'react-native-star-rating';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
@@ -25,13 +24,15 @@ export default class Reviews extends Component{
 
   constructor(props){
     super(props);
+    console.log('review constructor');
     this.state = {
+
       cards: [],
       selectedIndex: 0,
-      isOpen: false,
+      isCommentModalOpen: false,
       isDisabled: false,
-      swipeToClose: true,
-      sliderValue: 0.3
+      // swipeToClose: true,
+      // sliderValue: 0.3
     };
     (this: any).handleIndexChange = this.handleIndexChange.bind(this);
     this.renderCard = this.renderCard.bind(this);
@@ -39,19 +40,25 @@ export default class Reviews extends Component{
 
   handleIndexChange(selectedIndex: number) {
     this.setState({
-    selectedIndex: selectedIndex
+    selectedIndex: selectedIndex,
+    isOpen: false
     });
   }
 
-  closeModal5(id) {
-    this.setState({isOpen: false});
-  }
 
-  openModal5(id) {
-    //console.log('in open modal5')
-    //console.log(id)
+
+  openCommentModal() {
     this.setState({isOpen: true});
     console.log("this is openModal5 ")
+  }
+
+  closeCommentModal() {
+    this.setState({isOpen: false});
+    console.log("this is closeModal5 ")
+  }
+
+  onPostComment() {
+    console.log("this is onPostComment")
   }
 
   onSubmitPress(){
@@ -63,6 +70,10 @@ export default class Reviews extends Component{
 
   titlePress(){
     console.log("this is titletPress ")
+  }
+
+  componentWillUnmount(){
+    console.log("this is componentWillUnmount ")
   }
 
   starRating(size,ratingScore,active){ return <StarRating
@@ -81,53 +92,28 @@ export default class Reviews extends Component{
     />;
   }
 
-  commentModal () {
-    return <Modal animationDuration={400} position='top' isOpen={this.state.isOpen} onClosed={this.closeModal5.bind(this)} style={[styles.modal, styles.modal4]} position={"center"}>
-      {this.starRating(25,0,false)}
-      <TextInput
-          placeholder={"Comments"}
-          autoFocus={true}
-          multiline={true}
-          style={{height: 100, backgroundColor: '#f6f7f8', borderWidth: 0, fontSize: 15, marginTop:10}}
-          onChangeText={(text) => this.setState({text})}
-          value={this.state.text}>
-          </TextInput>
-      <Button  text="Post" onPress={this.onSubmitPress}/>
-    </Modal>;
-  }
-
   render(){
-
-
-    //var commentModal = ();
-    //var BContent = (<Button onPress={this.closeModal5.bind(this)} style={[styles.btn, styles.btnModal]}>X</Button>);
-
-
-
-
+    console.log("im in review render");
     return (
      <View style={[styles.container,this.border('blue')]}>
       <View style={{flex:5}}>
-
         <Carousel
           data={this.state.cards}
           selectedIndex={this.state.selectedIndex}
           onSelectedIndexChange={this.handleIndexChange}
           renderCard={this.renderCard}
-
-
         />
-
-
-        {this.commentModal()}
-
+        <CommentModal
+          isOpen={this.state.isOpen}
+          onClosed={this.closeCommentModal}
+          onPress={this.onPostComment}
+        />
       </View>
       <View style={{ borderWidth:0}}>
         <F8PageControl style={{borderWidth:0,}}
-              count={this.state.cards.length}
-              selectedIndex={this.state.selectedIndex}
-            />
-
+          count={this.state.cards.length}
+          selectedIndex={this.state.selectedIndex}
+        />
       </View>
     </View>
     );
@@ -151,7 +137,7 @@ export default class Reviews extends Component{
           <Text style={{alignSelf:'center', fontSize:25, color:"#34495e"}}>{" "+data[index].amount}</Text>
           </View>
           <View style={{borderWidth:0}}>
-            <Itemlist item_click={this.openModal5.bind(this)} items={data[index].order_details} {...this.props}/>
+            <Itemlist item_click={this.openCommentModal.bind(this)} items={data[index].order_details} {...this.props}/>
           </View>
           <View style={{flexDirection:'row', justifyContent:'space-around', padding:20, marginTop:10}}>
             <Button type="round" icon="bicycle" onPress={()=> null}/>
@@ -209,20 +195,6 @@ var styles = StyleSheet.create({
     fontSize: 20,
     height: 22,
     color: 'white',
-  },
-  modal: {
-    //justifyContent: 'top',
-    alignItems: 'center',
-    backgroundColor: 'white',
-    padding: 10
-
-  },
-  modal4: {
-    height: 215,
-    width: 300,
-    borderRadius:5
-
-
   },
   btn: {
     margin: 10,
