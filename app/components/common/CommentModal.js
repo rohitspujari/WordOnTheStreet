@@ -12,8 +12,7 @@ import StarRating from 'react-native-star-rating';
 
 
 export default class CommentModal extends Component {
-  constructor(props) {
-    console.log('review constructor');
+  constructor(props) {    
     super(props);
     this.state = {};
   }

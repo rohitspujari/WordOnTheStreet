@@ -30,7 +30,7 @@ export default class RestaurantCard extends Component {
           </Touchable>
         </View>
         <View style={styles.reviews}>
-        <StarRating disabled={true}
+          <StarRating disabled={true}
             emptyStar={'ios-star-outline'}
             fullStar={'ios-star'}
             halfStar={'ios-star-half'}
@@ -43,7 +43,9 @@ export default class RestaurantCard extends Component {
             starColor={'#b2cb53'}
             starSize={15}
           />
-          <Text style={{fontSize:13,color:'#34495e'}}>{' (54)'}</Text>
+          <Touchable onPress={this.props.reviewsPress}>
+          <Text style={{fontSize:13, fontWeight: 'bold',color:'#34495e'}}>{' (54)'}</Text>
+          </Touchable>
         </View>
 
         <View style={styles.totalAmount}>
@@ -53,11 +55,17 @@ export default class RestaurantCard extends Component {
         <View style={{borderWidth:0}}>
           <ItemList itemPress={this.props.itemPress} items={this.props.data[this.props.index].order_details} {...this.props}/>
         </View>
-        <View style={{flexDirection:'row', justifyContent:'space-around', padding:20, marginTop:10}}>
-          <Button type="round" icon="bicycle" onPress={()=> null}/>
-          <Button type="round" icon="cutlery" onPress={()=> null}/>
+        <View style={{flexDirection:'row', justifyContent:'space-around', padding:20, marginTop:0}}>
+          <View style={{alignItems:'center'}}>
+            <Button type="round" icon="bicycle" onPress={()=> null}/>
+            <Text style={{color:'#34495e', marginTop:10}}>Delivery</Text>
+          </View>
+          <View style={{alignItems:'center',}}>
+            <Button type="round" icon="cutlery" onPress={()=> null}/>
+            <Text style={{color:'#34495e', marginTop:10}}>Dine In</Text>
+          </View>
         </View>
-        <View style={{justifyContent:'center',alignItems:'center', marginTop:20}}>
+        <View style={{justifyContent:'center',alignItems:'center', marginTop:0}}>
           <Button  text="Submit" onPress={this.props.onSubmitPress}/>
         </View>
     </View>
@@ -81,15 +89,15 @@ styles = StyleSheet.create({
   },
 
   titleText: {
-    fontSize:20,fontWeight:'bold', color:'#34495e',
+    fontSize:25,fontWeight:'bold', color:'#34495e', borderWidth:0,
   },
 
   reviews: {
-    borderWidth:0, alignSelf: 'center', flexDirection:'row', marginBottom:10
+    borderWidth:0, alignItems: 'center', flexDirection:'row', justifyContent:'center', marginBottom:0
   },
 
   totalAmount: {
-    flexDirection:'row', alignItems:'center', justifyContent:'center', margin:20
+    flexDirection:'row', alignItems:'center', padding:10, margin:20
   },
 
   card: {

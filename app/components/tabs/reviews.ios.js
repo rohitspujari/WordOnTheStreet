@@ -6,6 +6,7 @@ import React, {
 } from 'react-native';
 
 import CommentModal from '../common/CommentModal';
+import ReviewsModal from '../common/ReviewsModal';
 import RestaurantCard from '../common/RestaurantCard';
 import Carousel from '../common/Carousel';
 import Firebase from 'firebase';
@@ -19,6 +20,7 @@ export default class Reviews extends Component{
       cards: [],
       selectedIndex: 0,
       isCommentModalOpen: false,
+      isReviewModalOpen: false,
       isDisabled: false,
       // swipeToClose: true,
       // sliderValue: 0.3
@@ -30,18 +32,25 @@ export default class Reviews extends Component{
   onSelectedIndexChange(selectedIndex: number) {
     this.setState({
     selectedIndex: selectedIndex,
-    isOpen: false
+    isCommentModalOpen: false,
+    isReviewModalOpen: false
+
     });
   }
 
   openCommentModal() {
-    this.setState({isOpen: true});
+    this.setState({isCommentModalOpen: true, isReviewModalOpen: false });
     console.log("this is openModal5 ")
   }
 
   closeCommentModal() {
-    this.setState({isOpen: false});
+    this.setState({isCommentModalOpen: false});
     console.log("this is closeModal5 ")
+  }
+
+  openReviewsModal(){
+    this.setState({isReviewModalOpen: true, isCommentModalOpen: false});
+    console.log("this is reviewsPress ")
   }
 
   onPostComment() {
@@ -61,7 +70,6 @@ export default class Reviews extends Component{
     //console.log("im in review render");
     return (
      <View style={styles.container}>
-      <View style={{flex:5}}>
         <Carousel
           data={this.state.cards}
           selectedIndex={this.state.selectedIndex}
@@ -69,11 +77,13 @@ export default class Reviews extends Component{
           renderCard={this.renderCard}
         />
         <CommentModal
-          isOpen={this.state.isOpen}
+          isOpen={this.state.isCommentModalOpen}
           onClosed={this.closeCommentModal}
           onPress={this.onPostComment}
         />
-      </View>
+        <ReviewsModal
+          isOpen={this.state.isReviewModalOpen}          
+        />
     </View>
     );
   }
@@ -84,6 +94,7 @@ export default class Reviews extends Component{
           key={index}
           data={data}
           index={index}
+          reviewsPress={this.openReviewsModal.bind(this)}
           titleClick={this.titlePress.bind(this)}
           itemPress={this.openCommentModal.bind(this)}
           onSubmitPress={this.onSubmitPress.bind(this)}
