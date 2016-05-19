@@ -28,21 +28,15 @@ class Tab extends Component {
     this.state ={
       selectedTab: 'reviews'
     };
+
+  }
+
+  switchTab(){
+    console.log('switching tabs');
   }
 
   render() {
     return (
-      <View>
-      <Text>I am Tab View</Text>
-      </View>
-    );
-  }
-
-  render() {
-
-
-    return (
-
       <TabBarIOS selectedTab={this.state.selectedTab}>
       <TabBarIOS.Item
       selected={this.state.selectedTab ==='search'}
@@ -52,7 +46,7 @@ class Tab extends Component {
           selectedTab: 'search'
         });
       }}>
-      <Search />
+      <Search/>
       </TabBarIOS.Item>
 
       <TabBarIOS.Item
@@ -64,9 +58,7 @@ class Tab extends Component {
           selectedTab: 'reviews'
         });
       }}>
-
-      <Reviews {...this.props} />
-
+      <Reviews switchTab={this.swtitchTab} {...this.props} />
       </TabBarIOS.Item>
 
       <TabBarIOS.Item
@@ -80,7 +72,6 @@ class Tab extends Component {
       <Example />
       </TabBarIOS.Item>
       </TabBarIOS>
-
 
     );
   }

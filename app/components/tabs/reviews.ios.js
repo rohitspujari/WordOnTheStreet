@@ -11,6 +11,9 @@ import RestaurantCard from '../common/RestaurantCard';
 import Carousel from '../common/Carousel';
 import Firebase from 'firebase';
 
+var REQUEST_URL = 'https://maps.googleapis.com/maps/api/place/details/json?placeid=ChIJN1t_tDeuEmsRUsoyG83frY4&key=AIzaSyAmbpYyzqv7aPDFpdbvsHo5zIEruNBuiNI';
+//var REQUEST_URL = 'https://www.googleapis.com/books/v1/volumes?q=subject:suspense';
+
 export default class Reviews extends Component{
 
   constructor(props){
@@ -30,13 +33,14 @@ export default class Reviews extends Component{
   }
 
   onSelectedIndexChange(selectedIndex: number) {
+    console.log('selectedIndexChanged')
     this.setState({
-    selectedIndex: selectedIndex,
-    isCommentModalOpen: false,
-    isReviewModalOpen: false
-
+      selectedIndex: selectedIndex,
+      isCommentModalOpen: false,
+      isReviewModalOpen: false
     });
   }
+
 
   openCommentModal() {
     this.setState({isCommentModalOpen: true, isReviewModalOpen: false });
@@ -49,8 +53,24 @@ export default class Reviews extends Component{
   }
 
   openReviewsModal(){
+
     this.setState({isReviewModalOpen: true, isCommentModalOpen: false});
-    console.log("this is reviewsPress ")
+    //console.log("this is reviewsPress, fetching reviews ");
+
+
+
+    //this.fetchData(REQUEST_URL);
+  }
+
+  fetchData(url){
+    fetch(url)
+    .then((response)=>response.json())
+    .then((responseData)=>{
+      this.setState({
+        isReviewModalOpen: true, isCommentModalOpen: false, reviews: responseData.result.reviews
+      });
+    })
+    .done();
   }
 
   onPostComment() {
@@ -62,12 +82,18 @@ export default class Reviews extends Component{
   }
 
   titlePress(){
-    console.log(this);
+    //console.log(this);
     console.log("this is titletPress ")
+    // this.props.navigator.push({
+    //   name:'search'
+    // });
+    console.log(this.props.switchTab);
+
   }
 
   render(){
     //console.log("im in review render");
+    //console.log(this.props);
     return (
      <View style={styles.container}>
         <Carousel
@@ -81,10 +107,12 @@ export default class Reviews extends Component{
           onClosed={this.closeCommentModal}
           onPress={this.onPostComment}
         />
-
         <ReviewsModal
           isOpen={this.state.isReviewModalOpen}
+          place={this.state.cards[this.state.selectedIndex]}
         />
+
+
 
     </View>
     );
@@ -124,8 +152,8 @@ var styles = StyleSheet.create({
    container: {
      flex:1,
      borderWidth:0,
-     marginTop:20,
-     marginBottom:23,
-     backgroundColor: 'black'
+     marginTop:0,
+     marginBottom:50, //This is a tab margin
+     backgroundColor: '#b2cb53'
   },
 });

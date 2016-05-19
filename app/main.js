@@ -9,13 +9,18 @@ var Signin = require('./components/authentication/signin');
 var Signup = require('./components/authentication/signup');
 var Tab = require('./components/tabs/tab.ios');
 var AuthService = require('./components/authentication/authservice');
+import Reviews from './components/tabs/reviews.ios';
+import Search from './components/tabs/search.ios';
+import ReviewsModal from './components/common/ReviewsModal';
 
 var ROUTES = {
   signin: Signin,
   signup: Signup,
-  tab: Tab
+  tab: Tab,
+  reviews: Reviews,
+  reviewsModal: ReviewsModal,
+  search: Search
 };
-
 
 var Main = React.createClass({
 
@@ -28,42 +33,37 @@ var Main = React.createClass({
       })
     });
   },
-  // getInitalState: function(){
-  //   return{
-  //     isLoggedIn:false,
-  //     checkingAuth:true
-  //   }
-  // },
 
   renderScene: function(route, navigator){
-
-
-
     var Component = ROUTES[route.name];
     return <Component route={route} navigator={navigator} />;
   },
-  render: function () {
 
+  configureScene(route, routeStack){
+    if(route.type == 'Modal') {
+      console.log('this is modal');
+      return Navigator.SceneConfigs.FloatFromBottom;
+    }
+    return Navigator.SceneConfigs.PushFromRight;
+  },
+
+  render: function () {
     return (
       <Navigator
         ref="nav"
         style={styles.container}
         initialRoute={true?{name:'tab'}:{name:'signin'}}
         renderScene={this.renderScene}
-        confgureScene={()=>{return Navigator.SceneConfigs.FloatFromBottom;}}
+        configureScene={this.configureScene}
       />
-  );
-},
-
-// renderScene: function(route, navigator){
-//       return null;
-// }
-
+    );
+  },
 });
 
 var styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
+    //backgroundColor: '#b2cb53'
   }
 
 });

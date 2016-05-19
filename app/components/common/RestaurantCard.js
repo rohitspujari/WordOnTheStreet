@@ -79,7 +79,7 @@ styles = StyleSheet.create({
       alignSelf: 'center',
       backgroundColor: 'white',
       marginTop:20,
-      marginBottom:10,
+      marginBottom:0,
       justifyContent: 'center',
       alignItems: 'center',
       borderRadius: 2,
@@ -103,10 +103,9 @@ styles = StyleSheet.create({
   card: {
     ios: {
       flex:5,
-      marginTop:30,
-      marginBottom:22,
+      marginTop:20,
       borderRadius: 5,
-      marginHorizontal: 3,
+      marginHorizontal: 5,
       backgroundColor: 'white',
       borderWidth:0
     }

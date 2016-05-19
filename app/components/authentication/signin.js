@@ -76,9 +76,10 @@ class Signin extends Component {
       username: this.state.username,
       password: this.state.password
     },(results)=>{
-      this.setState(Object.assign({
-        showProgress:false
-      },results));
+      this.setState(
+        Object.assign({
+          showProgress:false
+        },results));
 
      if(this.state.success){
        this.props.navigator.immediatelyResetRouteStack([{ name:'tab' }]);

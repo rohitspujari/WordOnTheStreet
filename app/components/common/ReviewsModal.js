@@ -1,56 +1,89 @@
 import React, {
   Text,
   Component,
-  ListContainer,
-  TextInput,
   StyleSheet,
   View,
   ScrollView,
 
+
 } from 'react-native';
 import Modal from 'react-native-modalbox';
+import Search from '../tabs/search.ios';
+import ReviewList from './ReviewList';
 var window  = require('Dimensions').get('window');
+var REQUEST_URL = 'https://www.googleapis.com/books/v1/volumes?q=subject:suspense';
+const DEFAULT_PLACE_ID = 'ChIJN1t_tDeuEmsRUsoyG83frY4';
 
 
 export default class ReviewsModal extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+     this.state = {renderPlaceholderOnly: true};
+
   }
 
   renderList() {
+    //var x = this.fetchReviews(REQUEST_URL);
+
+
+
     var list = [];
+      for (var i=0;i<40;i++) {
+        list.push(
+          <View key={i}>
+          <Text style={styles.text}>elem {i}</Text>
+          <View style={{borderWidth:1}}/>
+          </View>
+        );
 
-    for (var i=0;i<50;i++) {
-      list.push(<Text style={styles.text} key={i}>Elem {i}</Text>);
     }
-
     return list;
   }
 
+
+
+
+
+
   render() {
+
+    console.log(window);
+
+    //console.log('rendering review modal');
+    //console.log(this.props.place);
+    let place = this.props.place? this.props.place.name: 'loading ..';
+    let place_id = this.props.place? this.props.place.place_id: DEFAULT_PLACE_ID;
+
     return (
 
-      <Modal position={"bottom"} swipeArea={20} isOpen={this.props.isOpen} style={[styles.modal4, styles.modal]}>
 
-        <ScrollView>
-          <View style={{width: window.width, paddingLeft: 10, height:100}}>
-            {this.renderList()}
-          </View>
-        </ScrollView>
 
+
+      <Modal position={"bottom"} swipeArea={200} isOpen={this.props.isOpen} style={[styles.modal4, styles.modal]}>
+
+        <View style={{flex:2, padding:10}}>
+          <Text>{place}</Text>
+        </View>
+        <View style={{flex:7, padding:10}}>
+          <ReviewList placeId={place_id}/>
+        </View>
       </Modal>
+
     );
   }
 }
 var styles = StyleSheet.create({
   modal: {
+    padding:10,
+    //borderWidth:1,
+    //backgroundColor:'#f6f7f8',
     justifyContent: 'center',
     alignItems: 'center'
   },
   modal4: {
-    height: 400,
+    //height: 500,
     borderWidth:0
+
   },
 
 });

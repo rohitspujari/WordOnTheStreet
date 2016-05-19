@@ -70,6 +70,8 @@ var Search = React.createClass({
 
   },
   getInitialState: function(){
+    console.log('search constructor');
+
     return {
       latitude: 0,
       longitude: 0
