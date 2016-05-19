@@ -1,5 +1,6 @@
  import React, {
   StyleSheet,
+  Component,
   Text,
   View,
   Navigator
@@ -22,9 +23,9 @@ var ROUTES = {
   search: Search
 };
 
-var Main = React.createClass({
+export default class Main extends Component {
 
-  componentDidMount: function(){
+  componentDidMount(){
 
     AuthService.getAuthInfo((err,authInfo)=>{
       this.setState({
@@ -32,12 +33,12 @@ var Main = React.createClass({
         isLoggedIn: authInfo !=null
       })
     });
-  },
+  }
 
-  renderScene: function(route, navigator){
+  renderScene (route, navigator){
     var Component = ROUTES[route.name];
     return <Component route={route} navigator={navigator} />;
-  },
+  }
 
   configureScene(route, routeStack){
     if(route.type == 'Modal') {
@@ -45,9 +46,9 @@ var Main = React.createClass({
       return Navigator.SceneConfigs.FloatFromBottom;
     }
     return Navigator.SceneConfigs.PushFromRight;
-  },
+  }
 
-  render: function () {
+  render() {
     return (
       <Navigator
         ref="nav"
@@ -57,8 +58,8 @@ var Main = React.createClass({
         configureScene={this.configureScene}
       />
     );
-  },
-});
+  }
+}
 
 var styles = StyleSheet.create({
   container: {
@@ -67,5 +68,3 @@ var styles = StyleSheet.create({
   }
 
 });
-
-module.exports = Main;

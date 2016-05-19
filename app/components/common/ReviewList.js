@@ -23,7 +23,7 @@ export default class ReviewList extends Component {
   componentDidMount() {
     //console.log('in reviewlist componentDidMount');
     DataService.fetchPlaceDetails(this.props.placeId, (response)=> {
-      //console.log(response);
+      console.log(response);
       this.setState({
         placeDetails: response,
         dataSource: this.state.dataSource.cloneWithRows(response.reviews)
@@ -44,7 +44,7 @@ export default class ReviewList extends Component {
 
     return(
 
-      <View style={{flex:1, backgroundColor:'#f6f7f8'}}>
+      <View style={{flex:1,}}>
         <ListView
           dataSource={this.state.dataSource}
           renderRow={(rowData)=>{

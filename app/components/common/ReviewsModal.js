@@ -10,6 +10,7 @@ import React, {
 import Modal from 'react-native-modalbox';
 import Search from '../tabs/search.ios';
 import ReviewList from './ReviewList';
+import MapComponent from './MapComponent';
 var window  = require('Dimensions').get('window');
 var REQUEST_URL = 'https://www.googleapis.com/books/v1/volumes?q=subject:suspense';
 const DEFAULT_PLACE_ID = 'ChIJN1t_tDeuEmsRUsoyG83frY4';
@@ -61,10 +62,13 @@ export default class ReviewsModal extends Component {
 
       <Modal position={"bottom"} swipeArea={200} isOpen={this.props.isOpen} style={[styles.modal4, styles.modal]}>
 
-        <View style={{flex:2, padding:10}}>
+        <View style={{flex:2, padding:20}}>
           <Text>{place}</Text>
         </View>
-        <View style={{flex:7, padding:10}}>
+        <View style={{flex:7,width:window.width, padding:0, borderWidth:0}}>
+         <MapComponent />
+        </View>
+        <View style={{flex:7, paddingTop:20}}>
           <ReviewList placeId={place_id}/>
         </View>
       </Modal>
@@ -74,8 +78,8 @@ export default class ReviewsModal extends Component {
 }
 var styles = StyleSheet.create({
   modal: {
-    padding:10,
-    //borderWidth:1,
+    //padding:0,
+    borderWidth:1,
     //backgroundColor:'#f6f7f8',
     justifyContent: 'center',
     alignItems: 'center'
