@@ -12,6 +12,7 @@ var Search = require('./search.ios');
 //var Reviews = require('./reviews.ios');
 var Cash = require('./cash.ios');
 var Example = require('../common/modal')
+var ExampleMaps = require('../../examples/EventListner')
 
 
 // var Tab = React.createClass({
@@ -69,7 +70,7 @@ class Tab extends Component {
           selectedTab: 'cash'
         });
       }}>
-      <Example />
+      <ExampleMaps />
       </TabBarIOS.Item>
       </TabBarIOS>
 
@@ -79,6 +80,7 @@ class Tab extends Component {
 
 var Styles = StyleSheet.create({
   container: {
+
     flex: 1
   }
 

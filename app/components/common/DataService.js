@@ -10,7 +10,7 @@ class DataService {
     .then((response)=>response.json())
     .then((responseData)=>{
       if(responseData.status === 'OK') {
-        return cb(responseData.result);
+        return cb(responseData);
       }
       throw {
         error: 'bad request',
@@ -19,7 +19,7 @@ class DataService {
     })
     .catch((err)=>{
       cb(err);
-    })
+    });
 
     //return cb({name:'rohit',city:'chicago'})
 
