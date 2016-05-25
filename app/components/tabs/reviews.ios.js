@@ -2,7 +2,9 @@
 import React, {
   Component,
   View,
-  StyleSheet
+  StyleSheet,
+  Text,
+  ActivityIndicatorIOS
 } from 'react-native';
 
 import CommentModal from '../common/CommentModal';
@@ -25,6 +27,7 @@ export default class Reviews extends Component{
       isCommentModalOpen: false,
       isReviewModalOpen: false,
       isDisabled: false,
+      isLoaded: false
       // swipeToClose: true,
       // sliderValue: 0.3
     };
@@ -54,7 +57,18 @@ export default class Reviews extends Component{
 
   openReviewsModal(){
 
-    this.setState({isReviewModalOpen: true, isCommentModalOpen: false});
+    //console.log(this);
+    this.props.navigator.push({
+      name: 'reviewList',
+      type: 'Modal',
+      title:'Reviews',
+      passProps : {
+        placeId: this.state.cards[this.state.selectedIndex].place_id,
+        showMap: true
+      }
+    });
+
+    //this.setState({isReviewModalOpen: true, isCommentModalOpen: false});
     //console.log("this is reviewsPress, fetching reviews ");
 
 
@@ -67,7 +81,10 @@ export default class Reviews extends Component{
     .then((response)=>response.json())
     .then((responseData)=>{
       this.setState({
-        isReviewModalOpen: true, isCommentModalOpen: false, reviews: responseData.result.reviews
+        isReviewModalOpen: true,
+        isCommentModalOpen: false,
+        reviews: responseData.result.reviews,
+        isLoaded: true
       });
     })
     .done();
@@ -91,7 +108,21 @@ export default class Reviews extends Component{
 
   }
 
+  renderLoadingView() {
+    return (
+      <View style={{flex:1, justifyContent:'center', alignItems:'center'}}>
+        <ActivityIndicatorIOS
+            animating={true}
+            size="small" />
+      </View>
+    );
+  }
+
   render(){
+
+    if (!this.state.isLoaded) {
+      return this.renderLoadingView();
+    }
     //console.log("im in review render");
     //console.log(this.props);
     return (
@@ -125,7 +156,7 @@ export default class Reviews extends Component{
           data={data}
           index={index}
           reviewsPress={this.openReviewsModal.bind(this)}
-          titleClick={this.titlePress.bind(this)}
+          titleClick={this.openReviewsModal.bind(this)}
           itemPress={this.openCommentModal.bind(this)}
           onSubmitPress={this.onSubmitPress.bind(this)}
         />
@@ -141,7 +172,8 @@ export default class Reviews extends Component{
     this.firebaseRef.once("value",(dataSnapshot)=>{
       var items = dataSnapshot.val();
       this.setState({
-        cards: this.state.cards.concat(items)
+        cards: this.state.cards.concat(items),
+        isLoaded: true
       });
     })
   }

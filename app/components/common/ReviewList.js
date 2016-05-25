@@ -3,11 +3,17 @@ import React, {
   StyleSheet,
   View,
   Text,
-  ListView
+  ListView,
+  ActivityIndicatorIOS,
+  TouchableHighlight,
+  TouchableOpacity,
+  StatusBar
 } from 'react-native';
 import DataService from './DataService';
+import NavigationBar from 'react-native-navbar';
 import StarRating from 'react-native-star-rating';
 import MapComponent from './MapComponent';
+import Button from '../common/button';
 const PLACE_DETAILS = 'https://maps.googleapis.com/maps/api/place/details/json?key=AIzaSyAmbpYyzqv7aPDFpdbvsHo5zIEruNBuiNI&placeid=';
 
 
@@ -17,10 +23,6 @@ export default class ReviewList extends Component {
     super(props);
     this.state = {
       isLoaded: false,
-      location: {
-        latitude:41.975290,
-        longitude:-87.668768
-      },
       dataSource: new ListView.DataSource({
         rowHasChanged: (r1, r2) => r1 !== r2
       })
@@ -68,12 +70,24 @@ export default class ReviewList extends Component {
 
   renderLoadingView() {
     return (
-      <View style={styles.container}>
-        <Text>
-          Loading Reviews...
-        </Text>
+      <View style={{flex:1, justifyContent:'center', alignItems:'center'}}>
+        <ActivityIndicatorIOS
+            animating={true}
+            size="small" />
       </View>
     );
+  }
+
+  onMapPress() {
+    this.props.navigator.push({
+      name: 'mapComponent',
+      type: 'Modal',
+      passProps : {
+        place: this.state.placeDetails,
+        location: this.state.location,
+        isChild: false
+      }
+    });
   }
 
   render() {
@@ -81,21 +95,46 @@ export default class ReviewList extends Component {
     if (!this.state.isLoaded) {
       return this.renderLoadingView();
     }
-    //let name = this.state.placeDetails? this.state.placeDetails.name:'loading..';
-    //let location = this.state.placeDetails? this.state.placeDetails.geometry.location:DEFAULT_LOCATION;
-    //let reviews = this.state.placeDetails? this.state.placeDetails.reviews:'loading..';
-    //let name = this.state.placeDetails.name;
-
-    console.log('reviewList Render '+this.state.location.latitude+', '+this.state.location.longitude);
 
 
 
+    //console.log(this.props);
 
+    let map = null;
+    if(this.props.showMap) {
+      map = (
+         <TouchableOpacity style={{flex:1, marginBottom:10}} onPress={this.onMapPress.bind(this)}>
+
+        <MapComponent place={this.state.placeDetails} location={this.state.location} isChild={true}/>
+
+         </TouchableOpacity>
+      );
+    }
+
+
+    const rightButtonConfig = {
+      title: 'Close',
+      handler: () => this.props.navigator.pop(),
+    };
+
+    const titleConfig = {
+      title: 'Reviews',
+    };
 
     return(
 
-      <View style={{flex:1,}}>
-        <MapComponent location={this.state.location} style={{marginBottom:10}}/>
+
+
+
+
+      <View style={{flex:1}}>
+      <StatusBar hidden={false}/>
+      <NavigationBar
+        title={titleConfig}
+        statusBar={{hidden:false}}
+        tintColor='#b2cb53'
+        rightButton={rightButtonConfig} />
+        {map}
         <ListView
           dataSource={this.state.dataSource}
           renderRow={(rowData)=>{
@@ -122,6 +161,7 @@ export default class ReviewList extends Component {
             );
         }}/>
       </View>
+
     );
 
   }

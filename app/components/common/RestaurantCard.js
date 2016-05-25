@@ -3,7 +3,8 @@ import React, {
   Component,
   ListContainer,
   TextInput,
-  View
+  View,
+  TouchableOpacity
 } from 'react-native';
 
 const StyleSheet = require('F8StyleSheet');
@@ -25,9 +26,9 @@ export default class RestaurantCard extends Component {
       <View key={this.props.key} style={styles.card}>
 
         <View style={styles.info}>
-          <Touchable onPress={this.props.titleClick}>
+          <TouchableOpacity onPress={this.props.titleClick}>
             <Text style={styles.titleText}>{this.props.data[this.props.index].name}</Text>
-          </Touchable>
+          </TouchableOpacity>
         </View>
         <View style={styles.reviews}>
           <StarRating disabled={true}

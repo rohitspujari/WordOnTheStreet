@@ -52,28 +52,13 @@ export default class ReviewsModal extends Component {
 
   render() {
 
-    //console.log(window);
-
-    //console.log('rendering review modal');
-    //console.log(this.props.place);
-    let place = this.props.place? this.props.place.name: 'loading ..';
-    let place_id = this.props.place? this.props.place.place_id: DEFAULT_PLACE_ID;
-    //let geometry = this.props.place? this.props.place.geometry: DEFAULT_LOCATION;
-
-    //console.log(this.props.place);
-
     return (
-
-
-
-
       <Modal position={"bottom"} swipeArea={200} isOpen={this.props.isOpen} style={[styles.modal4, styles.modal]}>
-
         <View style={{flex:1, padding:20}}>
-          <Text>{place}</Text>
+          <Text>{this.props.place.name}</Text>
         </View>
         <View style={{flex:7, paddingTop:20}}>
-          <ReviewList placeId={place_id} showMap={true}/>
+          <ReviewList placeId={this.props.place.place_id} showMap={true}/>
         </View>
       </Modal>
 

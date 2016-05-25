@@ -4,11 +4,12 @@ import React, {
   Text,
   TabBarIOS,
   Navigator,
-  View
+  View,
+  StatusBar
 } from 'react-native';
 
 import Reviews from './reviews.ios';
-var Search = require('./search.ios');
+import  Search from './search.ios';
 //var Reviews = require('./reviews.ios');
 var Cash = require('./cash.ios');
 var Example = require('../common/modal')
@@ -42,6 +43,7 @@ class Tab extends Component {
       <TabBarIOS.Item
       selected={this.state.selectedTab ==='search'}
       systemIcon='search'
+      title='search'
       onPress={()=> {
         this.setState({
           selectedTab: 'search'
@@ -73,6 +75,9 @@ class Tab extends Component {
       <ExampleMaps />
       </TabBarIOS.Item>
       </TabBarIOS>
+
+
+
 
     );
   }
