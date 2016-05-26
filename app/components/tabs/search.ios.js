@@ -8,6 +8,7 @@ import React, {
   View
 } from 'react-native';
 import MapComponent from '../common/MapComponent';
+import Cash from './cash.ios';
 var {GooglePlacesAutocomplete} = require('react-native-google-places-autocomplete');
 import NavigationBar from 'react-native-navbar';
 
@@ -33,7 +34,8 @@ export default class Search extends Component{
   constructor(props) {
     super(props);
     this.state = {
-      //placeDetails: null
+      placeDetails: null,
+      location: null
     }
   }
   render(){
@@ -54,7 +56,7 @@ export default class Search extends Component{
       console.log(this.state);
       map = (
         <View style={{flex:1}}>
-<MapComponent place={this.state.placeDetails} location={this.state.location} isChild={true}/>
+<MapComponent place={this.state.placeDetails} markers={[this.state.location]} location={this.state.location} isChild={true}/>
         <Text>{this.state.location.longitude}</Text>
         <Text>{this.state.location.latitude}</Text>
         </View>

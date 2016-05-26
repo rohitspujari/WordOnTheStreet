@@ -26,8 +26,19 @@ const SPACE = 0.01;
 export default class MapComponent extends Component {
   constructor(props) {
     super(props);
+
     console.log('I am in MapComponent constructor');
   }
+
+  // onRegionChange(region) {
+  //   this.setState({ region });
+  // }
+  //
+  // onRegionChangeComplete(region) {
+  //   this.setState({ region });
+  // }
+
+
 
   render(){
 
@@ -58,6 +69,9 @@ export default class MapComponent extends Component {
    //console.log('I am in MapComponent render')
    //console.log(coordinate);
    //const { region, markers } = this.state;
+
+   //markers.push(this.props.location)
+   //console.log(markers);
    return (
 
      <View style={{flex:1}}>
@@ -69,38 +83,40 @@ export default class MapComponent extends Component {
           latitudeDelta: LATITUDE_DELTA,
           longitudeDelta: LONGITUDE_DELTA,
         }}
-      >
-      <MapView.Marker
-        ref="m1"
-        coordinate={this.props.location}
-        title="This is a title"
-        description="This is a description"
-      >
-      <MapView.Callout>
 
 
-        <View>
-          <Text>{this.props.place.name}</Text>
-          <Text>{this.props.place.formatted_address}</Text>
-          <Text>{this.props.place.opening_hours.open_now?'Open':'Closed'}</Text>
-          <Text>{this.props.place.price_level}</Text>
-          <StarRating
-            disabled={true}
-            emptyStar={'ios-star-outline'}
-            fullStar={'ios-star'}
-            halfStar={'ios-star-half'}
-            iconSet={'Ionicons'}
-            maxStars={5}
-            rating={this.props.place.rating}
-            starColor={'red'}
-            starSize={10}
-            selectedStar={() => {
-              return null;
-            }}
-          />
-        </View>
-      </MapView.Callout>
-      </MapView.Marker>
+      >
+
+      {this.props.markers.map(marker => (
+        <MapView.Marker
+          key={marker.longitude}
+          title="This is a title"
+          description="This is a description"
+          coordinate={marker}>
+          <MapView.Callout>
+            <View>
+             <StarRating
+             disabled={true}
+             emptyStar={'ios-star-outline'}
+             fullStar={'ios-star'}
+             halfStar={'ios-star-half'}
+             iconSet={'Ionicons'}
+             maxStars={5}
+             rating={this.props.place.rating}
+             starColor={'red'}
+             starSize={10}
+             selectedStar={() => {
+               return null;
+             }}
+           />
+           <Text>{this.props.place.name}</Text>
+           </View>
+          </MapView.Callout>
+        </MapView.Marker>
+
+
+      ))}
+
       </MapView>
       </View>
 

@@ -85,6 +85,7 @@ export default class ReviewList extends Component {
       passProps : {
         place: this.state.placeDetails,
         location: this.state.location,
+        markers: [this.state.location],
         isChild: false
       }
     });
@@ -105,7 +106,7 @@ export default class ReviewList extends Component {
       map = (
          <TouchableOpacity style={{flex:1, marginBottom:10}} onPress={this.onMapPress.bind(this)}>
 
-        <MapComponent place={this.state.placeDetails} location={this.state.location} isChild={true}/>
+        <MapComponent place={this.state.placeDetails} markers={[this.state.location]} location={this.state.location} isChild={true}/>
 
          </TouchableOpacity>
       );

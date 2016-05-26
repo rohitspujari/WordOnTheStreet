@@ -21,7 +21,13 @@ var styles = StyleSheet.create({
     //backgroundColor: '#654321'
   }
 });
-class Cash extends Component{
+export default class Cash extends Component{
+
+  constructor(props) {
+    super(props);
+    console.log('i am constructor')
+  }
+
   render(){
     return(
       <View style={styles.container}>
@@ -32,5 +38,3 @@ class Cash extends Component{
     );
   }
 }
-
-module.exports = Cash;
