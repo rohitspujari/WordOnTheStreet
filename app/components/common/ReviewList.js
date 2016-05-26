@@ -113,6 +113,8 @@ export default class ReviewList extends Component {
     }
 
 
+
+
     const rightButtonConfig = {
       title: 'Close',
       handler: () => this.props.navigator.pop(),

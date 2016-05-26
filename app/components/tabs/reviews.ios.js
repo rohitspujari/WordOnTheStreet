@@ -12,6 +12,7 @@ import ReviewsModal from '../common/ReviewsModal';
 import RestaurantCard from '../common/RestaurantCard';
 import Carousel from '../common/Carousel';
 import Firebase from 'firebase';
+import Button from '../common/button';
 
 var REQUEST_URL = 'https://maps.googleapis.com/maps/api/place/details/json?placeid=ChIJN1t_tDeuEmsRUsoyG83frY4&key=AIzaSyAmbpYyzqv7aPDFpdbvsHo5zIEruNBuiNI';
 //var REQUEST_URL = 'https://www.googleapis.com/books/v1/volumes?q=subject:suspense';

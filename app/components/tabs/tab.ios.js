@@ -11,7 +11,7 @@ import React, {
 import Reviews from './reviews.ios';
 import  Search from './search.ios';
 //var Reviews = require('./reviews.ios');
-var Cash = require('./cash.ios');
+import Cash from './cash.ios';
 var Example = require('../common/modal')
 var ExampleMaps = require('../../examples/EventListner')
 
@@ -72,7 +72,7 @@ class Tab extends Component {
           selectedTab: 'cash'
         });
       }}>
-      <ExampleMaps />
+      <Cash/>
       </TabBarIOS.Item>
       </TabBarIOS>
 

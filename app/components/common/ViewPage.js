@@ -116,7 +116,7 @@ class ViewPage extends React.Component {
   adjustCardSize(e: any) {
     this.setState({
       width: e.nativeEvent.layout.width,
-      height: e.nativeEvent.layout.height,
+      height: (e.nativeEvent.layout.height),
     });
   }
 
@@ -137,9 +137,10 @@ class ViewPage extends React.Component {
 
   renderContent(): Array<ReactElement> {
     var {width, height} = this.state;
+    //console.log(this.state);
     var style = Platform.OS === 'ios' && styles.card;
     return React.Children.map(this.props.children, (child, i) => (
-      <View style={[style, {width, height}]} key={'r_' + i}>
+      <View style={[style, {width, height, borderWidth: 0, borderColor:'red'}]} key={'r_' + i}>
         {child}
       </View>
     ));
@@ -167,17 +168,17 @@ class ViewPage extends React.Component {
 }
 
 var styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  scrollview: {
-    flex: 1,
-    backgroundColor: 'transparent',
-  },
-  card: {
-    backgroundColor: 'transparent',
-  
-  }
+  // container: {
+  //   flex: 1,
+  // },
+  // scrollview: {
+  //   flex: 1,
+  //   backgroundColor: 'transparent',
+  // },
+  // card: {
+  //   backgroundColor: 'transparent',
+  //
+  // }
 });
 
 module.exports = ViewPage;

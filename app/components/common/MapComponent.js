@@ -83,10 +83,7 @@ export default class MapComponent extends Component {
           latitudeDelta: LATITUDE_DELTA,
           longitudeDelta: LONGITUDE_DELTA,
         }}
-
-
       >
-
       {this.props.markers.map(marker => (
         <MapView.Marker
           key={marker.longitude}

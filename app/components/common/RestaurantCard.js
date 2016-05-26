@@ -104,9 +104,11 @@ styles = StyleSheet.create({
   card: {
     ios: {
       flex:5,
-      marginTop:20,
       borderRadius: 5,
-      marginHorizontal: 5,
+      //margin:20,
+      marginTop: 20,
+      marginBottom:5,
+      marginHorizontal:2.5,
       backgroundColor: 'white',
       borderWidth:0
     }

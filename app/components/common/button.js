@@ -10,25 +10,37 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 var Button = React.createClass({
   render: function(){
 
+    let buttonStyle = null;
     var content = <Text>Nothing!!</Text>;
-    if(this.props.type ==='round'){
-      content = <Icon name={this.props.icon} size={30} color="#34495e" />;
-    }
-    else {
-      content = <Text style={Styles.buttonText}>{this.props.text}</Text>;
+
+    switch(this.props.type) {
+      case 'round':
+        buttonStyle = Styles.roundButton;
+        content = <Icon name={this.props.icon} size={30} color="#34495e" />;
+        break;
+
+      case 'inline':
+        buttonStyle = Styles.inlineButton;
+        content = <Text style={Styles.buttonText}>{this.props.text}</Text>;
+        break;
+
+      default:
+        buttonStyle = Styles.button;
+        content = <Text style={Styles.buttonText}>{this.props.text}</Text>;
     }
 
-    var text = <Text style={Styles.buttonText}>{this.props.text}</Text>;
 
-    return (<TouchableHighlight underlayColor='#b2cb53'
-    onPress={this.props.onPress}
-    style={this.props.type === 'round'? Styles.roundButton : Styles.button}>
-    <View>
-      {content}
-    </View>
-    </TouchableHighlight>);
-  }
-});
+
+  return (
+      <TouchableHighlight underlayColor='#b2cb53'
+        onPress={this.props.onPress}
+        style={buttonStyle}>
+        <View>
+          {content}
+        </View>
+      </TouchableHighlight>);
+    }
+  });
 
 var Styles = StyleSheet.create({
   button: {
@@ -42,6 +54,16 @@ var Styles = StyleSheet.create({
     width: 280,
     backgroundColor:'#f6f7f8'
 
+  },
+
+  inlineButton: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 0,
+    borderRadius: 5,
+    width: 100,
+    padding:5,
+    height:40
   },
 
   roundButton: {
