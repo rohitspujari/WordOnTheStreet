@@ -185,20 +185,20 @@ export default class Reviews extends Component{
     //console.log("im in review render");
     //console.log(this.props);
     return (
-  <Drawer
-    type="overlay"
-    ref={"drawer"}
-    content={<ExampleMaps />}
-    captureGestures={true}
-    openDrawerOffset={0.2}
-    panOpenMask={20}
-    negotiatePan={false}
-    panCloseMask={0.2}
-    closedDrawerOffset={-3}
-    tweenHandler={(ratio) => ({ main: { opacity: (2 - ratio) / 2 } })}
-  >
-
-     <View style={styles.container}>
+    <View style={styles.container}>
+    <Drawer
+      type="overlay"
+      ref={"drawer"}
+      content={<ExampleMaps />}
+      captureGestures={true}
+      openDrawerOffset={0.2}
+      panOpenMask={20}
+      negotiatePan={false}
+      panCloseMask={0.2}
+      tapToClose={true}
+      closedDrawerOffset={-3}
+      tweenHandler={(ratio) => ({ main: { opacity: (2 - ratio) / 2 } })}
+    >
      <View style={{borderWidth:0}}>
      <NavigationBar
         statusBar={{hidden:false}}
@@ -227,9 +227,9 @@ export default class Reviews extends Component{
         />
 
 
-
+      </Drawer>
     </View>
-  </Drawer>
+
     );
   }
 
