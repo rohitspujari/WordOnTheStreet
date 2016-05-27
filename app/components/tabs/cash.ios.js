@@ -18,7 +18,9 @@ import AppConfig from '../common/AppConfig';
 import Button from '../common/button';
 import ReviewList from '../common/ReviewList';
 
-//import {CircularProgress}  from 'react-native-circular-progress';
+import { AnimatedCircularProgress } from 'react-native-circular-progress';
+
+
 
 var styles = StyleSheet.create({
   description: {
@@ -66,21 +68,38 @@ export default class Cash extends Component{
 
 //ChIJFVZR1t3RD4gRVvYqcGhnaxw
     return(
-      <View>
-      <View style={{flex:1}}>
-      <NavigationBar
-         title={titleConfig}
-         statusBar={{hidden:false}}
-         tintColor={AppConfig.themeColor()}
-         leftButton={leftButtonConfig}
-      />
-      </View>
+
+    <View style={{borderWidth:0, flex:1, marginBottom:50}}>
+
+          <NavigationBar
+           title={titleConfig}
+           statusBar={{hidden:false}}
+           tintColor={AppConfig.themeColor()}
+           leftButton={leftButtonConfig}
+           />
+
       <View style={styles.container}>
-      <Text style={styles.caption}>You have earned</Text>
-      <Text style={styles.cash}>$40</Text>
-      <Button  text="Redeem" onPress={()=> null}/>
+        <Text style={styles.caption}>You earned it!</Text>
+        <AnimatedCircularProgress
+          size={200}
+          width={30}
+          fill={30}
+          tintColor={AppConfig.themeColor()}
+          backgroundColor={AppConfig.themeBackgroundColor()}>
+          {
+            (fill) => (
+
+              <Text style={styles.points}>
+                {'$30'}
+              </Text>
+            )
+          }
+        </AnimatedCircularProgress>
+        <View style={{marginTop:20}}>
+          <Button text="Redeem" onPress={()=> null}/>
+        </View>
       </View>
-      </View>
+    </View>
     );
   }
 }
@@ -93,9 +112,22 @@ var styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     //borderWidth:2,
-    marginTop:150
+    borderColor:'red',
+    marginTop:0
 
     //marginBottom:50
+  },
+
+  points:{
+    backgroundColor: 'transparent',
+    position: 'absolute',
+    top: 70,
+    left: 56,
+    width: 90,
+    textAlign: 'center',
+    color: AppConfig.themeTextColor(),
+    fontSize: 50,
+    fontWeight: "100"
   },
 
   cash: {
@@ -107,7 +139,8 @@ var styles = StyleSheet.create({
 
   caption:{
     fontSize: 17,
-  //  fontWeight: 'bold',
+    marginBottom: 20,
+   //fontWeight: 'bold',
     color: AppConfig.themeTextColor()
   },
 

@@ -76,7 +76,7 @@ var Styles = StyleSheet.create({
     borderRadius: 35,
     padding: 15,
     borderColor: 'black',
-    backgroundColor:'#f6f7f8'
+    backgroundColor: AppConfig.themeBackgroundColor()
 
   },
 
