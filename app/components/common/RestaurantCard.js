@@ -107,9 +107,9 @@ styles = StyleSheet.create({
       flex:5,
       borderRadius: 5,
       //margin:20,
-      marginTop: 50,
-      marginBottom:5,
-      marginHorizontal:2.5,
+      marginTop: 60,
+      marginBottom:7,
+      marginHorizontal:3.5,
       backgroundColor: 'white',
       borderWidth:0
     }

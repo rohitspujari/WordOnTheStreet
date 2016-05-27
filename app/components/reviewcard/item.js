@@ -41,7 +41,7 @@ export default class Item extends Component{
       <View style={styles.container}>
         <View style={styles.container_itemReview}>
           <View style={styles.name}>
-            <Touchable onPress={this.props.itemPress}>
+            <Touchable onPress={this.props.itemPress.bind(this,this.props)}>
               <Text style={styles.nameText}>{this.props.itemName}</Text>
             </Touchable>
           </View>

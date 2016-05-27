@@ -27,17 +27,17 @@ export default class ItemList extends Component{
     });
   }
 
-  fetchData(url){
-    fetch(url)
-    .then((response)=>response.json())
-    .then((responseData)=>{
-      this.setState({
-        dataSource: this.state.dataSource.cloneWithRows(responseData.items),
-        isLoading: false
-      });
-    })
-    .done();
-  }
+  // fetchData(url){
+  //   fetch(url)
+  //   .then((response)=>response.json())
+  //   .then((responseData)=>{
+  //     this.setState({
+  //       dataSource: this.state.dataSource.cloneWithRows(responseData.items),
+  //       isLoading: false
+  //     });
+  //   })
+  //   .done();
+  // }
 
   render(){
     return(
@@ -45,9 +45,10 @@ export default class ItemList extends Component{
         <View style={styles.container}>
           <ListView
             dataSource={this.state.dataSource}
-            renderRow={(rowData)=>{
+            renderRow={(rowData, section, index)=>{
               return(
                 <Item
+                  key={index}
                   itemName={rowData.order}
                   onPress={this.props.itemPress}
                   {...this.props}

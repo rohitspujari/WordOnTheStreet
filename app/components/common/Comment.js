@@ -5,7 +5,7 @@ import React, {
   ScrollView
 } from 'react-native';
 
-import Modal from 'react-native-modalbox';
+
 var window  = require('Dimensions').get('window');
 
 class Comment extends React.Component {
@@ -20,14 +20,23 @@ class Comment extends React.Component {
     };
   }
 
+  render() {
+    return(
+   <View style={[styles.container,styles.modal3]}>
+    <Text>I am comment</Text>
+   </View>
+  );
+  }
+
 }
 
 
 var styles = StyleSheet.create({
 
-  wrapper: {
-    paddingTop: 50,
-    flex: 1
+  container: {
+    //flex: 1,
+    justifyContent:'center',
+    alignItems:'center'
   },
 
   modal: {
@@ -41,8 +50,8 @@ var styles = StyleSheet.create({
   },
 
   modal3: {
-    height: 300,
-    width: 300
+    margin:50,
+
   },
 
   modal4: {

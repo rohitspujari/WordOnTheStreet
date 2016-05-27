@@ -16,7 +16,8 @@ import Firebase from 'firebase';
 import Button from '../common/button';
 import AppConfig from '../common/AppConfig';
 
-
+const firebaseReceiptsRef = new Firebase('https://wots.firebaseio.com/receipts');
+const firebaseReviewsRef = new Firebase('https://wots.firebaseio.com/reviews');
 
 var REQUEST_URL = 'https://maps.googleapis.com/maps/api/place/details/json?placeid=ChIJN1t_tDeuEmsRUsoyG83frY4&key=AIzaSyAmbpYyzqv7aPDFpdbvsHo5zIEruNBuiNI';
 //var REQUEST_URL = 'https://www.googleapis.com/books/v1/volumes?q=subject:suspense';
@@ -50,10 +51,39 @@ export default class Reviews extends Component{
   }
 
 
-  openCommentModal() {
-    this.setState({isCommentModalOpen: true, isReviewModalOpen: false });
+  openCommentModal(itemProps) {
+
+    // this.props.navigator.push({
+    //   name: 'comment',
+    //   type: 'bottomUp',
+    //   passProps : {
+    //     item: itemProps
+    //   }
+    // });
+    this.setState({isCommentModalOpen: true, isReviewModalOpen: false, itemProps:itemProps });
     console.log("this is openModal5 ")
+    //console.log(itemProps);
   }
+
+  onAddComment(comment) {
+    console.log(this.state)
+    console.log("this is onPostComment")
+    firebaseReviewsRef.push({
+      placeId: this.state.itemProps.data[this.state.itemProps.index].place_id,
+      comment: comment,
+      itemName: this.state.itemProps.itemName,
+
+    })
+
+    let updateUrl = 'https://wots.firebaseio.com/receipts/'+this.state.itemProps.index;
+    console.log(updateUrl)
+    this.firebaseRef = new Firebase(updateUrl);
+    this.firebaseRef.update({
+      active:0
+
+    })
+  }
+
 
   closeCommentModal() {
     this.setState({isCommentModalOpen: false});
@@ -95,9 +125,7 @@ export default class Reviews extends Component{
     .done();
   }
 
-  onPostComment() {
-    console.log("this is onPostComment")
-  }
+
 
   onSubmitPress(){
     console.log("this is onSubmitPress ")
@@ -141,8 +169,10 @@ export default class Reviews extends Component{
         />
         <CommentModal
           isOpen={this.state.isCommentModalOpen}
+          isDisabled={false}
+          backdropPressToClose={true}
           onClosed={this.closeCommentModal}
-          onPress={this.onPostComment}
+          onPress={this.onAddComment.bind(this)}
         />
         <ReviewsModal
           isOpen={this.state.isReviewModalOpen}
@@ -174,8 +204,8 @@ export default class Reviews extends Component{
   }
 
   fetchReceipts(){
-    this.firebaseRef = new Firebase('https://wots.firebaseio.com/receipts');
-    this.firebaseRef.once("value",(dataSnapshot)=>{
+  //  this.firebaseRef = new Firebase('https://wots.firebaseio.com/receipts');
+    firebaseReceiptsRef.once("value",(dataSnapshot)=>{
       var items = dataSnapshot.val();
       this.setState({
         cards: this.state.cards.concat(items),

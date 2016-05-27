@@ -15,6 +15,7 @@ var AuthService = require('./components/authentication/authservice');
 import Reviews from './components/tabs/reviews.ios';
 import Search from './components/tabs/search.ios';
 import ReviewsModal from './components/common/ReviewsModal';
+import Comment from './components/common/Comment';
 import ReviewList from './components/common/ReviewList';
 import MapComponent from './components/common/MapComponent';
 
@@ -25,6 +26,7 @@ var ROUTES = {
   reviews: Reviews,
   reviewsModal: ReviewsModal,
   reviewList: ReviewList,
+  comment: Comment,
   search: Search,
   mapComponent: MapComponent
 };
@@ -87,7 +89,7 @@ export default class Main extends Component {
     return (
 
       <Component route={route} navigator={navigator} {...route.passProps}  />
-    
+
 
     );
 
@@ -98,7 +100,7 @@ export default class Main extends Component {
       console.log('this is modal');
       return Navigator.SceneConfigs.FadeAndroid;
     }
-    return Navigator.SceneConfigs.PushFromRight;
+    return Navigator.SceneConfigs.FloatFromBottom;
   }
 
 

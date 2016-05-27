@@ -42,7 +42,7 @@ export default class CommentModal extends Component {
           onChangeText={(text) => this.setState({text})}
           value={this.state.text}>
           </TextInput>
-      <Button  text="Post" onPress={this.props.onPress}/>
+      <Button  text="Add Comment" onPress={this.props.onPress.bind(this,this.state.text)}/>
     </Modal>);
   }
 }
