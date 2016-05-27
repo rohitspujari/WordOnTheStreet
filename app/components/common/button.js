@@ -25,6 +25,11 @@ var Button = React.createClass({
         content = <Text style={Styles.buttonText}>{this.props.text}</Text>;
         break;
 
+      case 'navBar':
+        buttonStyle = Styles.navButton;
+        content = <Icon name={this.props.icon} size={20} color={AppConfig.themeTextColor()} />;
+        break;
+
       default:
         buttonStyle = Styles.button;
         content = <Text style={Styles.buttonText}>{this.props.text}</Text>;
@@ -65,6 +70,12 @@ var Styles = StyleSheet.create({
     width: 100,
     padding:5,
     height:40
+  },
+
+  navButton: {
+    marginLeft: 0,
+    marginTop:0,
+    padding:15
   },
 
   roundButton: {

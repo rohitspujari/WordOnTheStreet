@@ -5,7 +5,8 @@ import React, {
   StyleSheet,
   Text,
   ActivityIndicatorIOS,
-  StatusBar
+  StatusBar,
+  AlertIOS
 } from 'react-native';
 
 import CommentModal from '../common/CommentModal';
@@ -15,9 +16,16 @@ import Carousel from '../common/Carousel';
 import Firebase from 'firebase';
 import Button from '../common/button';
 import AppConfig from '../common/AppConfig';
+import NavigationBar from 'react-native-navbar';
+import Drawer from 'react-native-drawer'
+var ExampleMaps = require('../../examples/EventListner')
+
+
 
 const firebaseReceiptsRef = new Firebase('https://wots.firebaseio.com/receipts');
-const firebaseReviewsRef = new Firebase('https://wots.firebaseio.com/reviews');
+const firebaseUrl = 'https://wots.firebaseio.com/';
+const firebaseReceiptUrl = 'https://wots.firebaseio.com/receipts/';
+const firebaseReviewUrl = 'https://wots.firebaseio.com/reviews/';
 
 var REQUEST_URL = 'https://maps.googleapis.com/maps/api/place/details/json?placeid=ChIJN1t_tDeuEmsRUsoyG83frY4&key=AIzaSyAmbpYyzqv7aPDFpdbvsHo5zIEruNBuiNI';
 //var REQUEST_URL = 'https://www.googleapis.com/books/v1/volumes?q=subject:suspense';
@@ -66,21 +74,27 @@ export default class Reviews extends Component{
   }
 
   onAddComment(comment) {
-    console.log(this.state)
-    console.log("this is onPostComment")
-    firebaseReviewsRef.push({
-      placeId: this.state.itemProps.data[this.state.itemProps.index].place_id,
-      comment: comment,
-      itemName: this.state.itemProps.itemName,
 
+    if(!comment || comment ==='') {
+      AlertIOS.alert('Please comment');
+      return;
+    }
+
+    let cardId = this.state.itemProps.index;
+    let placeId = this.state.itemProps.data[this.state.itemProps.index].place_id;
+    let itemName = this.state.itemProps.itemName
+    let reviewUrl = firebaseReviewUrl + placeId + "/" + itemName;
+    let updateUrl = firebaseReceiptUrl + cardId;
+
+    let reviewRef = new Firebase(reviewUrl)
+    reviewRef.push({
+      comment: comment,
+      timestamp: Date()
     })
 
-    let updateUrl = 'https://wots.firebaseio.com/receipts/'+this.state.itemProps.index;
-    console.log(updateUrl)
-    this.firebaseRef = new Firebase(updateUrl);
-    this.firebaseRef.update({
-      active:0
-
+    let updateRef = new Firebase(updateUrl);
+    updateRef.update({
+      reviewed: true
     })
   }
 
@@ -156,11 +170,44 @@ export default class Reviews extends Component{
     if (!this.state.isLoaded) {
       return this.renderLoadingView();
     }
+
+    const leftButtonConfig = {
+      title: 'settings',
+      tintColor:AppConfig.themeTextColor(),
+      handler: () => this.props.navigator.pop(),
+      };
+
+    const titleConfig = {
+      tintColor: AppConfig.themeTextColor(),
+      title: 'Map',
+    };
+
     //console.log("im in review render");
     //console.log(this.props);
     return (
-     <View style={styles.container}>
+  <Drawer
+    type="overlay"
+    ref={"drawer"}
+    content={<ExampleMaps />}
+    captureGestures={true}
+    openDrawerOffset={0.2}
+    panOpenMask={20}
+    negotiatePan={false}
+    panCloseMask={0.2}
+    closedDrawerOffset={-3}
+    tweenHandler={(ratio) => ({ main: { opacity: (2 - ratio) / 2 } })}
+  >
 
+     <View style={styles.container}>
+     <View style={{borderWidth:0}}>
+     <NavigationBar
+        statusBar={{hidden:false}}
+        tintColor={AppConfig.themeColor()}
+        leftButton={<Button type="navBar" icon="navicon" onPress={()=> {
+          console.log('pressed')
+          this.refs.drawer.open()
+        }}/>} />
+     </View>
         <Carousel
           data={this.state.cards}
           selectedIndex={this.state.selectedIndex}
@@ -182,6 +229,7 @@ export default class Reviews extends Component{
 
 
     </View>
+  </Drawer>
     );
   }
 

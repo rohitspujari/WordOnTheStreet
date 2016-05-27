@@ -100,7 +100,7 @@ export default class Main extends Component {
       console.log('this is modal');
       return Navigator.SceneConfigs.FadeAndroid;
     }
-    return Navigator.SceneConfigs.FloatFromBottom;
+    return Navigator.SceneConfigs.FloatFromBom;
   }
 
 

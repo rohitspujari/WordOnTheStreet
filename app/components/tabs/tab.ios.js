@@ -11,6 +11,7 @@ import React, {
 import Reviews from './reviews.ios';
 import  Search from './search.ios';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import Drawer from 'react-native-drawer'
 //var Reviews = require('./reviews.ios');
 import Cash from './cash.ios';
 var Example = require('../common/modal')
@@ -39,45 +40,51 @@ class Tab extends Component {
   }
 
   render() {
+
+
+
+
     return (
+
+
       <TabBarIOS selectedTab={this.state.selectedTab}>
-      <Icon.TabBarItemIOS
-      selected={this.state.selectedTab ==='search'}
-      iconName='search'
-      title='search'
-      onPress={()=> {
-        this.setState({
-          selectedTab: 'search'
-        });
-      }}>
-      <Search/>
-      </Icon.TabBarItemIOS>
+        <Icon.TabBarItemIOS
+        selected={this.state.selectedTab ==='search'}
+        iconName='search'
+        title='search'
+        onPress={()=> {
+          this.setState({
+            selectedTab: 'search'
+          });
+        }}>
+        <Search/>
+        </Icon.TabBarItemIOS>
 
-      <Icon.TabBarItemIOS
-      title="Review"
-      selected={this.state.selectedTab ==='reviews'}
-      iconName='tags'
-      onPress={()=> {
-        this.setState({
-          selectedTab: 'reviews'
-        });
-      }}>
-      <Reviews switchTab={this.swtitchTab} {...this.props} />
-      </Icon.TabBarItemIOS>
+        <Icon.TabBarItemIOS
+        title="Review"
+        selected={this.state.selectedTab ==='reviews'}
+        iconName='tags'
+        onPress={()=> {
+          this.setState({
+            selectedTab: 'reviews'
+          });
+        }}>
+        <Reviews switchTab={this.swtitchTab} {...this.props} />
+        </Icon.TabBarItemIOS>
 
-      <Icon.TabBarItemIOS
-      selected={this.state.selectedTab ==='cash'}
-      title="Cash"
-      iconName="money"
-      onPress={()=> {
-        this.setState({
-          selectedTab: 'cash'
-        });
-      }}>
-      <Cash/>
-      </Icon.TabBarItemIOS>
-      </TabBarIOS>
-
+        <Icon.TabBarItemIOS
+        selected={this.state.selectedTab ==='cash'}
+        title="Cash"
+        iconName="money"
+        onPress={()=> {
+          this.setState({
+            selectedTab: 'cash'
+          });
+        }}>
+        <Cash/>
+        </Icon.TabBarItemIOS>
+        </TabBarIOS>
+      
 
 
 
