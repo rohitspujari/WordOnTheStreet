@@ -205,10 +205,10 @@ export default class Reviews extends Component{
 
   fetchReceipts(){
   //  this.firebaseRef = new Firebase('https://wots.firebaseio.com/receipts');
-    firebaseReceiptsRef.once("value",(dataSnapshot)=>{
+    firebaseReceiptsRef.on("value",(dataSnapshot)=>{
       var items = dataSnapshot.val();
       this.setState({
-        cards: this.state.cards.concat(items),
+        cards: items,
         isLoaded: true
       });
     })
