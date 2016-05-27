@@ -14,6 +14,7 @@ import NavigationBar from 'react-native-navbar';
 import StarRating from 'react-native-star-rating';
 import MapComponent from './MapComponent';
 import Button from '../common/button';
+import AppConfig from '../common/AppConfig';
 const PLACE_DETAILS = 'https://maps.googleapis.com/maps/api/place/details/json?key=AIzaSyAmbpYyzqv7aPDFpdbvsHo5zIEruNBuiNI&placeid=';
 
 
@@ -117,11 +118,13 @@ export default class ReviewList extends Component {
 
     const rightButtonConfig = {
       title: 'Close',
+      tintColor: AppConfig.themeTextColor(),
       handler: () => this.props.navigator.pop(),
     };
 
     const titleConfig = {
       title: 'Reviews',
+      tintColor: AppConfig.themeTextColor()
     };
 
     return(
@@ -131,11 +134,11 @@ export default class ReviewList extends Component {
 
 
       <View style={{flex:1}}>
-      <StatusBar hidden={false}/>
+
       <NavigationBar
         title={titleConfig}
         statusBar={{hidden:false}}
-        tintColor='#b2cb53'
+        tintColor={AppConfig.themeColor()}
         rightButton={rightButtonConfig} />
         {map}
         <ListView

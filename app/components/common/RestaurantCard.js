@@ -13,6 +13,7 @@ import StarRating from 'react-native-star-rating';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import ItemList from '../common/ItemList';
 import Button from '../common/button';
+import AppConfig from './AppConfig';
 
 
 export default class RestaurantCard extends Component {
@@ -41,17 +42,17 @@ export default class RestaurantCard extends Component {
             selectedStar={(rating) => {
               return null;
             }}
-            starColor={'#b2cb53'}
+            starColor={AppConfig.themeColor()}
             starSize={15}
           />
           <Touchable onPress={this.props.reviewsPress}>
-          <Text style={{fontSize:13, fontWeight: 'bold',color:'#34495e'}}>{' (54)'}</Text>
+          <Text style={{fontSize:13, fontWeight: 'bold',color:AppConfig.themeTextColor()}}>{' (54)'}</Text>
           </Touchable>
         </View>
 
         <View style={styles.totalAmount}>
-          <Icon name="dollar" size={15} color="#34495e"/>
-          <Text style={{alignSelf:'center', fontSize:25, color:"#34495e"}}>{" "+this.props.data[this.props.index].amount}</Text>
+          <Icon name="dollar" size={15} color={AppConfig.themeTextColor()}/>
+          <Text style={{alignSelf:'center', fontSize:25, color:AppConfig.themeTextColor()}}>{" "+this.props.data[this.props.index].amount}</Text>
         </View>
         <View style={{borderWidth:0}}>
           <ItemList itemPress={this.props.itemPress} items={this.props.data[this.props.index].order_details} {...this.props}/>
@@ -59,11 +60,11 @@ export default class RestaurantCard extends Component {
         <View style={{flexDirection:'row', justifyContent:'space-around', padding:20, marginTop:0}}>
           <View style={{alignItems:'center'}}>
             <Button type="round" icon="bicycle" onPress={()=> null}/>
-            <Text style={{color:'#34495e', marginTop:10}}>Delivery</Text>
+            <Text style={{color:AppConfig.themeTextColor(), marginTop:10}}>Delivery</Text>
           </View>
           <View style={{alignItems:'center',}}>
             <Button type="round" icon="cutlery" onPress={()=> null}/>
-            <Text style={{color:'#34495e', marginTop:10}}>Dine In</Text>
+            <Text style={{color:AppConfig.themeTextColor(), marginTop:10}}>Dine In</Text>
           </View>
         </View>
         <View style={{justifyContent:'center',alignItems:'center', marginTop:0}}>
@@ -90,7 +91,7 @@ styles = StyleSheet.create({
   },
 
   titleText: {
-    fontSize:25,fontWeight:'bold', color:'#34495e', borderWidth:0,
+    fontSize:25,fontWeight:'bold', color:AppConfig.themeTextColor(), borderWidth:0,
   },
 
   reviews: {

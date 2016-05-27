@@ -12,6 +12,7 @@ import React, {
 import MapView from 'react-native-maps';
 import StarRating from 'react-native-star-rating';
 import NavigationBar from 'react-native-navbar';
+import AppConfig from './AppConfig';
 
 var { width, height } = Dimensions.get('window');
 
@@ -46,10 +47,12 @@ export default class MapComponent extends Component {
 
   const rightButtonConfig = {
     title: 'Close',
+    tintColor:AppConfig.themeTextColor(),
     handler: () => this.props.navigator.pop(),
     };
 
   const titleConfig = {
+    tintColor: AppConfig.themeTextColor(),
     title: 'Map',
   };
 
@@ -60,7 +63,7 @@ export default class MapComponent extends Component {
     var navigationBar =  (<NavigationBar
        title={titleConfig}
        statusBar={{hidden:false}}
-       tintColor='#b2cb53'
+       tintColor={AppConfig.themeColor()}
        rightButton={rightButtonConfig} />);
   }
 

@@ -4,7 +4,8 @@ import React, {
   View,
   StyleSheet,
   Text,
-  ActivityIndicatorIOS
+  ActivityIndicatorIOS,
+  StatusBar
 } from 'react-native';
 
 import CommentModal from '../common/CommentModal';
@@ -13,6 +14,9 @@ import RestaurantCard from '../common/RestaurantCard';
 import Carousel from '../common/Carousel';
 import Firebase from 'firebase';
 import Button from '../common/button';
+import AppConfig from '../common/AppConfig';
+
+
 
 var REQUEST_URL = 'https://maps.googleapis.com/maps/api/place/details/json?placeid=ChIJN1t_tDeuEmsRUsoyG83frY4&key=AIzaSyAmbpYyzqv7aPDFpdbvsHo5zIEruNBuiNI';
 //var REQUEST_URL = 'https://www.googleapis.com/books/v1/volumes?q=subject:suspense';
@@ -128,6 +132,7 @@ export default class Reviews extends Component{
     //console.log(this.props);
     return (
      <View style={styles.container}>
+
         <Carousel
           data={this.state.cards}
           selectedIndex={this.state.selectedIndex}
@@ -187,6 +192,7 @@ var styles = StyleSheet.create({
      borderWidth:0,
      marginTop:0,
      marginBottom:50, //This is a tab margin
-     backgroundColor: '#b2cb53'
+     backgroundColor: AppConfig.themeColor()
+     //backgroundColor: '#f87931'
   },
 });

@@ -6,6 +6,7 @@ import React, {
 } from 'react-native';
 
 import Icon from 'react-native-vector-icons/FontAwesome';
+import AppConfig from './AppConfig';
 
 var Button = React.createClass({
   render: function(){
@@ -16,7 +17,7 @@ var Button = React.createClass({
     switch(this.props.type) {
       case 'round':
         buttonStyle = Styles.roundButton;
-        content = <Icon name={this.props.icon} size={30} color="#34495e" />;
+        content = <Icon name={this.props.icon} size={30} color={AppConfig.themeTextColor()} />;
         break;
 
       case 'inline':
@@ -32,7 +33,7 @@ var Button = React.createClass({
 
 
   return (
-      <TouchableHighlight underlayColor='#b2cb53'
+      <TouchableHighlight underlayColor={AppConfig.themeColor()}
         onPress={this.props.onPress}
         style={buttonStyle}>
         <View>
@@ -86,7 +87,7 @@ var Styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: '500',
 
-    color:'#34495e',
+    color:AppConfig.themeTextColor(),
   }
 });
 

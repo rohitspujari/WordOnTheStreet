@@ -13,6 +13,7 @@ import Cash from './cash.ios';
 var {GooglePlacesAutocomplete} = require('react-native-google-places-autocomplete');
 import NavigationBar from 'react-native-navbar';
 import Button from '../common/button';
+import AppConfig from '../common/AppConfig';
 
 var styles = StyleSheet.create({
   description: {
@@ -46,16 +47,19 @@ export default class Search extends Component{
 
     const rightButtonConfig = {
       title: 'Search',
+      tintColor: AppConfig.themeTextColor(),
       handler: () => this.props.navigator.pop(),
     };
 
     const leftButtonConfig = {
       title: 'Filter',
+      tintColor: AppConfig.themeTextColor(),
       handler: () => this.props.navigator.pop(),
     };
 
     const titleConfig = {
       title: 'Saerch',
+      tintColor: AppConfig.themeTextColor()
     };
 
     var map = null;
@@ -123,10 +127,10 @@ export default class Search extends Component{
     return(
 
     <View style={{flex:1}}>
-      <StatusBar hidden={true}/>
+
       <NavigationBar
-        statusBar={{hidden:true}}
-        tintColor='#b2cb53'
+        statusBar={{hidden:false}}
+        tintColor= {AppConfig.themeColor()}
         rightButton={rightButtonConfig}
         leftButton={leftButtonConfig}/>
       <View>

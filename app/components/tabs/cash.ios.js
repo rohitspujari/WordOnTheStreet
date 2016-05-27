@@ -8,11 +8,17 @@ import React, {
   TextInput,
   StatusBar,
   View,
-  ScrollView
+  ScrollView,
+
 } from 'react-native';
+
+import NavigationBar from 'react-native-navbar';
+import AppConfig from '../common/AppConfig';
 
 import Button from '../common/button';
 import ReviewList from '../common/ReviewList';
+
+//import {CircularProgress}  from 'react-native-circular-progress';
 
 var styles = StyleSheet.create({
   description: {
@@ -35,16 +41,22 @@ export default class Cash extends Component{
     this.state = {}
   }
 
-  adjustCardSize(e: any) {
-    this.setState({
-      width: e.nativeEvent.layout.width,
-      height: (e.nativeEvent.layout.height),
-    });
-  }
+
 
   render(){
 
-  navigator.geolocation.getCurrentPosition(
+    const leftButtonConfig = {
+      title: 'Settings',
+      tintColor: AppConfig.themeTextColor(),
+      handler: () => this.props.navigator.pop(),
+    };
+
+    const titleConfig = {
+      title: 'Cash',
+      tintColor: AppConfig.themeTextColor(),
+    };
+
+    navigator.geolocation.getCurrentPosition(
   (position) => {
     console.log(position);
   },
@@ -54,24 +66,50 @@ export default class Cash extends Component{
 
 //ChIJFVZR1t3RD4gRVvYqcGhnaxw
     return(
-      <View style={{flex:1, justifyContent: 'center', borderWidth:1 ,alignItems: 'center', backgroundColor:'#eeece9'}}>
-      <ScrollView horizontal={true} pagingEnabled={true} onLayout={this.adjustCardSize.bind(this)} >
-        <View style={{flex:1, width:350, height: 600, margin:5, backgroundColor:'green'}}>
-         <Text>Hello</Text>
-        </View>
-        <View style={{flex:1, width:350, height: 600, margin:5, backgroundColor:'green'}}>
-         <Text>Hello</Text>
-        </View>
-
-
-      </ScrollView>
+      <View>
+      <View style={{flex:1}}>
+      <NavigationBar
+         title={titleConfig}
+         statusBar={{hidden:false}}
+         tintColor={AppConfig.themeColor()}
+         leftButton={leftButtonConfig}
+      />
+      </View>
+      <View style={styles.container}>
+      <Text style={styles.caption}>You have earned</Text>
+      <Text style={styles.cash}>$40</Text>
+      <Button  text="Redeem" onPress={()=> null}/>
+      </View>
       </View>
     );
   }
 }
 
 
-var Styles = StyleSheet.create({
+var styles = StyleSheet.create({
+
+  container:{
+    flex:1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    //borderWidth:2,
+    marginTop:150
+
+    //marginBottom:50
+  },
+
+  cash: {
+    //fontWeight:'bold',
+    fontSize: 50,
+    margin:20,
+    color: AppConfig.themeTextColor()
+  },
+
+  caption:{
+    fontSize: 17,
+  //  fontWeight: 'bold',
+    color: AppConfig.themeTextColor()
+  },
 
   input: {
 

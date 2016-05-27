@@ -9,10 +9,11 @@ import React, {
 import Modal from 'react-native-modalbox';
 import Button from '../common/button';
 import StarRating from 'react-native-star-rating';
+import AppConfig from './AppConfig';
 
 
 export default class CommentModal extends Component {
-  constructor(props) {    
+  constructor(props) {
     super(props);
     this.state = {};
   }
@@ -30,7 +31,7 @@ export default class CommentModal extends Component {
         selectedStar={(rating) => {
           return null;
         }}
-        starColor={'#b2cb53'}
+        starColor={AppConfig.themeColor()}
         starSize={25}
       />
       <TextInput

@@ -7,6 +7,7 @@ import React, {
 
 import StarRating from 'react-native-star-rating';
 import Touchable from '../common/Touchable';
+import AppConfig from '../common/AppConfig';
 
 export default class Item extends Component{
 
@@ -32,7 +33,7 @@ export default class Item extends Component{
       maxStars={5}
       rating={0}
       selectedStar={(rating) => this.onStarRatingPress(rating)}
-      starColor={'#b2cb53'}
+      starColor={AppConfig.themeColor()}
       starSize={25}
     />;
 
@@ -77,7 +78,7 @@ var styles = StyleSheet.create({
   nameText:{
     fontSize: 16,
     fontWeight:'500',
-    color:'#34495e'
+    color:AppConfig.themeTextColor()
   },
   rating:{
     flex:1,

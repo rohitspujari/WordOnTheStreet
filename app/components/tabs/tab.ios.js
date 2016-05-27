@@ -10,6 +10,7 @@ import React, {
 
 import Reviews from './reviews.ios';
 import  Search from './search.ios';
+import Icon from 'react-native-vector-icons/FontAwesome';
 //var Reviews = require('./reviews.ios');
 import Cash from './cash.ios';
 var Example = require('../common/modal')
@@ -40,9 +41,9 @@ class Tab extends Component {
   render() {
     return (
       <TabBarIOS selectedTab={this.state.selectedTab}>
-      <TabBarIOS.Item
+      <Icon.TabBarItemIOS
       selected={this.state.selectedTab ==='search'}
-      systemIcon='search'
+      iconName='search'
       title='search'
       onPress={()=> {
         this.setState({
@@ -50,30 +51,31 @@ class Tab extends Component {
         });
       }}>
       <Search/>
-      </TabBarIOS.Item>
+      </Icon.TabBarItemIOS>
 
-      <TabBarIOS.Item
-      title="Reviews"
+      <Icon.TabBarItemIOS
+      title="Review"
       selected={this.state.selectedTab ==='reviews'}
-      systemIcon='featured'
+      iconName='tags'
       onPress={()=> {
         this.setState({
           selectedTab: 'reviews'
         });
       }}>
       <Reviews switchTab={this.swtitchTab} {...this.props} />
-      </TabBarIOS.Item>
+      </Icon.TabBarItemIOS>
 
-      <TabBarIOS.Item
+      <Icon.TabBarItemIOS
       selected={this.state.selectedTab ==='cash'}
-      systemIcon='contacts'
+      title="Cash"
+      iconName="money"
       onPress={()=> {
         this.setState({
           selectedTab: 'cash'
         });
       }}>
       <Cash/>
-      </TabBarIOS.Item>
+      </Icon.TabBarItemIOS>
       </TabBarIOS>
 
 
