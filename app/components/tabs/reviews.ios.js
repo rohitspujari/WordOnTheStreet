@@ -200,7 +200,6 @@ export default class Reviews extends Component{
       panCloseMask={0}
       tapToClose={true}
       closedDrawerOffset={0}
-
       tweenHandler={(ratio) => ({ main: { opacity: (2 - ratio) / 2 } })}
     >
      <View style={{borderWidth:0}}>
