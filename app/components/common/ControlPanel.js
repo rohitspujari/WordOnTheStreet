@@ -14,6 +14,8 @@ import store from 'react-native-simple-store';
 
 export default class ControlPanel extends Component {
   render() {
+
+    //console.log(this);
     return (
       <View style={styles.container}>
 
@@ -33,9 +35,16 @@ export default class ControlPanel extends Component {
   }
   logout() {
 
-    store.delete('username').then((username) => store.delete(username).then(()=> {
-      this.props.navigator.immediatelyResetRouteStack([{ name:'signin'}]);
-    }));
+
+
+    store.get('username').then((username)=>{
+      if(username) {
+        store.delete(username).then(store.delete('username')).then(this.props.navigator.immediatelyResetRouteStack([{ name:'signin'}]));
+      }
+    });
+    // store.delete('username').then((username) => store.delete(username).then(()=> {
+    //   this.props.navigator.immediatelyResetRouteStack([{ name:'signin'}]);
+    // }));
 
   }
 }

@@ -192,7 +192,7 @@ export default class Reviews extends Component{
     <Drawer
       type="overlay"
       ref={"drawer"}
-      content={<ControlPanel />}
+      content={<ControlPanel {...this.props} />}
       captureGestures={true}
       openDrawerOffset={0.3}
       panOpenMask={0}

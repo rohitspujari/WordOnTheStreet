@@ -116,11 +116,11 @@ class Signin extends Component {
 
     //this.setState({showLogInWindow:false})
     store.get('username').then((username) => {
-      console.log(username);
       if(username) {
         return store.get(username)
       }
       else {
+        console.log('Username not present')
         this.setState({showLogInWindow: true});
       }
     }).then((token) => {
@@ -134,6 +134,9 @@ class Signin extends Component {
             this.success()
           }
         });
+      } else{
+        console.log("Token not present!");
+        this.setState({showLogInWindow: true});
       }
     })
   }
