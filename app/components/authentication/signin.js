@@ -9,20 +9,21 @@ import React, {
 
 
 import store from 'react-native-simple-store';
+import Firebase from 'firebase';
 
 const ref = new Firebase("https://wots.firebaseio.com");
 var buffer = require('buffer');
 var Button = require('../common/button');
 
 
-class Signin extends Component {
+export default class Signin extends Component {
 
   constructor(props){
     super(props);
 
     this.state = {
-      showProgress: false,
-      showLogInWindow: false
+      showProgress: true,
+
     }
 
 
@@ -41,38 +42,21 @@ class Signin extends Component {
 
   render() {
 
-    if (!this.state.showLogInWindow) {
+
+
+    if ( this.state.showProgress) {
       return this.renderLoadingView();
     }
 
 
 
-    // store.get('username').then((username)=> {
-    //   if(username)
-    //     store.get(username).then((user) => {
-    //       if(user.token){
-    //       ref.authWithCustomToken(user.token, this.authHandler.bind(this));
-    //     }
-    //   })
-    // });
 
-    // store.get(this.state.username).then(user => {
-    //   if(user.token){
-    //     ref.authWithCustomToken(user.token, this.authHandler.bind(this));
-    //   }
-    //
-    // })
 
     var errorCtrl = <View />;
 
-    if(!this.state.success && this.state.badCredentials){
+    if(!this.state.success){
       errorCtrl = <Text style={Styles.error}>
-      That username password combination did not work
-      </Text>;
-    }
-    if(!this.state.success && this.state.unknownError){
-      errorCtrl = <Text style={Styles.error}>
-      We experienced unexpected issue
+      {this.state.message}
       </Text>;
     }
 
@@ -95,8 +79,6 @@ class Signin extends Component {
     <Button text={'I need an account'} onPress={this.onSignupPress.bind(this)}/>
 
     {errorCtrl}
-    {this.state.showProgress?this.renderLoadingView():null}
-
 
     </View>
   }
@@ -108,11 +90,21 @@ class Signin extends Component {
   success() {
     this.setState({
       showProgress: false,
+      message: 'success',
+      success: true
     });
-    this.props.navigator.immediatelyResetRouteStack([{ name:'tab' }]);
+    this.props.navigator.immediatelyResetRouteStack([{ name:'tab', type:'Blend'}]);
   }
 
+
+
   componentDidMount(){
+
+
+    if(this.props.shouldLogin){
+      this.onSigninPress()
+      return;
+    }
 
     //this.setState({showLogInWindow:false})
     store.get('username').then((username) => {
@@ -120,46 +112,103 @@ class Signin extends Component {
         return store.get(username)
       }
       else {
-        console.log('Username not present')
-        this.setState({showLogInWindow: true});
+        //console.log('Username not present')
+        this.setState({showProgress: false});
       }
     }).then((token) => {
       if(token) {
         ref.authWithCustomToken(token, (error, authData) => {
           if (error) {
-            console.log("Token Failed!", error);
-            this.setState({showLogInWindow: true});
+            //console.log("Token Failed!", error);
+            this.setState({showProgress: false});
           } else {
-            console.log("Authenticated successfully from AsyncStorage:", authData);
+            //console.log("Authenticated successfully from AsyncStorage:", authData);
             this.success()
           }
         });
       } else{
-        console.log("Token not present!");
-        this.setState({showLogInWindow: true});
+        //console.log("Token not present!");
+        this.setState({showProgress: false});
       }
     })
+  }
+
+  validateEmail(email) {
+    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(email);
+  }
+
+  validation(username, password) {
+
+    if(username && username.length === 0){
+      return {
+        message: 'Please enter valid email address',
+        success: false
+      }
+    }
+    if(password && password.length === 0){
+      return {
+        message: 'Please enter valid password',
+        success: false
+      }
+    }
+
+    if(!this.validateEmail(username)){
+      return {
+        message: 'Please enter valid email address',
+        success: false
+      }
+    }
+
+    return {
+      message: 'success',
+      success: true
+    }
   }
 
 
 
   onSigninPress() {
 
-    this.setState({showProgress: true})
-    ref.authWithPassword({
-      email : this.state.username,
-      password : this.state.password
-    }, (error, authData) => {
-      if (error) {
-        console.log("Login Failed!", error);
-      } else {
-        store.save('username',this.state.username);
-        store.save( this.state.username, authData.token);
-        console.log("Authenticated successfully with payload:", authData);
-        this.success()
-      }
-    });
+    var username = this.props.username?this.props.username:this.state.username;
+    var password = this.props.password?this.props.password:this.state.password;
 
+    console.log(username);
+    var check = this.validation(username,password)
+
+    if(check.success) {
+      this.setState({
+        message: check.message,
+        success: check.success,
+        showProgress: true
+      })
+
+      ref.authWithPassword({
+        email : username,
+        password : password
+      }, (error, authData) => {
+        if (error) {
+          console.log(error.message);
+          console.log("Login Failed!", error);
+          this.setState({
+            showProgress: false,
+            message: error.message,
+            success: false
+          });
+        } else {
+          store.save('username',username);
+          store.save( username, authData.token);
+          //console.log("Authenticated successfully with payload:", authData);
+          this.success()
+        }
+      });
+    }
+    else{
+      this.setState({
+        message: check.message,
+        success: check.success
+      });
+    }
   }
 
   onSigninPress__GITHUB(){
@@ -256,4 +305,4 @@ var Styles = StyleSheet.create({
 });
 
 
-module.exports = Signin;
+//module.exports = Signin;

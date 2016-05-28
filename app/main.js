@@ -8,7 +8,7 @@
   TouchableOpacity
 } from 'react-native';
 var Parse = require('parse/react-native')
-var Signin = require('./components/authentication/signin');
+import Signin from './components/authentication/signin';
 var Signup = require('./components/authentication/signup');
 var Tab = require('./components/tabs/tab.ios');
 var AuthService = require('./components/authentication/authservice');
@@ -97,7 +97,9 @@ export default class Main extends Component {
 
   configureScene(route, routeStack){
     if(route.type == 'Modal') {
-      console.log('this is modal');
+      return Navigator.SceneConfigs.FadeAndroid;
+    }
+    if(route.type == 'Blend') {
       return Navigator.SceneConfigs.FadeAndroid;
     }
     return Navigator.SceneConfigs.FloatFromBottom;
