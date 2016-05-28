@@ -8,6 +8,9 @@ import React, {
 } from 'react-native';
 
 
+import store from 'react-native-simple-store';
+
+const ref = new Firebase("https://wots.firebaseio.com");
 var buffer = require('buffer');
 var Button = require('../common/button');
 
@@ -18,13 +21,47 @@ class Signin extends Component {
     super(props);
 
     this.state = {
-      showProgress: false
+      showProgress: false,
+      showLogInWindow: false
     }
 
 
   }
 
+
+  renderLoadingView() {
+    return (
+      <View style={{flex:1, justifyContent:'center', alignItems:'center'}}>
+        <ActivityIndicatorIOS
+            animating={true}
+            size="small" />
+      </View>
+    );
+  }
+
   render() {
+
+    if (!this.state.showLogInWindow) {
+      return this.renderLoadingView();
+    }
+
+
+
+    // store.get('username').then((username)=> {
+    //   if(username)
+    //     store.get(username).then((user) => {
+    //       if(user.token){
+    //       ref.authWithCustomToken(user.token, this.authHandler.bind(this));
+    //     }
+    //   })
+    // });
+
+    // store.get(this.state.username).then(user => {
+    //   if(user.token){
+    //     ref.authWithCustomToken(user.token, this.authHandler.bind(this));
+    //   }
+    //
+    // })
 
     var errorCtrl = <View />;
 
@@ -58,16 +95,71 @@ class Signin extends Component {
     <Button text={'I need an account'} onPress={this.onSignupPress.bind(this)}/>
 
     {errorCtrl}
+    {this.state.showProgress?this.renderLoadingView():null}
 
-    <ActivityIndicatorIOS style={{
-        marginTop: 20
-        }}
-        animating={this.state.showProgress}
-        size="large" />
+
     </View>
   }
 
-  onSigninPress(){
+  authHandler (error, authData) {
+
+  }
+
+  success() {
+    this.setState({
+      showProgress: false,
+    });
+    this.props.navigator.immediatelyResetRouteStack([{ name:'tab' }]);
+  }
+
+  componentDidMount(){
+
+    //this.setState({showLogInWindow:false})
+    store.get('username').then((username) => {
+      console.log(username);
+      if(username) {
+        return store.get(username)
+      }
+      else {
+        this.setState({showLogInWindow: true});
+      }
+    }).then((token) => {
+      if(token) {
+        ref.authWithCustomToken(token, (error, authData) => {
+          if (error) {
+            console.log("Token Failed!", error);
+            this.setState({showLogInWindow: true});
+          } else {
+            console.log("Authenticated successfully from AsyncStorage:", authData);
+            this.success()
+          }
+        });
+      }
+    })
+  }
+
+
+
+  onSigninPress() {
+
+    this.setState({showProgress: true})
+    ref.authWithPassword({
+      email : this.state.username,
+      password : this.state.password
+    }, (error, authData) => {
+      if (error) {
+        console.log("Login Failed!", error);
+      } else {
+        store.save('username',this.state.username);
+        store.save( this.state.username, authData.token);
+        console.log("Authenticated successfully with payload:", authData);
+        this.success()
+      }
+    });
+
+  }
+
+  onSigninPress__GITHUB(){
     this.setState({showProgress: true})
 
     var authService = require('./authservice');
@@ -125,7 +217,12 @@ class Signin extends Component {
 
   }
   onSignupPress(){
-    this.props.navigator.push({name:'signup'});
+
+    this.props.navigator.push({
+      name: 'signup',
+      type: 'Modal',
+    });
+    //this.props.navigator.push({name:'signup'});
   }
 
 

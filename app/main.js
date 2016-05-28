@@ -100,7 +100,7 @@ export default class Main extends Component {
       console.log('this is modal');
       return Navigator.SceneConfigs.FadeAndroid;
     }
-    return Navigator.SceneConfigs.FloatFromBom;
+    return Navigator.SceneConfigs.VerticalUpSwipeJump;
   }
 
 
@@ -112,7 +112,7 @@ export default class Main extends Component {
         <Navigator
           ref="nav"
           style={styles.container}
-          initialRoute={true?{name:'tab'}:{name:'signin'}}
+          initialRoute={false?{name:'tab'}:{name:'signin'}}
           renderScene={this.renderScene}
           configureScene={this.configureScene}
 

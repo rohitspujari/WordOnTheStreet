@@ -41,8 +41,8 @@ var styles = StyleSheet.create({
       borderColor: 'red',
       //borderWidth: 1,
       overflow: 'visible',// thi is overflow property
-      marginLeft: 12, //This is space for the overflow
-      marginRight: 10
+      marginHorizontal: 10, //This is space for the overflow
+      
     },
   }
 });

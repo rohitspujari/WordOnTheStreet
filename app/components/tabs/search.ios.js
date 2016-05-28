@@ -43,6 +43,13 @@ export default class Search extends Component{
   }
   render(){
 
+    var navButtons = (
+      <View style={{flexDirection:'row'}}>
+      <Button type="inline" text="Map" onPress={()=> null}/>
+      <Button type="inline" text="List" onPress={()=> null}/>
+      </View>
+    );
+
     console.log('im rendering')
 
     const rightButtonConfig = {
@@ -131,8 +138,9 @@ export default class Search extends Component{
       <NavigationBar
         statusBar={{hidden:false}}
         tintColor= {AppConfig.themeColor()}
+        title={navButtons}
         rightButton={rightButtonConfig}
-        leftButton={leftButtonConfig}/>
+        leftButton={<Button type="navBar" icon="filter" onPress={()=> null}/>}/>
       <View>
         {googlePlacesAutocomplete}
       </View>

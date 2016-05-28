@@ -13,6 +13,7 @@ import MapView from 'react-native-maps';
 import StarRating from 'react-native-star-rating';
 import NavigationBar from 'react-native-navbar';
 import AppConfig from './AppConfig';
+import Button from '../common/button';
 
 var { width, height } = Dimensions.get('window');
 
@@ -64,7 +65,8 @@ export default class MapComponent extends Component {
        title={titleConfig}
        statusBar={{hidden:false}}
        tintColor={AppConfig.themeColor()}
-       rightButton={rightButtonConfig} />);
+       leftButton={<Button type="navBar" icon="mail-forward" onPress={() => this.props.navigator.pop()}/>}
+       rightButton={<Button type="navBar" icon="close" onPress={() => this.props.navigator.pop()}/>} />);
   }
 
   //console.log(navigationBar);

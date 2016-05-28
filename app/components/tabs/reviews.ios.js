@@ -6,7 +6,7 @@ import React, {
   Text,
   ActivityIndicatorIOS,
   StatusBar,
-  AlertIOS
+  Alert
 } from 'react-native';
 
 import CommentModal from '../common/CommentModal';
@@ -18,6 +18,7 @@ import Button from '../common/button';
 import AppConfig from '../common/AppConfig';
 import NavigationBar from 'react-native-navbar';
 import Drawer from 'react-native-drawer'
+import ControlPanel from '../common/ControlPanel';
 var ExampleMaps = require('../../examples/EventListner')
 
 
@@ -41,7 +42,8 @@ export default class Reviews extends Component{
       isCommentModalOpen: false,
       isReviewModalOpen: false,
       isDisabled: false,
-      isLoaded: false
+      isLoaded: false,
+      showStatusBar: true,
       // swipeToClose: true,
       // sliderValue: 0.3
     };
@@ -50,7 +52,7 @@ export default class Reviews extends Component{
   }
 
   onSelectedIndexChange(selectedIndex: number) {
-    console.log('selectedIndexChanged')
+    //console.log('selectedIndexChanged')
     this.setState({
       selectedIndex: selectedIndex,
       isCommentModalOpen: false,
@@ -76,7 +78,7 @@ export default class Reviews extends Component{
   onAddComment(comment) {
 
     if(!comment || comment ==='') {
-      AlertIOS.alert('Please comment');
+      Alert.alert('Please comment');
       return;
     }
 
@@ -179,34 +181,34 @@ export default class Reviews extends Component{
 
     const titleConfig = {
       tintColor: AppConfig.themeTextColor(),
-      title: 'Map',
+      title: 'Word on the street',
     };
 
     //console.log("im in review render");
     //console.log(this.props);
     return (
     <View style={styles.container}>
+
     <Drawer
       type="overlay"
       ref={"drawer"}
-      content={<ExampleMaps />}
+      content={<ControlPanel />}
       captureGestures={true}
-      openDrawerOffset={0.2}
-      panOpenMask={20}
+      openDrawerOffset={0.3}
+      panOpenMask={0}
       negotiatePan={false}
-      panCloseMask={0.2}
+      panCloseMask={0}
       tapToClose={true}
-      closedDrawerOffset={-3}
+      closedDrawerOffset={0}
+
       tweenHandler={(ratio) => ({ main: { opacity: (2 - ratio) / 2 } })}
     >
      <View style={{borderWidth:0}}>
      <NavigationBar
         statusBar={{hidden:false}}
         tintColor={AppConfig.themeColor()}
-        leftButton={<Button type="navBar" icon="navicon" onPress={()=> {
-          console.log('pressed')
-          this.refs.drawer.open()
-        }}/>} />
+        leftButton={<Button type="navBar" icon="navicon" onPress={()=> this.refs.drawer.open()}/>}
+        title={titleConfig}/>
      </View>
         <Carousel
           data={this.state.cards}

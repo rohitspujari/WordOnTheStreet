@@ -27,7 +27,7 @@ var Button = React.createClass({
 
       case 'navBar':
         buttonStyle = Styles.navButton;
-        content = <Icon name={this.props.icon} size={20} color={AppConfig.themeTextColor()} />;
+        content = <Icon name={this.props.icon} size={15} color={AppConfig.themeTextColor()} />;
         break;
 
       default:
@@ -61,21 +61,31 @@ var Styles = StyleSheet.create({
     backgroundColor:'#f6f7f8'
 
   },
+  inlineButtonText:{
+
+  },
 
   inlineButton: {
     justifyContent: 'center',
     alignItems: 'center',
-    borderWidth: 0,
+    //borderWidth: 1,
     borderRadius: 5,
-    width: 100,
+    marginHorizontal:2,
+  //width: 100,
     padding:5,
-    height:40
+    paddingHorizontal:15,
+    backgroundColor:'#dce79e'
+    //height:40
   },
 
   navButton: {
-    marginLeft: 0,
-    marginTop:0,
-    padding:15
+    justifyContent: 'center',
+    alignItems: 'center',
+    //borderWidth:1,
+    paddingLeft:20,
+    paddingRight:20,
+
+    //backgroundColor:'#f6f7f8'
   },
 
   roundButton: {

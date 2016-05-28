@@ -100,7 +100,7 @@ export default class ReviewList extends Component {
 
 
 
-    //console.log(this.props);
+    console.log(this.props);
 
     let map = null;
     if(this.props.showMap) {
@@ -139,7 +139,7 @@ export default class ReviewList extends Component {
         title={titleConfig}
         statusBar={{hidden:false}}
         tintColor={AppConfig.themeColor()}
-        rightButton={rightButtonConfig} />
+        rightButton={<Button type="navBar" icon="close" onPress={() => this.props.navigator.pop()}/>} />
         {map}
         <ListView
           dataSource={this.state.dataSource}
