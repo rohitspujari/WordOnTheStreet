@@ -4,12 +4,14 @@ import React, {
   View,
   TextInput,
   ActivityIndicatorIOS,
-  Component
+  Component,
+  AlertIOS
 } from 'react-native';
 
 
 import store from 'react-native-simple-store';
 import Firebase from 'firebase';
+import TouchID from 'react-native-touch-id';
 
 const ref = new Firebase("https://wots.firebaseio.com");
 var buffer = require('buffer');
@@ -23,10 +25,7 @@ export default class Signin extends Component {
 
     this.state = {
       showProgress: true,
-
     }
-
-
   }
 
 
@@ -77,10 +76,24 @@ export default class Signin extends Component {
      secureTextEntry={true} style={Styles.input}/>
     <Button text={'Sign In'} onPress={this.onSigninPress.bind(this)}/>
     <Button text={'I need an account'} onPress={this.onSignupPress.bind(this)}/>
+    <Button text={'Authenticate with Touch ID'} onPress={this.onTouchIdPress.bind(this)}/>
+
 
     {errorCtrl}
 
     </View>
+  }
+
+
+  onTouchIdPress () {
+    TouchID.authenticate('Word On The Street')
+      .then(success => {
+        this.success();
+      })
+      .catch(error => {
+        AlertIOS.alert('Authentication Failed');
+      });
+
   }
 
   authHandler (error, authData) {
