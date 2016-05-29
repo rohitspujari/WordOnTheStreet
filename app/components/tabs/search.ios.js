@@ -7,6 +7,7 @@ import React, {
   Text,
   View,
   StatusBar,
+  TextInput
 } from 'react-native';
 import MapComponent from '../common/MapComponent';
 import Cash from './cash.ios';
@@ -26,6 +27,40 @@ var styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     //backgroundColor: '#654321'
+  },
+
+  textInputContainer: {
+    backgroundColor: AppConfig.themeColor(),
+    height: 30,
+    borderTopColor: '#7e7e7e',
+    borderBottomColor: '#b5b5b5',
+    //borderWidth:1
+    //borderTopWidth: 1 / PixelRatio.get(),
+    //borderBottomWidth: 1 / PixelRatio.get(),
+  },
+  textInput: {
+    backgroundColor: '#FFFFFF',
+    height: 28,
+    borderRadius: 5,
+    paddingTop: 4.5,
+    paddingBottom: 4.5,
+    paddingLeft: 10,
+    paddingRight: 10,
+    //marginTop: 7.5,
+    marginLeft: 8,
+    marginRight: 8,
+    fontSize: 15,
+  },
+
+  input:{
+    padding: 4,
+    height: 40,
+    borderColor: 'gray',
+    borderWidth: 1,
+    //borderRadius: 5,
+    margin: 5,
+    width: 300,
+    alignSelf: 'center'
   }
 });
 
@@ -38,11 +73,12 @@ export default class Search extends Component{
     super(props);
     this.state = {
       placeDetails: null,
-      location: null
+      location: null,
+      placeType: 'food'
     }
   }
   render(){
-
+    console.log('i am rendering');
     var navButtons = (
       <View style={{flexDirection:'row'}}>
       <Button type="inline" text="Map" onPress={()=> null}/>
@@ -50,12 +86,14 @@ export default class Search extends Component{
       </View>
     );
 
-    console.log('im rendering')
+
 
     const rightButtonConfig = {
       title: 'Search',
       tintColor: AppConfig.themeTextColor(),
-      handler: () => this.props.navigator.pop(),
+      handler: () => {
+        this.setState({search:true})
+      },
     };
 
     const leftButtonConfig = {
@@ -70,11 +108,12 @@ export default class Search extends Component{
     };
 
     var map = null;
-    if (this.state.placeDetails && this.state.location) {
-      console.log(this.state);
+    if (this.state.location ) {
+      //console.log(this.state);
       map = (
 
-        <MapComponent place={this.state.placeDetails} markers={[this.state.location]} location={this.state.location} isChild={true}/>
+        <MapComponent place={this.state.placeDetails}
+        markers={this.state.nearbyPlaces?this.state.nearbyPlaces:[this.state.location]} location={this.state.location} isChild={true}/>
 
 
       )
@@ -86,9 +125,13 @@ export default class Search extends Component{
       minLength={2} // minimum length of text to search
       autoFocus={false}
       fetchDetails={true}
+      nearbyResults={(results, currentLocation) => this.setState({
+        nearbyPlaces: results,
+        location: currentLocation
+      })}
       onPress={(data, details = null) => { // 'details' is provided when fetchDetails = true
-        //console.log(data);
-        //console.log(details);
+        console.log(data);
+        console.log(details);
         this.setState({
           placeDetails: details,
           location: {
@@ -108,11 +151,32 @@ export default class Search extends Component{
       }}
       styles={{
         description: {
-          fontWeight: 'bold',
+          //fontWeight: 'bold',
         },
         predefinedPlacesDescription: {
-          color: '#1faadb',
+          color: AppConfig.themeTextColor(),
         },
+        textInputContainer: {
+          backgroundColor: AppConfig.themeColor(),
+          height: 44,
+          borderTopColor: AppConfig.themeColor(),
+          borderBottomColor: AppConfig.themeColor(),
+
+        },
+        textInput: {
+          backgroundColor: '#FFFFFF',
+          height: 28,
+          borderRadius: 5,
+          paddingTop: 4.5,
+          paddingBottom: 4.5,
+          paddingLeft: 10,
+          paddingRight: 10,
+          marginTop: 7.5,
+          marginLeft: 8,
+          marginRight: 8,
+          fontSize: 15,
+        },
+
       }}
       currentLocation={true} // Will add a 'Current location' button at the top of the predefined places list
       currentLocationLabel="Current location"
@@ -123,10 +187,11 @@ export default class Search extends Component{
       GooglePlacesSearchQuery={{
         // available options for GooglePlacesSearch API : https://developers.google.com/places/web-service/search
         rankby: 'distance',
-        types: 'food',
+        types: this.state.placeType,
       }}
       filterReverseGeocodingByTypes={['locality', 'administrative_area_level_3']} // filter the reverse geocoding results by types - ['locality', 'administrative_area_level_3'] if you want to display only cities
       predefinedPlaces={[homePlace, workPlace]}
+      predefinedPlacesAlwaysVisible={true}
     />
   );
 
@@ -142,6 +207,8 @@ export default class Search extends Component{
         rightButton={rightButtonConfig}
         leftButton={<Button type="navBar" icon="filter" onPress={()=> null}/>}/>
       <View>
+
+
         {googlePlacesAutocomplete}
       </View>
         {map}

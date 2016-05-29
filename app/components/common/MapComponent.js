@@ -89,12 +89,17 @@ export default class MapComponent extends Component {
           longitudeDelta: LONGITUDE_DELTA,
         }}
       >
+
+
       {this.props.markers.map(marker => (
         <MapView.Marker
-          key={marker.longitude}
+          key={marker.longitude?marker.longitude: marker.place_id}
           title="This is a title"
           description="This is a description"
-          coordinate={marker}>
+          coordinate={{
+            latitude: marker.latitude?marker.latitude:marker.geometry.location.lat,
+            longitude: marker.longitude?marker.longitude:marker.geometry.location.lng
+          }}>
           <MapView.Callout>
             <View>
              <StarRating
@@ -104,14 +109,14 @@ export default class MapComponent extends Component {
              halfStar={'ios-star-half'}
              iconSet={'Ionicons'}
              maxStars={5}
-             rating={this.props.place.rating}
+             rating={0}
              starColor={'red'}
              starSize={10}
              selectedStar={() => {
                return null;
              }}
            />
-           <Text>{this.props.place.name}</Text>
+           <Text>{marker.name?marker.name:this.props.place.name}</Text>
            </View>
           </MapView.Callout>
         </MapView.Marker>

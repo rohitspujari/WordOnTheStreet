@@ -39,7 +39,10 @@ export default class ControlPanel extends Component {
 
     store.get('username').then((username)=>{
       if(username) {
-        store.delete(username).then(store.delete('username')).then(this.props.navigator.immediatelyResetRouteStack([{ name:'signin'}]));
+        store.delete(username).then(store.delete('username')).then(this.props.navigator.immediatelyResetRouteStack([{ name:'signin', type: 'Blend'}]));
+      }
+      else {
+        this.props.navigator.immediatelyResetRouteStack([{ name:'signin', type: 'Blend'}])
       }
     });
     // store.delete('username').then((username) => store.delete(username).then(()=> {
