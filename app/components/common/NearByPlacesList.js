@@ -10,6 +10,7 @@ import Button from '../common/button';
 import AppConfig from '../common/AppConfig';
 import NavigationBar from 'react-native-navbar';
 import Item from '../reviewcard/Item';
+import PlaceCell from './PlaceCell';
 
 export default class NearByPlacesList extends Component {
   constructor(props) {
@@ -43,7 +44,7 @@ export default class NearByPlacesList extends Component {
             dataSource={this.state.dataSource}
             renderRow={(rowData, section, index)=>{
               return(
-                <Text>{rowData.name}</Text>
+                <PlaceCell place={rowData}/>
               );
             }}/>
         </View>
