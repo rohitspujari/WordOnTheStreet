@@ -31,7 +31,7 @@ export default class MapComponent extends Component {
   constructor(props) {
     super(props);
 
-    console.log('I am in MapComponent constructor');
+    //console.log('I am in MapComponent constructor');
   }
 
   // onRegionChange(region) {
@@ -46,7 +46,7 @@ export default class MapComponent extends Component {
 
   render(){
 
-  console.log('im rendering')
+  //console.log('im rendering')
 
   const rightButtonConfig = {
     title: 'Close',

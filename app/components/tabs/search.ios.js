@@ -15,6 +15,7 @@ var {GooglePlacesAutocomplete} = require('react-native-google-places-autocomplet
 import NavigationBar from 'react-native-navbar';
 import Button from '../common/button';
 import AppConfig from '../common/AppConfig';
+import GoogleService from '../common/GoogleService';
 
 var styles = StyleSheet.create({
   description: {
@@ -80,7 +81,7 @@ export default class Search extends Component{
     }
   }
   render(){
-    console.log('i am rendering');
+    //console.log('i am rendering');
     var navButtons = (
       <View style={{flexDirection:'row'}}>
       <Button type="inline" text="Map" onPress={()=> null}/>
@@ -94,10 +95,29 @@ export default class Search extends Component{
       title: 'Search',
       tintColor: AppConfig.themeTextColor(),
       handler: () => {
-        if(!this.state.isSearchPressed) {
-          this.setState({isSearchPressed: true})
+
+        if(!this.state.location)
+          return;
+
+        let searchLocation = {
+          latitude: 37.3313367,
+          longitude: -122.0317357
         }
-      },
+
+        GoogleService.requestNearby(this.state.location.latitude,this.state.location.longitude,{
+          rankby: 'distance',
+          types: this.state.placeTypeText,
+        }, (responseData) => {
+          if(responseData.results){
+            this.setState({
+             nearbyPlaces: responseData.results,
+             location: this.state.location,
+             isSearchPressed: false
+           });
+          }
+        })
+
+      }
     };
 
     const leftButtonConfig = {
@@ -125,19 +145,16 @@ export default class Search extends Component{
 
     var googlePlacesAutocomplete = (<GooglePlacesAutocomplete
       searchNearBy={true}
-      searchButtonPressed={this.state.isSearchPressed}
       enablePoweredByContainer={false}
       placeholder='Search'
       minLength={2} // minimum length of text to search
       autoFocus={false}
       fetchDetails={true}
-      nearbyResults={(results, currentLocation) => {
-       console.log(results)
+      nearbyResults={(results, searchLocation) => {
+       //console.log(results)
        this.setState({
         nearbyPlaces: results,
-        location: currentLocation,
-        isSearchPressed: false
-
+        location: searchLocation
       })}}
       onPress={(data, details = null) => { // 'details' is provided when fetchDetails = true
         //console.log(data);
@@ -228,6 +245,7 @@ export default class Search extends Component{
           value={this.state.placeTypeText}
           placeholder={'bar, bank, etc.'}
           clearButtonMode="while-editing"
+          onEndEditing={()=> null}
         />
       </View>
       <View>
