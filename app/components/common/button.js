@@ -2,7 +2,9 @@ import React, {
  StyleSheet,
  Text,
  TouchableHighlight,
- View
+ View,
+ Platform,
+ ActivityIndicatorIOS,
 } from 'react-native';
 
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -29,6 +31,14 @@ var Button = React.createClass({
         buttonStyle = Styles.navButton;
         content = <Icon name={this.props.icon} size={15} color={AppConfig.themeTextColor()} />;
         break;
+      case 'search':
+        buttonStyle = Styles.searchButton;
+        content = (
+          <View style={{flexDirection:'row', alignItems:'center'}}>
+            {this.props.showProgress===true?this.getLoader():<Text style={Styles.buttonText}>{this.props.text}</Text>}
+          </View>
+        );
+        break;
 
       default:
         buttonStyle = Styles.button;
@@ -37,15 +47,43 @@ var Button = React.createClass({
 
 
 
-  return (
+    return (
       <TouchableHighlight underlayColor={AppConfig.themeColor()}
         onPress={this.props.onPress}
         style={buttonStyle}>
         <View>
           {content}
         </View>
-      </TouchableHighlight>);
-    }
+      </TouchableHighlight>
+      );
+    },
+
+    getLoader() {
+      let content = null
+      if (Platform.OS === 'android') {
+        content = (
+          <ProgressBarAndroid
+            styleAttr="Inverse"
+          />
+        );
+      }
+      else {
+        content = (
+          <ActivityIndicatorIOS
+            animating={true}
+            size="small"
+          />
+        );
+      }
+
+      return(
+        <View>
+        {content}
+        </View>
+      );
+
+    },
+
   });
 
 var Styles = StyleSheet.create({
@@ -88,6 +126,16 @@ var Styles = StyleSheet.create({
     //backgroundColor:'#f6f7f8'
   },
 
+  searchButton: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    //borderWidth:1,
+    paddingLeft:20,
+    paddingRight:20,
+
+    //backgroundColor:'#f6f7f8'
+  },
+
   roundButton: {
     justifyContent: 'center',
     alignItems: 'center',
@@ -107,6 +155,10 @@ var Styles = StyleSheet.create({
     alignItems: 'center',
     fontSize: 15,
     fontWeight: '500',
+    //padding: 5,
+    //borderRadius:5,
+    //backgroundColor:'#dce79e',
+    //backgroundColor:'blue',
 
     color:AppConfig.themeTextColor(),
   }

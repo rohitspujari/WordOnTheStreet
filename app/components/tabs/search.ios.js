@@ -73,23 +73,44 @@ export default class Search extends Component{
   constructor(props) {
     super(props);
     this.state = {
-      placeDetails: null,
-      location: null,
-      placeType: 'food',
-      isSearchPressed: false
-
+      isSearchPressed: false,
+      // placeDetails: null,
+      // location: null,
     }
   }
+
+  searchPress(){
+
+    if(!this.state.location)
+    {
+      return;
+    } else {
+      this.setState({isSearchPressed: true});
+      GoogleService.requestNearby(this.state.location,{
+          rankby: 'distance',
+          types: this.state.placeTypeText,
+        },(responseData) => {
+        if(responseData.results){
+          this.setState({
+           nearbyPlaces: responseData.results,
+           location: this.state.location,
+           isSearchPressed: false
+         });
+        }
+      })
+    }   
+  }
+
+
   render(){
     //console.log('i am rendering');
-    var navButtons = (
-      <View style={{flexDirection:'row'}}>
-      <Button type="inline" text="Map" onPress={()=> null}/>
-      <Button type="inline" text="List" onPress={()=> null}/>
-      </View>
-    );
-
-
+    // var navButtons = (
+    //
+    //   // <View style={{flexDirection:'row'}}>
+    //   // <Button type="inline" text="Map" onPress={()=> null}/>
+    //   // <Button type="inline" text="List" onPress={()=> null}/>
+    //   // </View>
+    // );
 
     const rightButtonConfig = {
       title: 'Search',
@@ -99,47 +120,30 @@ export default class Search extends Component{
         if(!this.state.location)
           return;
 
-        let searchLocation = {
-          latitude: 37.3313367,
-          longitude: -122.0317357
-        }
-
-        GoogleService.requestNearby(this.state.location.latitude,this.state.location.longitude,{
-          rankby: 'distance',
-          types: this.state.placeTypeText,
-        }, (responseData) => {
+        GoogleService.requestNearby(this.state.location,{
+            rankby: 'distance',
+            types: this.state.placeTypeText,
+          },(responseData) => {
           if(responseData.results){
             this.setState({
              nearbyPlaces: responseData.results,
              location: this.state.location,
-             isSearchPressed: false
            });
           }
         })
-
       }
     };
 
-    const leftButtonConfig = {
-      title: 'Filter',
-      tintColor: AppConfig.themeTextColor(),
-      handler: () => this.props.navigator.pop(),
-    };
-
-    const titleConfig = {
-      title: 'Saerch',
-      tintColor: AppConfig.themeTextColor()
-    };
 
     var map = null;
     if (this.state.location ) {
-      //console.log(this.state);
-      map = (
-
-        <MapComponent place={this.state.placeDetails}
-        markers={this.state.nearbyPlaces?this.state.nearbyPlaces:[this.state.location]} location={this.state.location} isChild={true}/>
-
-
+        map = (
+        <MapComponent
+          place={this.state.placeDetails}
+          markers={this.state.nearbyPlaces?this.state.nearbyPlaces:[this.state.location]}
+          location={this.state.location}
+          isChild={true}
+        />
       )
     }
 
@@ -188,7 +192,6 @@ export default class Search extends Component{
           height: 44,
           borderTopColor: AppConfig.themeColor(),
           borderBottomColor: AppConfig.themeColor(),
-
         },
         textInput: {
           backgroundColor: '#FFFFFF',
@@ -230,8 +233,8 @@ export default class Search extends Component{
       <NavigationBar
         statusBar={{hidden:false}}
         tintColor= {AppConfig.themeColor()}
-        title={navButtons}
-        rightButton={rightButtonConfig}
+        title={<Button type="inline" text="List" onPress={()=> null}/>}
+        rightButton={<Button type="search" text="Search" showProgress={this.state.isSearchPressed} onPress={this.searchPress.bind(this)}/>}
         leftButton={<Button type="navBar" icon="filter" onPress={()=> null}/>}/>
 
       <View style={styles.textInputContainer}>
@@ -253,12 +256,6 @@ export default class Search extends Component{
       </View>
         {map}
     </View>
-
-
-
-
-
-
     );
   }
 }

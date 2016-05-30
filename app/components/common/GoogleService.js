@@ -3,10 +3,10 @@ const KEY='AIzaSyDaKls5tJ2u0RY5QEICM8QDSdPqMe9lAsc';
 
 class GoogleService {
 
-  requestNearby(latitude, longitude, filters={}, cb) {
+  requestNearby(location, filters={}, cb) {
 
     let url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?' + Qs.stringify({
-      location: latitude+','+longitude,
+      location: location.latitude+','+location.longitude,
       key: KEY,
       ...filters,
     });
