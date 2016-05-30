@@ -20,8 +20,10 @@ var { width, height } = Dimensions.get('window');
 const ASPECT_RATIO = width / height;
 const LATITUDE = 37.78825;
 const LONGITUDE = -122.4324;
-const LATITUDE_DELTA = 0.00922;
-const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
+const LATITUDE_DELTA = 0.1;
+const LONGITUDE_DELTA =0.1;
+//const LATITUDE_DELTA = 0.00922;
+//const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 const SPACE = 0.01;
 
 

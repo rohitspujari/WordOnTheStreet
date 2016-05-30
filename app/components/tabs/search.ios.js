@@ -74,7 +74,8 @@ export default class Search extends Component{
     this.state = {
       placeDetails: null,
       location: null,
-      placeType: 'food'
+      placeType: 'food',
+      isSearching: false
     }
   }
   render(){
@@ -92,7 +93,9 @@ export default class Search extends Component{
       title: 'Search',
       tintColor: AppConfig.themeTextColor(),
       handler: () => {
-        this.setState({search:true})
+        if(!this.state.isSearching) {
+          this.setState({isSearching: true})
+        }
       },
     };
 
@@ -120,6 +123,7 @@ export default class Search extends Component{
     }
 
     var googlePlacesAutocomplete = (<GooglePlacesAutocomplete
+      searchState={this.state.isSearching}
       enablePoweredByContainer={false}
       placeholder='Search'
       minLength={2} // minimum length of text to search
@@ -127,7 +131,8 @@ export default class Search extends Component{
       fetchDetails={true}
       nearbyResults={(results, currentLocation) => this.setState({
         nearbyPlaces: results,
-        location: currentLocation
+        location: currentLocation,
+        isSearching: false
       })}
       onPress={(data, details = null) => { // 'details' is provided when fetchDetails = true
         console.log(data);
