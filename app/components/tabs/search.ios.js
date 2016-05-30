@@ -79,6 +79,18 @@ export default class Search extends Component{
     }
   }
 
+  displayTypePressed () {
+    if(this.state.nearbyPlaces){
+      this.props.navigator.push({
+        type: 'HorizontalSwipeJump',
+        name: 'nearbyPlacesList',
+        passProps : {
+          nearbyPlaces: this.state.nearbyPlaces
+        }
+      });
+    }
+  }
+
   searchPress(){
 
     if(!this.state.location)
@@ -98,42 +110,11 @@ export default class Search extends Component{
          });
         }
       })
-    }   
+    }
   }
 
 
   render(){
-    //console.log('i am rendering');
-    // var navButtons = (
-    //
-    //   // <View style={{flexDirection:'row'}}>
-    //   // <Button type="inline" text="Map" onPress={()=> null}/>
-    //   // <Button type="inline" text="List" onPress={()=> null}/>
-    //   // </View>
-    // );
-
-    const rightButtonConfig = {
-      title: 'Search',
-      tintColor: AppConfig.themeTextColor(),
-      handler: () => {
-
-        if(!this.state.location)
-          return;
-
-        GoogleService.requestNearby(this.state.location,{
-            rankby: 'distance',
-            types: this.state.placeTypeText,
-          },(responseData) => {
-          if(responseData.results){
-            this.setState({
-             nearbyPlaces: responseData.results,
-             location: this.state.location,
-           });
-          }
-        })
-      }
-    };
-
 
     var map = null;
     if (this.state.location ) {
@@ -233,7 +214,7 @@ export default class Search extends Component{
       <NavigationBar
         statusBar={{hidden:false}}
         tintColor= {AppConfig.themeColor()}
-        title={<Button type="inline" text="List" onPress={()=> null}/>}
+        title={<Button type="inline" text="List" onPress={this.displayTypePressed.bind(this)}/>}
         rightButton={<Button type="search" text="Search" showProgress={this.state.isSearchPressed} onPress={this.searchPress.bind(this)}/>}
         leftButton={<Button type="navBar" icon="filter" onPress={()=> null}/>}/>
 

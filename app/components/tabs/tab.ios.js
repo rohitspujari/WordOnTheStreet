@@ -57,7 +57,7 @@ class Tab extends Component {
             selectedTab: 'search'
           });
         }}>
-        <Search/>
+        <Search {...this.props}/>
         </Icon.TabBarItemIOS>
 
         <Icon.TabBarItemIOS
@@ -84,7 +84,7 @@ class Tab extends Component {
         <Cash/>
         </Icon.TabBarItemIOS>
         </TabBarIOS>
-      
+
 
 
 

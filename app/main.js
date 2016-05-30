@@ -18,9 +18,11 @@ import ReviewsModal from './components/common/ReviewsModal';
 import Comment from './components/common/Comment';
 import ReviewList from './components/common/ReviewList';
 import MapComponent from './components/common/MapComponent';
+import NearByPlacesList from './components/common/NearByPlacesList';
 
 var ROUTES = {
   signin: Signin,
+  nearbyPlacesList: NearByPlacesList,
   signup: Signup,
   tab: Tab,
   reviews: Reviews,
@@ -101,6 +103,13 @@ export default class Main extends Component {
     }
     if(route.type == 'Blend') {
       return Navigator.SceneConfigs.FadeAndroid;
+    }
+    if(route.type == 'VerticalUpSwipeJump')
+    {
+      return Navigator.SceneConfigs.VerticalUpSwipeJump;
+    }
+    if(route.type == 'HorizontalSwipeJump'){
+      return Navigator.SceneConfigs.HorizontalSwipeJump
     }
     return Navigator.SceneConfigs.FloatFromBottom;
   }
