@@ -111,7 +111,7 @@ export default class MapComponent extends Component {
              halfStar={'ios-star-half'}
              iconSet={'Ionicons'}
              maxStars={5}
-             rating={0}
+             rating={marker.rating?marker.rating:0}
              starColor={'red'}
              starSize={10}
              selectedStar={() => {

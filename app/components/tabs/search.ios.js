@@ -75,7 +75,8 @@ export default class Search extends Component{
       placeDetails: null,
       location: null,
       placeType: 'food',
-      isSearching: false
+      isSearchPressed: false
+
     }
   }
   render(){
@@ -93,8 +94,8 @@ export default class Search extends Component{
       title: 'Search',
       tintColor: AppConfig.themeTextColor(),
       handler: () => {
-        if(!this.state.isSearching) {
-          this.setState({isSearching: true})
+        if(!this.state.isSearchPressed) {
+          this.setState({isSearchPressed: true})
         }
       },
     };
@@ -123,20 +124,24 @@ export default class Search extends Component{
     }
 
     var googlePlacesAutocomplete = (<GooglePlacesAutocomplete
-      searchState={this.state.isSearching}
+      searchNearBy={true}
+      searchButtonPressed={this.state.isSearchPressed}
       enablePoweredByContainer={false}
       placeholder='Search'
       minLength={2} // minimum length of text to search
       autoFocus={false}
       fetchDetails={true}
-      nearbyResults={(results, currentLocation) => this.setState({
+      nearbyResults={(results, currentLocation) => {
+       console.log(results)
+       this.setState({
         nearbyPlaces: results,
         location: currentLocation,
-        isSearching: false
-      })}
+        isSearchPressed: false
+
+      })}}
       onPress={(data, details = null) => { // 'details' is provided when fetchDetails = true
-        console.log(data);
-        console.log(details);
+        //console.log(data);
+        //console.log(details);
         this.setState({
           placeDetails: details,
           location: {
@@ -192,7 +197,7 @@ export default class Search extends Component{
       GooglePlacesSearchQuery={{
         // available options for GooglePlacesSearch API : https://developers.google.com/places/web-service/search
         rankby: 'distance',
-        types: this.state.placeType,
+        types: this.state.placeTypeText,
       }}
       filterReverseGeocodingByTypes={['locality', 'administrative_area_level_3']} // filter the reverse geocoding results by types - ['locality', 'administrative_area_level_3'] if you want to display only cities
       predefinedPlaces={[homePlace, workPlace]}
@@ -211,9 +216,21 @@ export default class Search extends Component{
         title={navButtons}
         rightButton={rightButtonConfig}
         leftButton={<Button type="navBar" icon="filter" onPress={()=> null}/>}/>
+
+      <View style={styles.textInputContainer}>
+        <TextInput
+          autoFocus={true}
+          keyboardType={'web-search'}
+          autoCapitalize='none'
+          autoCorrect={false}
+          style={styles.textInput}
+          onChangeText={(text)=>this.setState({placeTypeText: text})}
+          value={this.state.placeTypeText}
+          placeholder={'bar, bank, etc.'}
+          clearButtonMode="while-editing"
+        />
+      </View>
       <View>
-
-
         {googlePlacesAutocomplete}
       </View>
         {map}
