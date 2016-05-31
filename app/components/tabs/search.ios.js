@@ -7,7 +7,9 @@ import React, {
   Text,
   View,
   StatusBar,
-  TextInput
+  TextInput,
+  Dimensions,
+  TouchableOpacity
 } from 'react-native';
 import MapComponent from '../common/MapComponent';
 import Cash from './cash.ios';
@@ -18,6 +20,8 @@ import Button from '../common/button';
 import AppConfig from '../common/AppConfig';
 import ActivityProgress from '../common/ActivityProgress';
 import GoogleService from '../common/GoogleService';
+
+var { width, height } = Dimensions.get('window');
 
 var styles = StyleSheet.create({
   description: {
@@ -87,6 +91,7 @@ export default class Search extends Component{
         type: 'HorizontalSwipeJump',
         name: 'nearbyPlacesList',
         passProps : {
+          origin: this.state.location,
           nearbyPlaces: this.state.nearbyPlaces
         }
       });
@@ -115,12 +120,36 @@ export default class Search extends Component{
     }
   }
 
+  showSearchCurrentArea() {
+    return (
+      <TouchableOpacity style={{
+        position: 'absolute',
+      //  borderWidth:1,
+      //  borderColor:'red',
+        backgroundColor: 'rgba(255,255,255,0.7)',
+        //backgroundColor:'transparent',
+        alignItems:'center',
+        justifyContent: 'center',
+        width:width/2,
+        height:50,
+        top: height/1.8,
+        borderRadius:5,
+        left: width/4,
+        right: 0,
+        bottom: 0,
+      }}>
+      <Text>{'Search this area'}</Text>
+      </TouchableOpacity>
+    );
+  }
+
+
 
   showProgressBubble() {
     return (
       <View style={{
         position: 'absolute',
-        //borderWidth:1,
+        borderWidth:1,
         borderColor:'red',
         backgroundColor: 'rgba(255,255,255,0.5)',
         //backgroundColor:'transparent',
@@ -136,7 +165,22 @@ export default class Search extends Component{
     );
   }
 
+  shouldComponentUpdate (nextProps, nextState) {
+
+
+          //console.log(props.location.shouldSearchComponRender)
+    //  if(this.state.location && this.state.location.shouldSearchComponRender===false){
+    //      console.log('im here')
+    //    return false;
+    //  }
+
+     return true;
+
+  }
+
   render(){
+
+    console.log('i am rendering')
 
 
 
@@ -148,6 +192,16 @@ export default class Search extends Component{
           markers={this.state.nearbyPlaces?this.state.nearbyPlaces:[this.state.location]}
           location={this.state.location}
           isChild={true}
+          currentMapArea={(area)=>{
+            // this.setState({
+            //   location:{
+            //     latitude: area.latitude,
+            //     longitude: area.longitude,
+            //     //shouldSearchComponRender: false
+            //   },
+            //   displaySearchAreaButton: true
+            // });
+          }}
         />
       )
     }
@@ -156,7 +210,7 @@ export default class Search extends Component{
       searchNearBy={true}
       searchProgress={()=>this.setState({isSearching: true})}
       enablePoweredByContainer={false}
-      placeholder='Search'
+      placeholder='location'
       minLength={2} // minimum length of text to search
       autoFocus={false}
       fetchDetails={true}
@@ -263,9 +317,10 @@ export default class Search extends Component{
       <View style={{borderWidth:0}}>
         {googlePlacesAutocomplete}
       </View>
-       <View style={{borderWidth:0, flex:1, marginBottom:50 }}>
+       <View style={{borderWidth:0, flex:1, marginBottom:50}}>
         {map}
         {this.state.isSearching === true?this.showProgressBubble():null}
+        {this.state.displaySearchAreaButton === true?this.showSearchCurrentArea():null}
        </View>
     </View>
     );

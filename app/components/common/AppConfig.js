@@ -9,10 +9,16 @@ const lemonGreen = '#b3cd52';
 const backgroundColor = '#f6f7f8'
 
 const textColor = '#34495e';
+const starColor = '#fcbe0f';
 const test = 'red';
 export default class AppConfig {
 
   //static x = '#b3cd52';
+
+  static themeStarColor() {
+   //return '#b3cd52';
+   return starColor;
+ }
 
   static themeTextColor() {
    //return '#b3cd52';

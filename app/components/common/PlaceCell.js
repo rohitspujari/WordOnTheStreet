@@ -15,8 +15,28 @@ import StarRating from 'react-native-star-rating';
 
 export default class PlaceCell extends Component {
 
+  getDistance (lat1, lon1, lat2, lon2, unit) {
+	var radlat1 = Math.PI * lat1/180
+	var radlat2 = Math.PI * lat2/180
+	var theta = lon1-lon2
+	var radtheta = Math.PI * theta/180
+	var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+	dist = Math.acos(dist)
+	dist = dist * 180/Math.PI
+	dist = dist * 60 * 1.1515
+	if (unit=="K") { dist = dist * 1.609344 }
+	if (unit=="N") { dist = dist * 0.8684 }
+	return dist
+  }
+
   onAddressPress(){
-    Linking.openURL('geo:37.484847,-122.148386');
+
+    let latitude = this.props.place.geometry.location.lat;
+    let longitude = this.props.place.geometry.location.lng;
+
+    var url = "http://maps.apple.com/?ll="+latitude+","+longitude;
+    //LinkingIOS.openURL(url);
+    Linking.openURL(url);
   }
 
   getRating(rating){
@@ -30,12 +50,16 @@ export default class PlaceCell extends Component {
       maxStars={5}
       rating={rating}
       selectedStar={(rating) => null}
-      starColor={AppConfig.themeColor()}
+      starColor={AppConfig.themeStarColor()}
       starSize={15}
     />);
   }
 
   render() {
+
+    let {lat, lng} = this.props.place.geometry.location;
+    let {latitude,longitude} = this.props.origin;
+    let distance = Math.round(this.getDistance(latitude,longitude,lat,lng,'M')*10)/10;
 
     //console.log(this.props.place)
     return(
@@ -52,15 +76,19 @@ export default class PlaceCell extends Component {
             {this.props.place.rating?this.getRating(this.props.place.rating):null}
           </View>
           <Text style={styles.nameText}>{this.props.place.name}</Text>
+
           <Button containerStyle={{overflow:'hidden', borderRadius:4, backgroundColor: 'white' }}
                   style={styles.addressText}
-                  onPress={this.onAddressPress}
+                  onPress={this.onAddressPress.bind(this)}
                   >
 
             {this.props.place.vicinity}
           </Button>
 
 
+        </View>
+        <View style={styles.distanceContainer}>
+          <Text style={styles.distanceText}>{distance+" mile"}</Text>
         </View>
        </View>
 
@@ -90,6 +118,12 @@ var styles = StyleSheet.create({
     textAlign: 'left',
     fontWeight: 'normal',
   },
+  distanceText:{
+    color:'gray',
+    fontSize:11,
+    textAlign: 'center',
+    fontWeight: 'normal',
+  },
   logoContainer:{
     flex:1,
     //borderWidth:1,
@@ -103,6 +137,11 @@ var styles = StyleSheet.create({
     flex:8,
     marginLeft:10
 
+  },
+  distanceContainer:{
+    //borderWidth:1,
+    flex:2,
+    marginLeft:10
   },
   logo:{
     width: 25,

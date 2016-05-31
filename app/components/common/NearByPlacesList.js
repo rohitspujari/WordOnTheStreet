@@ -50,7 +50,7 @@ export default class NearByPlacesList extends Component {
             dataSource={this.state.dataSource}
             renderRow={(rowData, section, index)=>{
               return(
-                <PlaceCell place={rowData}/>
+                <PlaceCell origin={this.props.origin} place={rowData}/>
               );
             }}/>
        </ScrollView>

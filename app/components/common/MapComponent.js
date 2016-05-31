@@ -34,9 +34,14 @@ export default class MapComponent extends Component {
     //console.log('I am in MapComponent constructor');
   }
 
-  // onRegionChange(region) {
-  //   this.setState({ region });
-  // }
+  onRegionChange(region) {
+    //this.setState({ region });
+    //console.log(region);
+    if(this.props.currentMapArea) {
+      this.props.currentMapArea(region);
+    }
+
+  }
   //
   // onRegionChangeComplete(region) {
   //   this.setState({ region });
@@ -90,6 +95,8 @@ export default class MapComponent extends Component {
           latitudeDelta: LATITUDE_DELTA,
           longitudeDelta: LONGITUDE_DELTA,
         }}
+        onRegionChangeComplete={this.onRegionChange.bind(this)}
+        showsUserLocation={true}
       >
 
 
