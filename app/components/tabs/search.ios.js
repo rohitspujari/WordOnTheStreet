@@ -22,6 +22,9 @@ import ActivityProgress from '../common/ActivityProgress';
 import GoogleService from '../common/GoogleService';
 
 var { width, height } = Dimensions.get('window');
+const ASPECT_RATIO = width / height;
+const LATITUDE_DELTA = 0.0922;
+const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
 var styles = StyleSheet.create({
   description: {
@@ -80,8 +83,6 @@ export default class Search extends Component{
     super(props);
     this.state = {
       isSearching: false,
-      // placeDetails: null,
-      // location: null,
     }
   }
 
@@ -91,7 +92,10 @@ export default class Search extends Component{
         type: 'HorizontalSwipeJump',
         name: 'nearbyPlacesList',
         passProps : {
-          origin: this.state.location,
+          origin: {
+            latitude:this.state.region.latitude,
+            longitude: this.state.region.longitude
+          },
           nearbyPlaces: this.state.nearbyPlaces
         }
       });
@@ -100,19 +104,22 @@ export default class Search extends Component{
 
   searchPress(){
 
-    if(!this.state.location)
+    if(!this.state.region)
     {
       return;
     } else {
+      let location = {
+        latitude: this.state.region.latitude,
+        longitude: this.state.region.longitude
+      }
       this.setState({isSearching: true});
-      GoogleService.requestNearby(this.state.location,{
+      GoogleService.requestNearby(location,{
           rankby: 'distance',
           types: this.state.placeTypeText,
         },(responseData) => {
         if(responseData.results){
           this.setState({
            nearbyPlaces: responseData.results,
-           location: this.state.location,
            isSearching: false
          });
         }
@@ -122,7 +129,7 @@ export default class Search extends Component{
 
   showSearchCurrentArea() {
     return (
-      <TouchableOpacity style={{
+      <TouchableOpacity onPress={this.searchPress.bind(this)} style={{
         position: 'absolute',
       //  borderWidth:1,
       //  borderColor:'red',
@@ -165,18 +172,18 @@ export default class Search extends Component{
     );
   }
 
-  shouldComponentUpdate (nextProps, nextState) {
-
-
-          //console.log(props.location.shouldSearchComponRender)
-    //  if(this.state.location && this.state.location.shouldSearchComponRender===false){
-    //      console.log('im here')
-    //    return false;
-    //  }
-
-     return true;
-
-  }
+  // shouldComponentUpdate (nextProps, nextState) {
+  //
+  //
+  //         //console.log(props.location.shouldSearchComponRender)
+  //   //  if(this.state.location && this.state.location.shouldSearchComponRender===false){
+  //   //      console.log('im here')
+  //   //    return false;
+  //   //  }
+  //
+  //    return true;
+  //
+  // }
 
   render(){
 
@@ -185,22 +192,18 @@ export default class Search extends Component{
 
 
     var map = null;
-    if (this.state.location ) {
+    if (this.state.region ) {
         map = (
         <MapComponent
           place={this.state.placeDetails}
-          markers={this.state.nearbyPlaces?this.state.nearbyPlaces:[this.state.location]}
-          location={this.state.location}
+          markers={this.state.nearbyPlaces}
           isChild={true}
+          region={this.state.region}
           currentMapArea={(area)=>{
-            // this.setState({
-            //   location:{
-            //     latitude: area.latitude,
-            //     longitude: area.longitude,
-            //     //shouldSearchComponRender: false
-            //   },
-            //   displaySearchAreaButton: true
-            // });
+            this.setState({
+              region:area,
+              displaySearchAreaButton: true
+            });
           }}
         />
       )
@@ -218,8 +221,14 @@ export default class Search extends Component{
        //console.log(results)
        this.setState({
         nearbyPlaces: results,
-        location: searchLocation,
-        isSearching: false
+        //location: searchLocation,
+        isSearching: false,
+        region:{
+          latitude: searchLocation.latitude,
+          longitude: searchLocation.longitude,
+          latitudeDelta: LATITUDE_DELTA,
+          longitudeDelta: LONGITUDE_DELTA,
+        }
       })}}
       onPress={(data, details = null) => { // 'details' is provided when fetchDetails = true
         //console.log(data);
@@ -227,9 +236,15 @@ export default class Search extends Component{
         this.setState({
           isSearching: false,
           placeDetails: details,
-          location: {
+          // location: {
+          //   latitude: details.geometry.location.lat,
+          //   longitude: details.geometry.location.lng
+          // },
+          region:{
             latitude: details.geometry.location.lat,
-            longitude: details.geometry.location.lng
+            longitude: details.geometry.location.lng,
+            latitudeDelta: LATITUDE_DELTA,
+            longitudeDelta: LONGITUDE_DELTA,
           }
         });
       }}

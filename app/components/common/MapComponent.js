@@ -89,12 +89,7 @@ export default class MapComponent extends Component {
      <View style={{flex:1}}>
      {navigationBar}
       <MapView  style={{flex:1, justifyContent:'center', alignItems:'center'}}
-        region={{
-          latitude: this.props.location.latitude,
-          longitude: this.props.location.longitude,
-          latitudeDelta: LATITUDE_DELTA,
-          longitudeDelta: LONGITUDE_DELTA,
-        }}
+        region={this.props.region}
         onRegionChangeComplete={this.onRegionChange.bind(this)}
         showsUserLocation={true}
       >

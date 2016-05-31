@@ -7,7 +7,8 @@ import React, {
   ActivityIndicatorIOS,
   TouchableHighlight,
   TouchableOpacity,
-  StatusBar
+  StatusBar,
+  Dimensions
 } from 'react-native';
 import DataService from './DataService';
 import NavigationBar from 'react-native-navbar';
@@ -17,7 +18,10 @@ import Button from '../common/button';
 import AppConfig from '../common/AppConfig';
 const PLACE_DETAILS = 'https://maps.googleapis.com/maps/api/place/details/json?key=AIzaSyAmbpYyzqv7aPDFpdbvsHo5zIEruNBuiNI&placeid=';
 
-
+var { width, height } = Dimensions.get('window');
+const ASPECT_RATIO = width / height;
+const LATITUDE_DELTA = 0.0922;
+const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
 export default class ReviewList extends Component {
   constructor(props) {
@@ -85,7 +89,12 @@ export default class ReviewList extends Component {
       type: 'Modal',
       passProps : {
         place: this.state.placeDetails,
-        location: this.state.location,
+        region:{
+          latitude:this.state.location.latitude,
+          longitude:this.state.location.longitude,
+          latitudeDelta:LATITUDE_DELTA,
+          longitudeDelta:LONGITUDE_DELTA
+        },
         markers: [this.state.location],
         isChild: false
       }
@@ -100,15 +109,25 @@ export default class ReviewList extends Component {
 
 
 
-    console.log(this.props);
+    //console.log(this.props);
 
     let map = null;
     if(this.props.showMap) {
       map = (
          <TouchableOpacity style={{flex:1, marginBottom:10}} onPress={this.onMapPress.bind(this)}>
 
-        <MapComponent place={this.state.placeDetails} markers={[this.state.location]} location={this.state.location} isChild={true}/>
-
+        <MapComponent
+          place={this.state.placeDetails}
+          markers={[this.state.location]}
+          region={{
+            latitude:this.state.location.latitude,
+            longitude:this.state.location.longitude,
+            latitudeDelta:LATITUDE_DELTA,
+            longitudeDelta:LONGITUDE_DELTA
+          }}
+          location={this.state.location}
+          isChild={true}
+        />
          </TouchableOpacity>
       );
     }
