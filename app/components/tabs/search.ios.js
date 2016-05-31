@@ -9,7 +9,8 @@ import React, {
   StatusBar,
   TextInput,
   Dimensions,
-  TouchableOpacity
+  TouchableOpacity,
+  Alert
 } from 'react-native';
 import MapComponent from '../common/MapComponent';
 import Cash from './cash.ios';
@@ -87,7 +88,12 @@ export default class Search extends Component{
   }
 
   displayTypePressed () {
+
     if(this.state.nearbyPlaces){
+      if(this.state.nearbyPlaces.length === 0){
+        Alert.alert('No Results');
+        return;
+      }
       this.props.navigator.push({
         type: 'HorizontalSwipeJump',
         name: 'nearbyPlacesList',
@@ -122,6 +128,7 @@ export default class Search extends Component{
            nearbyPlaces: responseData.results,
            isSearching: false
          });
+
         }
       })
     }
@@ -139,13 +146,13 @@ export default class Search extends Component{
         justifyContent: 'center',
         width:width/2,
         height:50,
-        top: height/1.8,
+        top: height/1.6,
         borderRadius:5,
         left: width/4,
         right: 0,
         bottom: 0,
       }}>
-      <Text>{'Search this area'}</Text>
+      <Text>{'Search here'}</Text>
       </TouchableOpacity>
     );
   }
@@ -156,7 +163,7 @@ export default class Search extends Component{
     return (
       <View style={{
         position: 'absolute',
-        borderWidth:1,
+        //borderWidth:1,
         borderColor:'red',
         backgroundColor: 'rgba(255,255,255,0.5)',
         //backgroundColor:'transparent',
@@ -187,7 +194,7 @@ export default class Search extends Component{
 
   render(){
 
-    console.log('i am rendering')
+    //console.log('i am rendering')
 
 
 
@@ -200,6 +207,7 @@ export default class Search extends Component{
           isChild={true}
           region={this.state.region}
           currentMapArea={(area)=>{
+            console.log('changing map area')
             this.setState({
               region:area,
               displaySearchAreaButton: true
@@ -219,17 +227,20 @@ export default class Search extends Component{
       fetchDetails={true}
       nearbyResults={(results, searchLocation) => {
        //console.log(results)
-       this.setState({
-        nearbyPlaces: results,
-        //location: searchLocation,
-        isSearching: false,
-        region:{
-          latitude: searchLocation.latitude,
-          longitude: searchLocation.longitude,
-          latitudeDelta: LATITUDE_DELTA,
-          longitudeDelta: LONGITUDE_DELTA,
-        }
-      })}}
+           this.setState({
+            nearbyPlaces: results,
+            //location: searchLocation,
+            isSearching: false,
+            region:{
+              latitude: searchLocation.latitude,
+              longitude: searchLocation.longitude,
+              latitudeDelta: LATITUDE_DELTA,
+              longitudeDelta: LONGITUDE_DELTA,
+            }
+          })
+
+
+        }}
       onPress={(data, details = null) => { // 'details' is provided when fetchDetails = true
         //console.log(data);
         //console.log(details);
