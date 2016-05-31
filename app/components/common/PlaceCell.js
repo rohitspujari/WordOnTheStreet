@@ -3,15 +3,21 @@ import React, {
   Component,
   View,
   Text,
-  Image
+  Image,
+  Linking
 
 } from 'react-native';
 
-import Button from '../common/button';
+//import Button from '../common/button';
+var Button = require('react-native-button');
 import AppConfig from '../common/AppConfig';
 import StarRating from 'react-native-star-rating';
 
 export default class PlaceCell extends Component {
+
+  onAddressPress(){
+    Linking.openURL('geo:37.484847,-122.148386');
+  }
 
   getRating(rating){
     return (
@@ -43,13 +49,17 @@ export default class PlaceCell extends Component {
         </View>
         <View style={styles.detailsContainer}>
           <View style={{width:10}}>
-            {this.getRating(this.props.place.rating)}
+            {this.props.place.rating?this.getRating(this.props.place.rating):null}
           </View>
           <Text style={styles.nameText}>{this.props.place.name}</Text>
-          <Text style={styles.addressText}>{this.props.place.vicinity}</Text>
+          <Button containerStyle={{overflow:'hidden', borderRadius:4, backgroundColor: 'white' }}
+                  style={styles.addressText}
+                  onPress={this.onAddressPress}
+                  >
 
-            <Button type="inline" text="Directions" onPress={()=> null}/>
-          
+            {this.props.place.vicinity}
+          </Button>
+
 
         </View>
        </View>
@@ -66,8 +76,8 @@ var styles = StyleSheet.create({
   container:{
     flex:1,
     margin:5,
-    borderBottomColor:'olivedrab',
-    //borderBottomWidth:,
+    borderBottomColor:'lightgray',
+    borderBottomWidth:1,
     padding:5
   },
   nameText:{
@@ -75,7 +85,10 @@ var styles = StyleSheet.create({
     fontWeight:'bold'
   },
   addressText:{
-    color:'gray'
+    color:'gray',
+    fontSize:13,
+    textAlign: 'left',
+    fontWeight: 'normal',
   },
   logoContainer:{
     flex:1,
@@ -87,13 +100,13 @@ var styles = StyleSheet.create({
   },
   detailsContainer: {
     //borderWidth:1,
-    flex:5,
+    flex:8,
     marginLeft:10
 
   },
   logo:{
-    width: 40,
-    height: 40,
+    width: 25,
+    height: 25,
     backgroundColor: 'transparent',
     //marginRight: 10,
   }

@@ -4,18 +4,35 @@ import React, {
   StyleSheet,
   View,
   Text,
+  Platform,
+  ActivityIndicatorIOS
 } from 'react-native';
 
 export default class ActivityProgress extends Component {
   render() {
 
-    return (
-      <View style={{flex:1, justifyContent:'center', alignItems:'center'}}>
+    let content = null
+    if (Platform.OS === 'android') {
+      content = (
+        <ProgressBarAndroid
+          styleAttr="Inverse"
+        />
+      );
+    }
+    else {
+      content = (
         <ActivityIndicatorIOS
-            animating={true}
-            size="small" />
+          animating={true}
+          size="small"
+        />
+      );
+    }
+
+    return(
+      <View>
+      {content}
       </View>
-    )
+    );
 
   }
 }

@@ -106,7 +106,7 @@ export default class Signin extends Component {
       message: 'success',
       success: true
     });
-    this.props.navigator.immediatelyResetRouteStack([{ name:'tab', type:'Blend'}]);
+    this.props.navigator.immediatelyResetRouteStack([{ name:'tab', type:'FadeAndroid'}]);
   }
 
 

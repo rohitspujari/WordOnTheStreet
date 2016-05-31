@@ -109,8 +109,12 @@ export default class Main extends Component {
       return Navigator.SceneConfigs.VerticalUpSwipeJump;
     }
     if(route.type == 'HorizontalSwipeJump'){
-      return Navigator.SceneConfigs.HorizontalSwipeJump
+      return Navigator.SceneConfigs.FadeAndroid
     }
+    if(route.type == 'FadeAndroid'){
+      return Navigator.SceneConfigs.FadeAndroid
+    }
+
     return Navigator.SceneConfigs.FloatFromBottom;
   }
 

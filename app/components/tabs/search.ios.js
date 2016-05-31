@@ -15,6 +15,7 @@ var {GooglePlacesAutocomplete} = require('react-native-google-places-autocomplet
 import NavigationBar from 'react-native-navbar';
 import Button from '../common/button';
 import AppConfig from '../common/AppConfig';
+import ActivityProgress from '../common/ActivityProgress';
 import GoogleService from '../common/GoogleService';
 
 var styles = StyleSheet.create({
@@ -73,7 +74,7 @@ export default class Search extends Component{
   constructor(props) {
     super(props);
     this.state = {
-      isSearchPressed: false,
+      isSearching: false,
       // placeDetails: null,
       // location: null,
     }
@@ -97,7 +98,7 @@ export default class Search extends Component{
     {
       return;
     } else {
-      this.setState({isSearchPressed: true});
+      this.setState({isSearching: true});
       GoogleService.requestNearby(this.state.location,{
           rankby: 'distance',
           types: this.state.placeTypeText,
@@ -106,13 +107,33 @@ export default class Search extends Component{
           this.setState({
            nearbyPlaces: responseData.results,
            location: this.state.location,
-           isSearchPressed: false
+           isSearching: false
          });
         }
       })
     }
   }
 
+
+  showProgressBubble() {
+    return (
+      <View style={{
+        position: 'absolute',
+        //borderWidth:1,
+        borderColor:'red',
+        backgroundColor: 'rgba(255,255,255,0.5)',
+        //backgroundColor:'transparent',
+        alignItems:'center',
+        justifyContent: 'center',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+      }}>
+      <ActivityProgress/>
+      </View>
+    );
+  }
 
   render(){
 
@@ -202,26 +223,27 @@ export default class Search extends Component{
       }}
       filterReverseGeocodingByTypes={['locality', 'administrative_area_level_3']} // filter the reverse geocoding results by types - ['locality', 'administrative_area_level_3'] if you want to display only cities
       predefinedPlaces={[homePlace, workPlace]}
-      predefinedPlacesAlwaysVisible={true}
+      predefinedPlacesAlwaysVisible={false}
     />
   );
 
 
     return(
 
-    <View style={{flex:1}}>
+    <View style={{flex:1,}}>
 
       <NavigationBar
         statusBar={{hidden:false}}
         tintColor= {AppConfig.themeColor()}
         title={<Button type="inline" text="List" onPress={this.displayTypePressed.bind(this)}/>}
-        rightButton={<Button type="search" text="Search" showProgress={this.state.isSearchPressed} onPress={this.searchPress.bind(this)}/>}
+        rightButton={<Button type="search" text="Search" showProgress={this.state.isSearching} onPress={this.searchPress.bind(this)}/>}
         leftButton={<Button type="navBar" icon="filter" onPress={()=> null}/>}/>
 
       <View style={styles.textInputContainer}>
         <TextInput
-          autoFocus={true}
-          keyboardType={'web-search'}
+          autoFocus={false}
+          returnKeyType="search"
+          onSubmitEditing={this.searchPress.bind(this)}
           autoCapitalize='none'
           autoCorrect={false}
           style={styles.textInput}
@@ -232,10 +254,13 @@ export default class Search extends Component{
           onEndEditing={()=> null}
         />
       </View>
-      <View>
+      <View style={{borderWidth:0}}>
         {googlePlacesAutocomplete}
       </View>
+       <View style={{borderWidth:0, flex:1, marginBottom:50 }}>
         {map}
+        {this.state.isSearching === true?this.showProgressBubble():null}
+       </View>
     </View>
     );
   }
