@@ -9,7 +9,7 @@ import React, {
 } from 'react-native';
 
 //import Button from '../common/button';
-var Button = require('react-native-button');
+import Button from 'react-native-button';
 import AppConfig from '../common/AppConfig';
 import StarRating from 'react-native-star-rating';
 

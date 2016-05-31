@@ -13,6 +13,7 @@ import MapComponent from '../common/MapComponent';
 import Cash from './cash.ios';
 var {GooglePlacesAutocomplete} = require('react-native-google-places-autocomplete');
 import NavigationBar from 'react-native-navbar';
+
 import Button from '../common/button';
 import AppConfig from '../common/AppConfig';
 import ActivityProgress from '../common/ActivityProgress';
@@ -137,6 +138,8 @@ export default class Search extends Component{
 
   render(){
 
+
+
     var map = null;
     if (this.state.location ) {
         map = (
@@ -151,6 +154,7 @@ export default class Search extends Component{
 
     var googlePlacesAutocomplete = (<GooglePlacesAutocomplete
       searchNearBy={true}
+      searchProgress={()=>this.setState({isSearching: true})}
       enablePoweredByContainer={false}
       placeholder='Search'
       minLength={2} // minimum length of text to search
@@ -160,12 +164,14 @@ export default class Search extends Component{
        //console.log(results)
        this.setState({
         nearbyPlaces: results,
-        location: searchLocation
+        location: searchLocation,
+        isSearching: false
       })}}
       onPress={(data, details = null) => { // 'details' is provided when fetchDetails = true
         //console.log(data);
         //console.log(details);
         this.setState({
+          isSearching: false,
           placeDetails: details,
           location: {
             latitude: details.geometry.location.lat,
@@ -235,7 +241,7 @@ export default class Search extends Component{
       <NavigationBar
         statusBar={{hidden:false}}
         tintColor= {AppConfig.themeColor()}
-        title={<Button type="inline" text="List" onPress={this.displayTypePressed.bind(this)}/>}
+        title={<Button type= 'inline'  text= "List" onPress={this.displayTypePressed.bind(this)}/>}
         rightButton={<Button type="search" text="Search" showProgress={this.state.isSearching} onPress={this.searchPress.bind(this)}/>}
         leftButton={<Button type="navBar" icon="filter" onPress={()=> null}/>}/>
 

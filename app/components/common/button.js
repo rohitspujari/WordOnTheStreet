@@ -7,6 +7,7 @@ import React, {
  ActivityIndicatorIOS,
 } from 'react-native';
 
+import GenericButton from 'react-native-button';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import AppConfig from './AppConfig';
 
@@ -23,8 +24,11 @@ var Button = React.createClass({
         break;
 
       case 'inline':
-        buttonStyle = Styles.inlineButton;
-        content = <Text style={Styles.buttonText}>{this.props.text}</Text>;
+        content= (<GenericButton containerStyle={Styles.inlineButton}
+                       style={Styles.buttonText}
+                       onPress={this.props.onPress}>
+        {this.props.text}
+      </GenericButton>)
         break;
 
       case 'navBar':
@@ -46,8 +50,12 @@ var Button = React.createClass({
     }
 
 
+    if(this.props.type === 'inline'){
+      return content;
+    }
 
     return (
+
       <TouchableHighlight underlayColor={AppConfig.themeColor()}
         onPress={this.props.onPress}
         style={buttonStyle}>
@@ -109,6 +117,7 @@ var Styles = StyleSheet.create({
     //borderWidth: 1,
     borderRadius: 5,
     marginHorizontal:2,
+    overflow:'hidden',
   //width: 100,
     padding:5,
     paddingHorizontal:15,
@@ -154,6 +163,7 @@ var Styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     fontSize: 15,
+
     fontWeight: '500',
     //padding: 5,
     //borderRadius:5,
