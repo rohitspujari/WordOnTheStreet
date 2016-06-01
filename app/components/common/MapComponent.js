@@ -116,9 +116,16 @@ export default class MapComponent extends Component {
 
   getCalloutContent(marker){
 
-    let {lat, lng} = marker.geometry.location;
-    let {latitude,longitude} = this.props.region;
-    let distance = Math.round(this.getDistance(latitude,longitude,lat,lng,'M')*10)/10;
+    var distance = null;
+    if (marker.geometry) {
+      var {lat, lng} = marker.geometry.location;
+      var {latitude,longitude} = this.props.region;
+      var distance = Math.round(this.getDistance(latitude,longitude,lat,lng,'M')*10)/10;
+
+    }
+    var {lat, lng} = marker.geometry.location;
+    var {latitude,longitude} = this.props.region;
+    var distance = Math.round(this.getDistance(latitude,longitude,lat,lng,'M')*10)/10;
 
     var openNow = null;
     if(marker.opening_hours){
@@ -142,7 +149,7 @@ export default class MapComponent extends Component {
           {openNow}
          </View>
          <View style={styles.distance}>
-          <Text style={{fontSize:10, borderWidth:0, color:'gray'}}>{distance+' mile'}</Text>
+          <Text style={{fontSize:10, borderWidth:0, color:'gray'}}>{'1 mile'}</Text>
          </View>
 
 

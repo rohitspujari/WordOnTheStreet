@@ -87,6 +87,21 @@ export default class Search extends Component{
     }
   }
 
+  componentDidMount(){
+   navigator.geolocation.getCurrentPosition((position) => {
+     this.setState({
+       region:{
+         latitude: position.coords.latitude,
+         longitude: position.coords.longitude,
+         latitudeDelta: LATITUDE_DELTA,
+         longitudeDelta: LONGITUDE_DELTA,
+       },
+       nearbyPlaces:[]
+     });
+    },(error) => {alert(error.message)}, {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000}
+   );
+  }
+
   displayTypePressed () {
 
     if(this.state.nearbyPlaces){
@@ -179,18 +194,7 @@ export default class Search extends Component{
     );
   }
 
-  // shouldComponentUpdate (nextProps, nextState) {
-  //
-  //
-  //         //console.log(props.location.shouldSearchComponRender)
-  //   //  if(this.state.location && this.state.location.shouldSearchComponRender===false){
-  //   //      console.log('im here')
-  //   //    return false;
-  //   //  }
-  //
-  //    return true;
-  //
-  // }
+
 
   render(){
 
