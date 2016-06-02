@@ -6,6 +6,7 @@ import React, {
   ListView,
   Dimensions,
   StatusBar,
+  TouchableOpacity,
 
 } from 'react-native';
 
@@ -106,13 +107,28 @@ export default class MapComponent extends Component {
             longitude: marker.longitude?marker.longitude:marker.geometry.location.lng
           }}>
           <MapView.Callout>
+           <TouchableOpacity onPress={ () => {
+             this.props.navigator.push({
+               type: 'HorizontalSwipeJump',
+               name: 'reviewList',
+               passProps : {
+                 placeId: marker.place_id,
+                 showMap: 'true'
+               }
+             });
+           }}>
             {this.getCalloutContent(marker)}
+           </TouchableOpacity>
           </MapView.Callout>
         </MapView.Marker>
       ))}
       </MapView>
     </View>
     )
+  }
+
+  callOutPressed(){
+
   }
 
   getCalloutContent(marker){

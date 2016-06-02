@@ -202,7 +202,7 @@ export default class ReviewList extends Component {
               }
 
             }}>
-              <Text style={{fontSize:20, color: AppConfig.themeTextColor()}}>{placeDetails.name}</Text>
+              <Text style={{fontSize:20, fontWeight: '500', color: AppConfig.themeTextColor()}}>{placeDetails.name}</Text>
             </TouchableOpacity>
           </View>
           <View style={{flex:1, alignItems:'flex-end', borderWidth:0}}>
@@ -214,13 +214,13 @@ export default class ReviewList extends Component {
         <View style={{marginTop:10,flexDirection: 'row', alignItems:'center'}}>
           <Icon style={{paddingBottom:1}}name={'map-marker'} size={12} color='gray' />
           <TouchableOpacity>
-            <Text style={{marginLeft:5, fontSize: 13, color: AppConfig.themeTextColor()}}>{placeDetails.formatted_address}</Text>
+            <Text style={{marginLeft:5, fontSize: 14, color: AppConfig.themeTextColor()}}>{placeDetails.formatted_address}</Text>
           </TouchableOpacity>
 
         </View>
 
           <TouchableOpacity onPress={()=> (Linking.openURL('tel:'+phoneNumber))}>
-            <Text style={{marginTop:10, fontSize: 13, color: AppConfig.themeTextColor()}}>{placeDetails.formatted_phone_number}</Text>
+            <Text style={{marginTop:0, fontSize: 14, color: AppConfig.themeTextColor()}}>{placeDetails.formatted_phone_number}</Text>
           </TouchableOpacity>
           <View style={{flexDirection:'row', alignItems:'center'}}>
            <View style={{ flex:1,alignItems:'flex-start'}}>

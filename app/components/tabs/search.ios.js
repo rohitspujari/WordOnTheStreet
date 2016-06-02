@@ -206,6 +206,7 @@ export default class Search extends Component{
     if (this.state.region ) {
         map = (
         <MapComponent
+          {...this.props}
           place={this.state.placeDetails}
           markers={this.state.nearbyPlaces}
           isChild={true}
