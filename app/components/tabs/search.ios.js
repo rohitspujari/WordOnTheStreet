@@ -178,7 +178,7 @@ export default class Search extends Component{
     return (
       <View style={{
         position: 'absolute',
-        //borderWidth:1,
+        borderWidth:0,
         borderColor:'red',
         backgroundColor: 'rgba(255,255,255,0.5)',
         //backgroundColor:'transparent',
@@ -341,7 +341,8 @@ export default class Search extends Component{
           value={this.state.placeTypeText}
           placeholder={'bar, bank, etc.'}
           clearButtonMode="while-editing"
-          onEndEditing={()=> null}
+          enablesReturnKeyAutomatically={true}
+
         />
       </View>
       <View style={{borderWidth:0}}>

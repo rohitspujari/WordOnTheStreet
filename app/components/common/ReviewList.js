@@ -210,7 +210,7 @@ export default class ReviewList extends Component {
           </View>
         </View>
 
-        <Text style={{marginTop:0, fontSize:13, color:'gray'}}>{((placeDetails.types.toString()).replace(/_/g, " ")).replace(/,/g, ", ")}</Text>
+        <Text style={{marginTop:5, fontSize:13, color:'gray'}}>{((placeDetails.types.toString()).replace(/_/g, " ")).replace(/,/g, ", ")}</Text>
         <View style={{marginTop:10,flexDirection: 'row', alignItems:'center'}}>
           <Icon style={{paddingBottom:1}}name={'map-marker'} size={12} color='gray' />
           <TouchableOpacity>
