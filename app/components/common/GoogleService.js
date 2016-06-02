@@ -22,6 +22,24 @@ class GoogleService {
 
   }
 
+  getPlaceDetails(placeId) {
+    let url ='https://maps.googleapis.com/maps/api/place/details/json?' + Qs.stringify({
+      key:KEY,
+      placeid: placeId
+    });
+
+    fetch(url)
+    .then((response) => response.json())
+    .then((responseData) => {
+      cb(responseData);
+    })
+    .catch((error) => {
+      console.warn(error);
+    });
+
+
+  }
+
 
 }
 module.exports = new GoogleService();

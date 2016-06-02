@@ -30,7 +30,7 @@ class Tab extends Component {
   constructor(props){
     super(props);
     this.state ={
-      selectedTab: 'search'
+      selectedTab: 'reviews'
     };
 
   }

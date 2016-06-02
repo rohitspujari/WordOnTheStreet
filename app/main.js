@@ -19,6 +19,7 @@ import Comment from './components/common/Comment';
 import ReviewList from './components/common/ReviewList';
 import MapComponent from './components/common/MapComponent';
 import NearByPlacesList from './components/common/NearByPlacesList';
+import PlaceDetails from './components/common/PlaceDetails';
 
 var ROUTES = {
   signin: Signin,
@@ -30,7 +31,8 @@ var ROUTES = {
   reviewList: ReviewList,
   comment: Comment,
   search: Search,
-  mapComponent: MapComponent
+  mapComponent: MapComponent,
+  placeDetails: PlaceDetails
 };
 
 var NavigationBarRouteMapper = {

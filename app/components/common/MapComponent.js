@@ -94,6 +94,7 @@ export default class MapComponent extends Component {
         region={this.props.region}
         onRegionChangeComplete={this.onRegionChange.bind(this)}
         showsUserLocation={true}
+        followUserLocation={true}
       >
       {this.props.markers.map(marker => (
         <MapView.Marker
@@ -123,20 +124,16 @@ export default class MapComponent extends Component {
       var distance = Math.round(this.getDistance(latitude,longitude,lat,lng,'M')*10)/10;
 
     }
-    var {lat, lng} = marker.geometry.location;
-    var {latitude,longitude} = this.props.region;
-    var distance = Math.round(this.getDistance(latitude,longitude,lat,lng,'M')*10)/10;
 
     var openNow = null;
     if(marker.opening_hours){
-       console.log(marker.opening_hours);
        if(marker.opening_hours.open_now === 'true') {
          openNow = <Text style={{color:'green', fontSize:10}}>Open</Text>
        } else {
          openNow = <Text style={{color:'red', fontSize:10}}>Closed</Text>
        }
     }
-    //console.log(marker)
+
     return (
       <View style={styles.container}>
         <View style={styles.detailsContainer}>
@@ -151,9 +148,6 @@ export default class MapComponent extends Component {
          <View style={styles.distance}>
           <Text style={{fontSize:10, borderWidth:0, color:'gray'}}>{'1 mile'}</Text>
          </View>
-
-
-
         </View>
       </View>
     )

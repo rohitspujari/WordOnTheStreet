@@ -4,7 +4,8 @@ import React, {
   View,
   Text,
   Image,
-  Linking
+  Linking,
+  TouchableOpacity
 
 } from 'react-native';
 
@@ -33,29 +34,62 @@ export default class PlaceCell extends Component {
 
     let latitude = this.props.place.geometry.location.lat;
     let longitude = this.props.place.geometry.location.lng;
-
-    var url = "http://maps.apple.com/?ll="+latitude+","+longitude;
+    let url = 'comgooglemaps://?q=Pizza&center=37.759748,-122.427135';
+    //var url = "http://maps.apple.com/?ll="+latitude+","+longitude;
     //LinkingIOS.openURL(url);
     Linking.openURL(url);
   }
 
   getRating(rating){
     return (
-      starRating = <StarRating
-      disabled={true}
-      emptyStar={'ios-star-outline'}
-      fullStar={'ios-star'}
-      halfStar={'ios-star-half'}
-      iconSet={'Ionicons'}
-      maxStars={5}
-      rating={rating}
-      selectedStar={(rating) => null}
-      starColor={AppConfig.themeStarColor()}
-      starSize={15}
-    />);
+      <View style={{flexDirection:'row', alignItems:'center'}}>
+      <View>
+        <Text style={{fontSize:12, color: AppConfig.themeStarColor()}}>{rating}</Text>
+      </View>
+      <View style={{marginLeft:10}}>
+          <StarRating
+          disabled={true}
+          emptyStar={'ios-star-outline'}
+          fullStar={'ios-star'}
+          halfStar={'ios-star-half'}
+          iconSet={'Ionicons'}
+          maxStars={5}
+          rating={rating}
+          selectedStar={(rating) => null}
+          starColor={AppConfig.themeStarColor()}
+          starSize={15}
+        />
+     </View>
+
+    </View>
+  );
   }
 
+  onPress() {
+
+    //console.log(this.props)
+    this.props.navigator.push({
+      type: 'HorizontalSwipeJump',
+      name: 'reviewList',
+      passProps : {
+        placeId: this.props.place.place_id,
+        showMap: 'true'
+      }
+    });
+  }
+
+
   render() {
+
+    var addessButton = (
+      <Button containerStyle={{overflow:'hidden', borderRadius:4, backgroundColor: 'white' }}
+              style={styles.addressText}
+              onPress={this.onAddressPress.bind(this)}
+              >
+
+        {this.props.place.vicinity}
+      </Button>
+    );
 
     let {lat, lng} = this.props.place.geometry.location;
     let {latitude,longitude} = this.props.origin;
@@ -63,6 +97,7 @@ export default class PlaceCell extends Component {
 
     //console.log(this.props.place)
     return(
+    <TouchableOpacity onPress={this.onPress.bind(this)}>
       <View style={styles.container}>
        <View style={{flexDirection:'row'}}>
         <View style={styles.logoContainer}>
@@ -72,19 +107,15 @@ export default class PlaceCell extends Component {
         />
         </View>
         <View style={styles.detailsContainer}>
+
+          <Text style={styles.nameText}>{this.props.place.name}</Text>
           <View style={{width:10}}>
             {this.props.place.rating?this.getRating(this.props.place.rating):null}
           </View>
-          <Text style={styles.nameText}>{this.props.place.name}</Text>
+          <View style={{overflow:'hidden', borderRadius:4, backgroundColor: 'white' }}>
+          <Text style={styles.addressText}>{this.props.place.vicinity}</Text>
 
-          <Button containerStyle={{overflow:'hidden', borderRadius:4, backgroundColor: 'white' }}
-                  style={styles.addressText}
-                  onPress={this.onAddressPress.bind(this)}
-                  >
-
-            {this.props.place.vicinity}
-          </Button>
-
+          </View>
 
         </View>
         <View style={styles.distanceContainer}>
@@ -94,6 +125,7 @@ export default class PlaceCell extends Component {
 
 
       </View>
+     </TouchableOpacity>
 
     );
   }
@@ -105,12 +137,12 @@ var styles = StyleSheet.create({
     flex:1,
     margin:5,
     borderBottomColor:'lightgray',
-    borderBottomWidth:1,
+    borderBottomWidth:0.7,
     padding:5
   },
   nameText:{
     fontSize:15,
-    fontWeight:'bold'
+    //fontWeight:'bold'
   },
   addressText:{
     color:'gray',

@@ -211,7 +211,6 @@ export default class Search extends Component{
           isChild={true}
           region={this.state.region}
           currentMapArea={(area)=>{
-            console.log('changing map area')
             this.setState({
               region:area,
               displaySearchAreaButton: true

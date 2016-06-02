@@ -30,6 +30,8 @@ export default class NearByPlacesList extends Component {
       isLoaded: true
     });
   }
+
+
   render(){
     if(this.state.isLoaded === false){
       return <ActivityProgress/>
@@ -50,7 +52,7 @@ export default class NearByPlacesList extends Component {
             dataSource={this.state.dataSource}
             renderRow={(rowData, section, index)=>{
               return(
-                <PlaceCell origin={this.props.origin} place={rowData}/>
+                <PlaceCell origin={this.props.origin} place={rowData} {...this.props}/>
               );
             }}/>
        </ScrollView>
