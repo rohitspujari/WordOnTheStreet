@@ -15,6 +15,7 @@
     "react-native": "^0.24.1",
     "react-native-action-button": "^1.1.4",
     "react-native-button": "^1.6.0",
+    "react-native-carousel": "^0.8.0",
     "react-native-circular-progress": "0.0.7",
     "react-native-drawer": "^2.2.3",
     "react-native-google-places-autocomplete": "^1.1.6",

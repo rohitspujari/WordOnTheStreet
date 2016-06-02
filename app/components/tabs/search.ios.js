@@ -207,7 +207,8 @@ export default class Search extends Component{
         map = (
         <MapComponent
           {...this.props}
-          place={this.state.placeDetails}
+          location={this.state.location}
+          //place={this.state.placeDetails}
           markers={this.state.nearbyPlaces}
           isChild={true}
           region={this.state.region}
@@ -233,7 +234,7 @@ export default class Search extends Component{
        //console.log(results)
            this.setState({
             nearbyPlaces: results,
-            //location: searchLocation,
+            location: searchLocation,
             isSearching: false,
             region:{
               latitude: searchLocation.latitude,
@@ -246,8 +247,8 @@ export default class Search extends Component{
 
         }}
       onPress={(data, details = null) => { // 'details' is provided when fetchDetails = true
-        //console.log(data);
-        //console.log(details);
+        console.log(data);
+        console.log(details);
         this.setState({
           isSearching: false,
           placeDetails: details,

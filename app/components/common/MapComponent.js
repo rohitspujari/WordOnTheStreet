@@ -108,6 +108,8 @@ export default class MapComponent extends Component {
           }}>
           <MapView.Callout>
            <TouchableOpacity onPress={ () => {
+             if(!marker.place_id)
+                return;
              this.props.navigator.push({
                type: 'HorizontalSwipeJump',
                name: 'reviewList',
@@ -131,12 +133,12 @@ export default class MapComponent extends Component {
 
   }
 
-  getCalloutContent(marker){
+  getCalloutContent(marker, location){
 
     var distance = null;
-    if (marker.geometry) {
+    if (marker.geometry && this.props.location) {
       var {lat, lng} = marker.geometry.location;
-      var {latitude,longitude} = this.props.region;
+      var {latitude,longitude} = this.props.location;
       var distance = Math.round(this.getDistance(latitude,longitude,lat,lng,'M')*10)/10;
 
     }
@@ -153,7 +155,7 @@ export default class MapComponent extends Component {
     return (
       <View style={styles.container}>
         <View style={styles.detailsContainer}>
-        {this.getRating(marker.rating)}
+        {marker.rating?this.getRating(marker.rating):null}
         <Text style={{fontWeight:'normal'}}>{marker.name?marker.name:this.props.place.name}</Text>
         <Text style={{fontSize:12,color:'gray'}}>{marker.vicinity}</Text>
         </View>
@@ -162,7 +164,7 @@ export default class MapComponent extends Component {
           {openNow}
          </View>
          <View style={styles.distance}>
-          <Text style={{fontSize:10, borderWidth:0, color:'gray'}}>{'1 mile'}</Text>
+          <Text style={{fontSize:10, borderWidth:0, color:'gray'}}>{distance+" m"}</Text>
          </View>
         </View>
       </View>

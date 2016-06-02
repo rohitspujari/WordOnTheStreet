@@ -12,10 +12,11 @@ import Reviews from './reviews.ios';
 import  Search from './search.ios';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Drawer from 'react-native-drawer'
+
 //var Reviews = require('./reviews.ios');
 import Cash from './cash.ios';
 var Example = require('../common/modal')
-var ExampleMaps = require('../../examples/DisplayLatLng')
+var ExampleMaps = require('../../examples/CardCarousel')
 
 
 // var Tab = React.createClass({
@@ -81,7 +82,7 @@ class Tab extends Component {
             selectedTab: 'cash'
           });
         }}>
-        <ExampleMaps/>
+        <ExampleMaps />
         </Icon.TabBarItemIOS>
         </TabBarIOS>
 

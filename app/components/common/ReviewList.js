@@ -61,7 +61,7 @@ export default class ReviewList extends Component {
     .then((responseData)=>{//console.log(this.responseData)
       this.setState({
         placeDetails: responseData.result,
-        dataSource: this.state.dataSource.cloneWithRows(responseData.result.reviews),
+        dataSource: this.state.dataSource.cloneWithRows(responseData.result.reviews?responseData.result.reviews:[]),
         location: {
           latitude: responseData.result.geometry.location.lat,
           longitude: responseData.result.geometry.location.lng
@@ -130,7 +130,7 @@ export default class ReviewList extends Component {
     if (!this.state.isLoaded) {
       return this.renderLoadingView();
     }
-    console.log(this.state.placeDetails);
+    //console.log(this.state.placeDetails);
     let map = null;
     if(this.props.showMap) {
       map = (
@@ -181,6 +181,10 @@ export default class ReviewList extends Component {
         openNowContent = <Text style={{marginTop:10, borderWidth:0, fontSize: 13, color: 'red'}}>{'Closed'}</Text>;
       }
     }
+    var placeType = null;
+    if(placeDetails.types){
+      placeType = ((placeDetails.types.toString()).replace(/_/g, " ")).replace(/,/g, ", ")
+    }
 
     return(
       <View style={{flex:1}}>
@@ -206,11 +210,11 @@ export default class ReviewList extends Component {
             </TouchableOpacity>
           </View>
           <View style={{flex:1, alignItems:'flex-end', borderWidth:0}}>
-            {this.getRating(placeDetails.rating)}
+            {placeDetails.rating?this.getRating(placeDetails.rating):null}
           </View>
         </View>
 
-        <Text style={{marginTop:5, fontSize:13, color:'gray'}}>{((placeDetails.types.toString()).replace(/_/g, " ")).replace(/,/g, ", ")}</Text>
+        <Text style={{marginTop:5, fontSize:13, color:'gray'}}>{placeType}</Text>
         <View style={{marginTop:10,flexDirection: 'row', alignItems:'center'}}>
           <Icon style={{paddingBottom:1}}name={'map-marker'} size={12} color='gray' />
           <TouchableOpacity>
@@ -220,7 +224,7 @@ export default class ReviewList extends Component {
         </View>
 
           <TouchableOpacity onPress={()=> (Linking.openURL('tel:'+phoneNumber))}>
-            <Text style={{marginTop:0, fontSize: 14, color: AppConfig.themeTextColor()}}>{placeDetails.formatted_phone_number}</Text>
+            <Text style={{marginTop:0, fontSize: 14, color: AppConfig.themeTextColor()}}>{placeDetails.formatted_phone_number?placeDetails.formatted_phone_number:null}</Text>
           </TouchableOpacity>
           <View style={{flexDirection:'row', alignItems:'center'}}>
            <View style={{ flex:1,alignItems:'flex-start'}}>
@@ -246,14 +250,14 @@ export default class ReviewList extends Component {
                <View style={styles.reviewTitleContainer}>
                 <View style={{flexDirection:'row', borderWidth:0, flex:2, alignItems:'flex-start'}}>
                   <View style={{flex:1, alignItems:'flex-start'}}>
-                    <Text style={styles.nameText}>{rowData.author_name}</Text>
+                    <Text style={styles.nameText}>{rowData.author_name?rowData.author_name:null}</Text>
                   </View>
                   <View style={{flex:1, alignItems:'flex-end'}}>
                     <Text style={styles.time}>{time}</Text>
                   </View>
                 </View>
                 <View style={{flex: 1, borderWidth:0, alignItems:'flex-end'}}>
-                    {this.getRating(rowData.rating)}
+                    {rowData.rating?this.getRating(rowData.rating):null}
                 </View>
 
                </View>
