@@ -16,7 +16,7 @@ import Drawer from 'react-native-drawer'
 //var Reviews = require('./reviews.ios');
 import Cash from './cash.ios';
 var Example = require('../common/modal')
-var ExampleMaps = require('../../examples/CardCarousel')
+var ExampleMaps = require('../../examples/CustomAutocomplete')
 
 
 // var Tab = React.createClass({

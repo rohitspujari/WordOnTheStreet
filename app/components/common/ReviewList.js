@@ -243,6 +243,7 @@ export default class ReviewList extends Component {
         <View style={styles.listView}>
         <ListView
           dataSource={this.state.dataSource}
+          enableEmptySections={true}
           renderRow={(rowData)=>{
             let time = moment.unix(rowData.time).format("M/DD/YYYY");
             return(

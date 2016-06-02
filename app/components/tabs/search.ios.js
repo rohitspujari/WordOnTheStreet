@@ -16,64 +16,19 @@ import MapComponent from '../common/MapComponent';
 import Cash from './cash.ios';
 var {GooglePlacesAutocomplete} = require('react-native-google-places-autocomplete');
 import NavigationBar from 'react-native-navbar';
+import CustomAutocomplete from '../../examples/CustomAutocomplete';
 
 import Button from '../common/button';
 import AppConfig from '../common/AppConfig';
 import ActivityProgress from '../common/ActivityProgress';
 import GoogleService from '../common/GoogleService';
+import PlaceTypes from './Types.json';
 
 var { width, height } = Dimensions.get('window');
 const ASPECT_RATIO = width / height;
 const LATITUDE_DELTA = 0.0922;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
-var styles = StyleSheet.create({
-  description: {
-    fontSize: 20,
-    textAlign: 'center',
-    color: '#000000'
-  },
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    //backgroundColor: '#654321'
-  },
-
-  textInputContainer: {
-    backgroundColor: AppConfig.themeColor(),
-    height: 30,
-    borderTopColor: '#7e7e7e',
-    borderBottomColor: '#b5b5b5',
-    //borderWidth:1
-    //borderTopWidth: 1 / PixelRatio.get(),
-    //borderBottomWidth: 1 / PixelRatio.get(),
-  },
-  textInput: {
-    backgroundColor: '#FFFFFF',
-    height: 28,
-    borderRadius: 5,
-    paddingTop: 4.5,
-    paddingBottom: 4.5,
-    paddingLeft: 10,
-    paddingRight: 10,
-    //marginTop: 7.5,
-    marginLeft: 8,
-    marginRight: 8,
-    fontSize: 15,
-  },
-
-  input:{
-    padding: 4,
-    height: 40,
-    borderColor: 'gray',
-    borderWidth: 1,
-    //borderRadius: 5,
-    margin: 5,
-    width: 300,
-    alignSelf: 'center'
-  }
-});
 
 const homePlace = {description: 'Home', geometry: { location: { lat: 48.8152937, lng: 2.4597668 } }};
 const workPlace = {description: 'Work', geometry: { location: { lat: 48.8496818, lng: 2.2940881 } }};
@@ -84,7 +39,10 @@ export default class Search extends Component{
     super(props);
     this.state = {
       isSearching: false,
+
     }
+
+
   }
 
   componentDidMount(){
@@ -133,7 +91,7 @@ export default class Search extends Component{
         latitude: this.state.region.latitude,
         longitude: this.state.region.longitude
       }
-      this.setState({isSearching: true});
+      this.setState({isSearching: true, });
       GoogleService.requestNearby(location,{
           rankby: 'distance',
           types: this.state.placeTypeText,
@@ -141,7 +99,8 @@ export default class Search extends Component{
         if(responseData.results){
           this.setState({
            nearbyPlaces: responseData.results,
-           isSearching: false
+           isSearching: false,
+
          });
 
         }
@@ -172,7 +131,18 @@ export default class Search extends Component{
     );
   }
 
+  changeText(text){
+    var placeTypes = (PlaceTypes.filter(function (place) {
+        return place.type.toLowerCase().startsWith(text.toLowerCase())
+    }).map(function (place) {
+        return place.type;
+    })).slice(0,9);
 
+    //console.log(placeTypes);
+    this.setState({
+        placeTypes:  placeTypes
+    });
+  }
 
   showProgressBubble() {
     return (
@@ -194,6 +164,50 @@ export default class Search extends Component{
     );
   }
 
+  getCustomAutocomplete() {
+    return (
+      <CustomAutocomplete
+      data={this.state.placeTypes}
+      onPress={(placeText) => {
+        console.log(placeText);
+        this.setState({placeTypeText: placeText, })
+        this.searchPress()
+      }}
+        textInputProps={{
+          autoFocus:false,
+          onSubmitEditing: this.searchPress.bind(this),
+          autoCapitalize:'none',
+          autoCorrect:false,
+          style: styles.textInput,
+          onChangeText:((text)=>this.setState({placeTypeText: text, })),
+          value:this.state.placeTypeText,
+          placeholder:'bar, bank, etc.',
+          clearButtonMode:"while-editing",
+          enablesReturnKeyAutomatically:true,
+          onChangeText: this.changeText.bind(this)
+        }}
+      />
+    );
+  }
+
+
+  getPlaceTypeTextInput() {
+    return(
+      <TextInput
+        autoFocus={false}
+        returnKeyType="search"
+        onSubmitEditing={this.searchPress.bind(this)}
+        autoCapitalize='none'
+        autoCorrect={false}
+        style={styles.textInput}
+        onChangeText={(text)=>this.setState({placeTypeText: text})}
+        value={this.state.placeTypeText}
+        placeholder={'bar, bank, etc.'}
+        clearButtonMode="while-editing"
+        enablesReturnKeyAutomatically={true}
+      />
+    );
+  }
 
 
   render(){
@@ -265,7 +279,7 @@ export default class Search extends Component{
         });
       }}
       getDefaultValue={() => {
-        return ''; // text input default value
+        return 'Current Location'; // text input default value
       }}
       query={{
         // available options: https://developers.google.com/places/web-service/autocomplete
@@ -331,20 +345,8 @@ export default class Search extends Component{
         leftButton={<Button type="navBar" icon="filter" onPress={()=> null}/>}/>
 
       <View style={styles.textInputContainer}>
-        <TextInput
-          autoFocus={false}
-          returnKeyType="search"
-          onSubmitEditing={this.searchPress.bind(this)}
-          autoCapitalize='none'
-          autoCorrect={false}
-          style={styles.textInput}
-          onChangeText={(text)=>this.setState({placeTypeText: text})}
-          value={this.state.placeTypeText}
-          placeholder={'bar, bank, etc.'}
-          clearButtonMode="while-editing"
-          enablesReturnKeyAutomatically={true}
+        {this.getCustomAutocomplete()}
 
-        />
       </View>
       <View style={{borderWidth:0}}>
         {googlePlacesAutocomplete}
@@ -358,3 +360,53 @@ export default class Search extends Component{
     );
   }
 }
+
+
+var styles = StyleSheet.create({
+  description: {
+    fontSize: 20,
+    textAlign: 'center',
+    color: '#000000'
+  },
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    //backgroundColor: '#654321'
+  },
+
+  textInputContainer: {
+
+    backgroundColor: AppConfig.themeColor(),
+    //height: 30,
+    borderTopColor: '#7e7e7e',
+    borderBottomColor: '#b5b5b5',
+    //borderWidth:1
+    //borderTopWidth: 1 / PixelRatio.get(),
+    //borderBottomWidth: 1 / PixelRatio.get(),
+  },
+  textInput: {
+    backgroundColor: '#FFFFFF',
+    height: 28,
+    borderRadius: 5,
+    paddingTop: 4.5,
+    paddingBottom: 4.5,
+    paddingLeft: 10,
+    paddingRight: 10,
+    //marginTop: 7.5,
+    marginLeft: 8,
+    marginRight: 8,
+    fontSize: 15,
+  },
+
+  input:{
+    padding: 4,
+    height: 40,
+    borderColor: 'gray',
+    borderWidth: 1,
+    //borderRadius: 5,
+    margin: 5,
+    width: 300,
+    alignSelf: 'center'
+  }
+});
