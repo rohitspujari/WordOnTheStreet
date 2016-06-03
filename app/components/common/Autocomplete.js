@@ -189,7 +189,7 @@ var Autocomplete = React.createClass({
 
   _onChangeText(text) {
 
-
+   console.log('changing tetx')
    if(this.props.data) {
       var data = this.props.data;
       var limitItems = this.props.limitItems?this.props.limitItems:6
@@ -198,7 +198,7 @@ var Autocomplete = React.createClass({
       }).map((row) => {
           return row;
       })).slice(0,(limitItems-1));
-      this.props.filterResults(filteredData);
+      this.props.filterResults(filteredData, text);
       this.setState({
         dataSource: this.state.dataSource.cloneWithRows(filteredData),
         text: text,

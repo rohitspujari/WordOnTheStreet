@@ -225,10 +225,10 @@ export default class ReviewList extends Component {
           </TouchableOpacity>
 
         </View>
-        <View style={{ flex:1, borderWidth:0,marginTop:10,flexDirection: 'row', alignItems:'center'}}>
+        <View style={{ flex:1, borderWidth:0,marginTop:5,flexDirection: 'row', alignItems:'center'}}>
           <Icon style={{paddingBottom:1}}name={'phone'} size={12} color='gray' />
           <TouchableOpacity onPress={()=> (Linking.openURL('tel:'+phoneNumber))}>
-            <Text style={{marginLeft:10, fontSize: 14, color: AppConfig.themeTextColor()}}>{placeDetails.formatted_phone_number?placeDetails.formatted_phone_number:null}</Text>
+            <Text style={{marginLeft:9, fontSize: 14, color: AppConfig.themeTextColor()}}>{placeDetails.formatted_phone_number?placeDetails.formatted_phone_number:null}</Text>
           </TouchableOpacity>
         </View>
 

@@ -166,9 +166,11 @@ export default class Search extends Component{
       // },
       row: {
         backgroundColor:'white',
-        height:35,
-        padding:5,
-        paddingLeft:17
+        alignItems:'center',
+        height:40,
+        padding:18,
+        backgroundColor: AppConfig.themeBackgroundColor()
+        //paddingLeft:17
       },
       textInputContainer: {
         backgroundColor: AppConfig.themeColor(),
@@ -198,12 +200,18 @@ export default class Search extends Component{
       data={PlaceType}
       placeholder={'bar, food, etc ..'}
       limitItems={10}
-      filterResults={(results)=> {
-        if(results && results.length > 0)
+      filterResults={(results, text)=> {
+        if(results && results.length > 0 && text!=="")
         {
-          this.setState({hideLocationSearch:true});
+          this.setState({
+            hideLocationSearch:true,
+            placeTypeText: text
+          });
         } else {
-          this.setState({hideLocationSearch:false});
+          this.setState({
+            hideLocationSearch:false,
+            placeTypeText: text
+          });
         }
       }}
       styles={this.getCustomAutocompleteStyle()}
