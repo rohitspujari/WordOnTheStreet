@@ -60,7 +60,7 @@ const defaultStyles = {
   },
 };
 
-var CustomAutocomplete = React.createClass({
+var Autocomplete = React.createClass({
 
   propTypes: {
     placeholder: React.PropTypes.string,
@@ -198,6 +198,7 @@ var CustomAutocomplete = React.createClass({
       }).map((row) => {
           return row;
       })).slice(0,(limitItems-1));
+      this.props.filterResults(filteredData);
       this.setState({
         dataSource: this.state.dataSource.cloneWithRows(filteredData),
         text: text,
@@ -281,4 +282,4 @@ var CustomAutocomplete = React.createClass({
   },
 });
 
-module.exports = CustomAutocomplete;
+module.exports = Autocomplete;

@@ -160,7 +160,10 @@ export default class ReviewList extends Component {
     };
 
     let placeDetails = this.state.placeDetails
-    let phoneNumber = placeDetails.formatted_phone_number.replace(/[\s+()\-+]/g, "");
+    var phoneNumber=null;
+    if(placeDetails.formatted_phone_number){
+      var phoneNumber = placeDetails.formatted_phone_number.replace(/[\s+()\-+]/g, "");
+    }
 
     var distance = null;
 
@@ -215,17 +218,21 @@ export default class ReviewList extends Component {
         </View>
 
         <Text style={{marginTop:5, fontSize:13, color:'gray'}}>{placeType}</Text>
-        <View style={{marginTop:10,flexDirection: 'row', alignItems:'center'}}>
+        <View style={{ flex:1, borderWidth:0,marginTop:10,flexDirection: 'row', alignItems:'center'}}>
           <Icon style={{paddingBottom:1}}name={'map-marker'} size={12} color='gray' />
           <TouchableOpacity>
-            <Text style={{marginLeft:5, fontSize: 14, color: AppConfig.themeTextColor()}}>{placeDetails.formatted_address}</Text>
+            <Text style={{marginLeft:10, fontSize: 14, color: AppConfig.themeTextColor()}}>{placeDetails.formatted_address}</Text>
           </TouchableOpacity>
 
         </View>
-
+        <View style={{ flex:1, borderWidth:0,marginTop:10,flexDirection: 'row', alignItems:'center'}}>
+          <Icon style={{paddingBottom:1}}name={'phone'} size={12} color='gray' />
           <TouchableOpacity onPress={()=> (Linking.openURL('tel:'+phoneNumber))}>
-            <Text style={{marginTop:0, fontSize: 14, color: AppConfig.themeTextColor()}}>{placeDetails.formatted_phone_number?placeDetails.formatted_phone_number:null}</Text>
+            <Text style={{marginLeft:10, fontSize: 14, color: AppConfig.themeTextColor()}}>{placeDetails.formatted_phone_number?placeDetails.formatted_phone_number:null}</Text>
           </TouchableOpacity>
+        </View>
+
+
           <View style={{flexDirection:'row', alignItems:'center'}}>
            <View style={{ flex:1,alignItems:'flex-start'}}>
             {openNowContent}

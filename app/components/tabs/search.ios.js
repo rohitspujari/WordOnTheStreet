@@ -16,13 +16,13 @@ import MapComponent from '../common/MapComponent';
 import Cash from './cash.ios';
 var {GooglePlacesAutocomplete} = require('react-native-google-places-autocomplete');
 import NavigationBar from 'react-native-navbar';
-import CustomAutocomplete from '../../examples/CustomAutocomplete';
+import Autocomplete from '../common/Autocomplete';
 
 import Button from '../common/button';
 import AppConfig from '../common/AppConfig';
 import ActivityProgress from '../common/ActivityProgress';
 import GoogleService from '../common/GoogleService';
-import PlaceTypes from './Types.json';
+import PlaceType from '../common/PlaceType.json';
 
 var { width, height } = Dimensions.get('window');
 const ASPECT_RATIO = width / height;
@@ -39,7 +39,7 @@ export default class Search extends Component{
     super(props);
     this.state = {
       isSearching: false,
-
+      hideLocationSearch: false
     }
 
 
@@ -91,7 +91,10 @@ export default class Search extends Component{
         latitude: this.state.region.latitude,
         longitude: this.state.region.longitude
       }
-      this.setState({isSearching: true, });
+      this.setState({
+        isSearching: true,
+        hideLocationSearch: false
+       });
       GoogleService.requestNearby(location,{
           rankby: 'distance',
           types: this.state.placeTypeText,
@@ -131,18 +134,7 @@ export default class Search extends Component{
     );
   }
 
-  changeText(text){
-    var placeTypes = (PlaceTypes.filter(function (place) {
-        return place.type.toLowerCase().startsWith(text.toLowerCase())
-    }).map(function (place) {
-        return place.type;
-    })).slice(0,9);
 
-    //console.log(placeTypes);
-    this.setState({
-        placeTypes:  placeTypes
-    });
-  }
 
   showProgressBubble() {
     return (
@@ -164,13 +156,60 @@ export default class Search extends Component{
     );
   }
 
-  getCustomAutocomplete() {
+  getCustomAutocompleteStyle () {
+    return {
+      // description: {
+      //   //fontWeight: 'bold',
+      // },
+      // predefinedPlacesDescription: {
+      //   color: AppConfig.themeTextColor(),
+      // },
+      row: {
+        backgroundColor:'white',
+        height:35,
+        padding:5,
+        paddingLeft:17
+      },
+      textInputContainer: {
+        backgroundColor: AppConfig.themeColor(),
+        height: 44,
+        borderTopColor: AppConfig.themeColor(),
+        borderBottomColor: AppConfig.themeColor(),
+      },
+      textInput: {
+        backgroundColor: '#FFFFFF',
+        height: 28,
+        borderRadius: 5,
+        paddingTop: 4.5,
+        paddingBottom: 4.5,
+        paddingLeft: 10,
+        paddingRight: 10,
+        marginTop: 7.5,
+        marginLeft: 8,
+        marginRight: 8,
+        fontSize: 15,
+      },
+
+    };
+  }
+  getPlaceTypeTextInput() {
     return (
-      <CustomAutocomplete
-      data={this.state.placeTypes}
-      onPress={(placeText) => {
-        console.log(placeText);
-        this.setState({placeTypeText: placeText, })
+      <Autocomplete
+      data={PlaceType}
+      placeholder={'bar, food, etc ..'}
+      limitItems={10}
+      filterResults={(results)=> {
+        if(results && results.length > 0)
+        {
+          this.setState({hideLocationSearch:true});
+        } else {
+          this.setState({hideLocationSearch:false});
+        }
+      }}
+      styles={this.getCustomAutocompleteStyle()}
+      displayField={'description'}
+      onPress={(rowData) => {
+        this.setState({placeTypeText: rowData['type'], })
         this.searchPress()
       }}
         textInputProps={{
@@ -178,33 +217,9 @@ export default class Search extends Component{
           onSubmitEditing: this.searchPress.bind(this),
           autoCapitalize:'none',
           autoCorrect:false,
-          style: styles.textInput,
-          onChangeText:((text)=>this.setState({placeTypeText: text, })),
-          value:this.state.placeTypeText,
-          placeholder:'bar, bank, etc.',
           clearButtonMode:"while-editing",
           enablesReturnKeyAutomatically:true,
-          onChangeText: this.changeText.bind(this)
         }}
-      />
-    );
-  }
-
-
-  getPlaceTypeTextInput() {
-    return(
-      <TextInput
-        autoFocus={false}
-        returnKeyType="search"
-        onSubmitEditing={this.searchPress.bind(this)}
-        autoCapitalize='none'
-        autoCorrect={false}
-        style={styles.textInput}
-        onChangeText={(text)=>this.setState({placeTypeText: text})}
-        value={this.state.placeTypeText}
-        placeholder={'bar, bank, etc.'}
-        clearButtonMode="while-editing"
-        enablesReturnKeyAutomatically={true}
       />
     );
   }
@@ -287,34 +302,7 @@ export default class Search extends Component{
         language: 'en', // language of the results
       //  types: '(cities)', // default: 'geocode'
       }}
-      styles={{
-        description: {
-          //fontWeight: 'bold',
-        },
-        predefinedPlacesDescription: {
-          color: AppConfig.themeTextColor(),
-        },
-        textInputContainer: {
-          backgroundColor: AppConfig.themeColor(),
-          height: 44,
-          borderTopColor: AppConfig.themeColor(),
-          borderBottomColor: AppConfig.themeColor(),
-        },
-        textInput: {
-          backgroundColor: '#FFFFFF',
-          height: 28,
-          borderRadius: 5,
-          paddingTop: 4.5,
-          paddingBottom: 4.5,
-          paddingLeft: 10,
-          paddingRight: 10,
-          marginTop: 7.5,
-          marginLeft: 8,
-          marginRight: 8,
-          fontSize: 15,
-        },
-
-      }}
+      styles={this.getCustomAutocompleteStyle()}
       currentLocation={true} // Will add a 'Current location' button at the top of the predefined places list
       currentLocationLabel="Current location"
       nearbyPlacesAPI='GooglePlacesSearch' // Which API to use: GoogleReverseGeocoding or GooglePlacesSearch
@@ -345,11 +333,11 @@ export default class Search extends Component{
         leftButton={<Button type="navBar" icon="filter" onPress={()=> null}/>}/>
 
       <View style={styles.textInputContainer}>
-        {this.getCustomAutocomplete()}
+        {this.getPlaceTypeTextInput()}
 
       </View>
       <View style={{borderWidth:0}}>
-        {googlePlacesAutocomplete}
+        {this.state.hideLocationSearch === false? googlePlacesAutocomplete: null}
       </View>
        <View style={{borderWidth:0, flex:1, marginBottom:50}}>
         {map}
