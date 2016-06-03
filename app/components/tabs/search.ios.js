@@ -123,7 +123,7 @@ export default class Search extends Component{
         justifyContent: 'center',
         width:width/2,
         height:50,
-        top: height/1.6,
+        top: height/1.8,
         borderRadius:5,
         left: width/4,
         right: 0,
