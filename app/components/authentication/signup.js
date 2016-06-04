@@ -152,27 +152,30 @@ export default class SignUp extends Component {
     }
     var errorMsg = null;
     if(!this.state.success) {
-      errorMsg = <Text style={Styles.error}>{this.state.message}</Text>;
+      errorMsg = <Text style={styles.error}>{this.state.message}</Text>;
     }
     return (
       <View style={styles.container}>
         <View style={styles.loginContainer}>
-          <TextInput placeholder='username'
+          <TextInput placeholder='Username'
             autoCapitalize='none'
             autoCorrect={false}
             onChangeText={(text)=>this.setState({username: text})}
             value={this.state.username}
             style={styles.input}
+            clearButtonMode="while-editing"
           />
-          <TextInput placeholder='password'
+          <TextInput placeholder='Password'
             onChangeText={(text)=>this.setState({password: text})}
             value={this.state.password}
             secureTextEntry={true} style={styles.input}
+            clearButtonMode="while-editing"
           />
-          <TextInput placeholder='confirm password'
+          <TextInput placeholder='Confirm password'
             onChangeText={(text)=>this.setState({confirmPassword: text})}
             value={this.state.confirmPassword}
             secureTextEntry={true} style={styles.input}
+            clearButtonMode="while-editing"
           />
 
           <TouchableOpacity style={{width:300, alignSelf:'center', borderWidth:0}} onPress={this.onSignUpPress.bind(this)}>
