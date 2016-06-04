@@ -204,6 +204,7 @@ export default class Search extends Component{
         if(results && results.length > 0 && text!=="")
         {
           this.setState({
+            filterResults: results,
             hideLocationSearch:true,
             placeTypeText: text
           });

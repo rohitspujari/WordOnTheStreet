@@ -23,6 +23,9 @@ var Button = React.createClass({
         content = <Icon name={this.props.icon} size={30} color={AppConfig.themeTextColor()} />;
         break;
 
+
+
+
       case 'inline':
         content= (<GenericButton containerStyle={Styles.inlineButton}
                        style={Styles.buttonText}
@@ -53,6 +56,8 @@ var Button = React.createClass({
     if(this.props.type === 'inline'){
       return content;
     }
+
+
 
     return (
 
@@ -96,14 +101,15 @@ var Button = React.createClass({
 
 var Styles = StyleSheet.create({
   button: {
+    flex:1,
     justifyContent: 'center',
     alignItems: 'center',
     borderWidth: 0,
-    borderRadius: 5,
-    padding: 15,
+    borderRadius: 3,
+    padding: 10,
     borderColor: 'black',
-    margin:10,
-    width: 280,
+    margin:0,
+    width: 320,
     backgroundColor:'#f6f7f8'
 
   },
@@ -164,7 +170,7 @@ var Styles = StyleSheet.create({
     alignItems: 'center',
     fontSize: 15,
 
-    fontWeight: '500',
+    fontWeight: '400',
     //padding: 5,
     //borderRadius:5,
     //backgroundColor:'#dce79e',

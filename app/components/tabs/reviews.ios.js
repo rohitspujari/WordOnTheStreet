@@ -12,6 +12,7 @@ import React, {
 import CommentModal from '../common/CommentModal';
 import ReviewsModal from '../common/ReviewsModal';
 import RestaurantCard from '../common/RestaurantCard';
+import ReviewCard from '../common/ReviewCard';
 import Carousel from '../common/Carousel';
 import Firebase from 'firebase';
 import Button from '../common/button';
@@ -43,7 +44,8 @@ export default class Reviews extends Component{
       isReviewModalOpen: false,
       isDisabled: false,
       isLoaded: false,
-      showStatusBar: true,
+      isStatusBarHidden: false
+
       // swipeToClose: true,
       // sliderValue: 0.3
     };
@@ -59,7 +61,6 @@ export default class Reviews extends Component{
       isReviewModalOpen: false
     });
   }
-
 
   openCommentModal(itemProps) {
 
@@ -99,7 +100,6 @@ export default class Reviews extends Component{
       reviewed: true
     })
   }
-
 
   closeCommentModal() {
     this.setState({isCommentModalOpen: false});
@@ -141,8 +141,6 @@ export default class Reviews extends Component{
     .done();
   }
 
-
-
   onSubmitPress(){
     console.log("this is onSubmitPress ")
   }
@@ -169,6 +167,8 @@ export default class Reviews extends Component{
 
   render(){
 
+
+
     if (!this.state.isLoaded) {
       return this.renderLoadingView();
     }
@@ -188,7 +188,7 @@ export default class Reviews extends Component{
     //console.log(this.props);
     return (
     <View style={styles.container}>
-
+    <StatusBar hidden={this.state.isStatusBarHidden}/>
     <Drawer
       type="overlay"
       ref={"drawer"}
@@ -200,6 +200,8 @@ export default class Reviews extends Component{
       panCloseMask={0}
       tapToClose={true}
       closedDrawerOffset={0}
+      onOpenStart={()=> this.setState({isStatusBarHidden: true})}
+      onClose={()=> this.setState({isStatusBarHidden: false})}
       tweenHandler={(ratio) => ({ main: { opacity: (2 - ratio) / 2 } })}
     >
      <View style={{borderWidth:0}}>
@@ -234,17 +236,43 @@ export default class Reviews extends Component{
     );
   }
 
+  getResturantCard(index, data) {
+    return (
+      <RestaurantCard
+        key={index}
+        data={data}
+        index={index}
+        reviewsPress={this.openReviewsModal.bind(this)}
+        titleClick={this.openReviewsModal.bind(this)}
+        itemPress={this.openCommentModal.bind(this)}
+        onSubmitPress={this.onSubmitPress.bind(this)}
+      />
+    );
+  }
+
+  getReviewCard(index, data) {
+    return (
+      <ReviewCard
+        key={index}
+        data={data}
+        index={index}
+        reviewsPress={this.openReviewsModal.bind(this)}
+        titlePress={this.openReviewsModal.bind(this)}
+        itemPress={this.openCommentModal.bind(this)}
+        onSubmitPress={this.onSubmitPress.bind(this)}
+      />
+    );
+  }
+
+
+
   renderCard(index, data): ReactElement {
+    let nullCard = <View key={index}/>;
+    let RestaurantCard  = this.getResturantCard(index, data)
+    let ReviewCard = this.getReviewCard(index, data)
+
     return(
-        <RestaurantCard
-          key={index}
-          data={data}
-          index={index}
-          reviewsPress={this.openReviewsModal.bind(this)}
-          titleClick={this.openReviewsModal.bind(this)}
-          itemPress={this.openCommentModal.bind(this)}
-          onSubmitPress={this.onSubmitPress.bind(this)}
-        />
+      ReviewCard
     );
   }
 

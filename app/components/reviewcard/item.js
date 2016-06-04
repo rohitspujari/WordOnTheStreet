@@ -2,7 +2,8 @@ import React, {
   StyleSheet,
   Text,
   View,
-  Component
+  Component,
+  TouchableOpacity
 } from 'react-native';
 
 import StarRating from 'react-native-star-rating';
@@ -41,13 +42,14 @@ export default class Item extends Component{
       <View style={styles.container}>
         <View style={styles.container_itemReview}>
           <View style={styles.name}>
-            <Touchable onPress={this.props.itemPress.bind(this,this.props)}>
+            <TouchableOpacity onPress={this.props.itemPress.bind(this,this.props)}>
               <Text style={styles.nameText}>{this.props.itemName}</Text>
-            </Touchable>
+            </TouchableOpacity>
           </View>
-          <View style={styles.rating}>
-            {starRating}
+          <View style={styles.price}>
+          <Text style={{fontWeight:'300'}}>5.743</Text>
           </View>
+
         </View>
        </View>
     );
@@ -57,27 +59,27 @@ export default class Item extends Component{
 var styles = StyleSheet.create({
   container:{
     flex:1,
-    paddingLeft:20,
-    paddingRight:20,
     borderWidth:0,
+    paddingBottom:6
   },
   container_itemReview:{
     flex: 1,
     flexDirection: 'row',
-    padding: 5,
+
     //borderWidth:1,
     //borderColor:'red'
   },
   name:{
-    flex:1,
+    flex:6,
     alignItems: 'flex-start',
-    alignSelf: 'center',
     borderWidth:0,
     //borderColor:'red'
   },
+
+  price:{flex:1, borderWidth:0, alignItems:'flex-end'},
   nameText:{
-    fontSize: 16,
-    fontWeight:'500',
+
+    fontWeight:'normal',
     color:AppConfig.themeTextColor()
   },
   rating:{

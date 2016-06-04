@@ -4,32 +4,58 @@ import React, {
   StyleSheet,
   Text,
   StatusBar,
+  TouchableOpacity
 
 } from 'react-native';
 
 import Touchable from './Touchable';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import AppConfig from './AppConfig';
 
 import store from 'react-native-simple-store';
 
 
 export default class ControlPanel extends Component {
+
+
+  getMenuItem(text, icon) {
+    return (
+      <View style={styles.menuItemContainer}>
+        <View style={styles.menuIconContainer}>
+          <Icon name={icon} size={16} color={AppConfig.themeTextColor()} />
+        </View>
+        <View style={styles.menuTextContainer}>
+          <Text>{text}</Text>
+        </View>
+      </View>
+    );
+  }
+
   render() {
 
     //console.log(this);
     return (
       <View style={styles.container}>
-
         <View style={styles.body}>
-          <Text style={styles.text}>Payment</Text>
-            <Text style={styles.text}>History</Text>
-              <Text style={styles.text}>Help</Text>
-                <Text style={styles.text}>Notifications</Text>
-                <Touchable onPress={()=> this.logout()}>
-                  <Text style={styles.text}>Logout</Text>
-                </Touchable>
-                <Text style={styles.text}>Analytics</Text>
+          <TouchableOpacity onPress={()=> null}>
+           {this.getMenuItem('Payment','credit-card')}
+          </TouchableOpacity>
+          <TouchableOpacity onPress={()=> null}>
+           {this.getMenuItem('History','history')}
+          </TouchableOpacity>
+          <TouchableOpacity onPress={()=> null}>
+           {this.getMenuItem('Help','question-circle')}
+          </TouchableOpacity>
+          <TouchableOpacity onPress={()=> null}>
+           {this.getMenuItem('Notification','bell')}
+          </TouchableOpacity>
+          <TouchableOpacity onPress={()=> this.logout()}>
+           {this.getMenuItem('Logout','sign-out')}
+          </TouchableOpacity>
+          <TouchableOpacity onPress={()=> this.logout()}>
+           {this.getMenuItem('Analytics','line-chart')}
+          </TouchableOpacity>
         </View>
-
       </View>
     );
   }
@@ -56,15 +82,17 @@ var styles = StyleSheet.create({
   container: {
     flex:1,
     backgroundColor:'white',
-    marginTop:20
+    marginTop:0
   },
-  body:{
-    justifyContent:'center',
-    margin:10
-  },
-  text :{
-    margin:10
-  },
+  menuItemContainer: {flexDirection:'row', flex:1, alignItems:'center', justifyContent:'flex-start', padding:10},
+  menuIconContainer: {flex:1, alignItems:'center', borderWidth:0},
+  menuTextContainer: {flex:6, alignItems:'flex-start', borderWidth:0},
+
+  // body:{
+  //   justifyContent:'center',
+  //   margin:10
+  // },
+
   seperator:{
     borderWidth:1,
     borderColor:'red'
