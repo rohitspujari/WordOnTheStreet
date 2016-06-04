@@ -4,6 +4,7 @@ import React, {
  View,
  Component,
  ActivityIndicatorIOS,
+ TouchableOpacity,
 
  TextInput
 } from 'react-native';
@@ -11,6 +12,7 @@ import React, {
 var Button = require('../common/button');
 import Firebase from 'firebase';
 const ref = new Firebase("https://wots.firebaseio.com");
+import AppConfig from '../common/AppConfig';
 
 export default class SignUp extends Component {
 
@@ -35,48 +37,6 @@ export default class SignUp extends Component {
     );
   }
 
-  render(){
-
-    if (this.state.showSignUpProgress) {
-      return this.renderLoadingView();
-    }
-
-
-
-
-
-    var errorMsg = null;
-    if(!this.state.success) {
-      errorMsg = <Text style={Styles.error}>{this.state.message}</Text>;
-    }
-
-    return (<View style={Styles.container}>
-
-    <TextInput placeholder='username'
-     autoCapitalize='none'
-     autoCorrect={false}
-     onChangeText={(text)=>this.setState({username: text})}
-     value={this.state.username}
-     style={Styles.input}/>
-
-    <TextInput placeholder='password'
-     onChangeText={(text)=>this.setState({password: text})}
-     value={this.state.password}
-     secureTextEntry={true} style={Styles.input}/>
-
-    <TextInput placeholder='confirm password'
-     onChangeText={(text)=>this.setState({confirmPassword: text})}
-     value={this.state.confirmPassword}
-     secureTextEntry={true} style={Styles.input}/>
-
-
-
-    <Button text={'Sign Up'} onPress={this.onSignUpPress.bind(this)}/>
-    <Button text={'I have an account'} onPress={this.onSignInPress.bind(this)}/>
-    {errorMsg}
-
-    </View>);
-  }
 
   validateEmail(email) {
     var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -185,30 +145,95 @@ export default class SignUp extends Component {
     this.props.navigator.pop();
 
   }
+  render(){
+
+    if (this.state.showSignUpProgress) {
+      return this.renderLoadingView();
+    }
+    var errorMsg = null;
+    if(!this.state.success) {
+      errorMsg = <Text style={Styles.error}>{this.state.message}</Text>;
+    }
+    return (
+      <View style={styles.container}>
+        <View style={styles.loginContainer}>
+          <TextInput placeholder='username'
+            autoCapitalize='none'
+            autoCorrect={false}
+            onChangeText={(text)=>this.setState({username: text})}
+            value={this.state.username}
+            style={styles.input}
+          />
+          <TextInput placeholder='password'
+            onChangeText={(text)=>this.setState({password: text})}
+            value={this.state.password}
+            secureTextEntry={true} style={styles.input}
+          />
+          <TextInput placeholder='confirm password'
+            onChangeText={(text)=>this.setState({confirmPassword: text})}
+            value={this.state.confirmPassword}
+            secureTextEntry={true} style={styles.input}
+          />
+
+          <TouchableOpacity style={{width:300, alignSelf:'center', borderWidth:0}} onPress={this.onSignUpPress.bind(this)}>
+            <Text style={{ alignSelf:'center', justifyContent:'center',fontSize:16, padding:10, color: AppConfig.themeBackgroundColor()}}>Sign Up</Text>
+          </TouchableOpacity>
+           {errorMsg}
+        </View>
+
+        <View style={styles.ribbonContainer}>
+          <TouchableOpacity onPress={this.onSignInPress.bind(this)} style={{flex:1, borderRightWidth:0.0, borderRightColor: AppConfig.themeBackgroundColor(), justifyContent:'center' }}>
+            <Text style={{alignSelf:'center', color: AppConfig.themeBackgroundColor(), fontSize:15}}>Sign In</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={{flex:2, borderWidth:0, justifyContent:'center',borderRightWidth:0.0, borderRightColor: AppConfig.themeBackgroundColor() }}>
+            <Text style={{alignSelf:'center', color: AppConfig.themeBackgroundColor(), fontSize:15}}>Forgot Password</Text>
+          </TouchableOpacity>
+          <TouchableOpacity  onPress={()=>null} style={{flex:1, borderRightWidth:0.0, justifyContent:'center' }}>
+            <Text style={{alignSelf:'center', color: AppConfig.themeBackgroundColor(), fontSize:15}}>Touch ID</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+    );
+  }
+
 }
 
-var Styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: 'white'
+var styles = StyleSheet.create({
+
+  container:{
+    flex:1,
+    backgroundColor: AppConfig.themeColor(),
   },
+  loginContainer: {
+    flex: 20,
+    justifyContent: 'center',
+    alignItems: 'center', //borderWidth:1,
+  },
+
+  ribbonContainer:{
+    flex:1.5,
+    borderWidth:0,
+    borderTopWidth: 0.0,
+    borderTopColor: AppConfig.themeBackgroundColor(),
+    flexDirection:'row'
+  },
+
   error: {
     color:'red',
     paddingTop: 10
   },
+
   input: {
-    padding: 4,
     height: 40,
     borderColor: 'gray',
-    borderWidth: 1,
+    borderWidth: 0,
+    padding:10,
+    marginBottom:10,
     //borderRadius: 5,
-    margin: 5,
     width: 300,
-    alignSelf: 'center'
-
+    alignSelf: 'center',
+  //  backgroundColor:'white',
+    backgroundColor:AppConfig.themeBackgroundColor(),
   }
 });
-
 module.exports = SignUp;

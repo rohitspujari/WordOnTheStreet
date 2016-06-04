@@ -244,10 +244,10 @@ export default class ReviewList extends Component {
 
         </View>
         </ScrollView>
-        <View style={{flex:0.75, padding: 10}}>
+        <View style={styles.mapContainer}>
           {map}
         </View>
-        <View style={styles.listView}>
+        <View style={styles.listViewContainer}>
         <ListView
           dataSource={this.state.dataSource}
           enableEmptySections={true}
@@ -291,13 +291,15 @@ var styles = StyleSheet.create({
 
   container: {
     flex:1,
-    //borderWidth:1
+    margin:20,
+
+    borderWidth:0
   },
   reviewContainer:{
-    margin:7,
+    margin:0,
     borderBottomColor:'lightgray',
     borderBottomWidth:0.7,
-    padding:5,
+    padding:0,
     borderWidth:0,
     flex:4
   },
@@ -324,8 +326,10 @@ var styles = StyleSheet.create({
 
     fontSize: 12,
   },
-  listView:{
-    flex:2
+  listViewContainer:{
+    flex:2,
+    marginTop:5,
+    borderWidth:0
   },
   nameText:{
     flex:2,
@@ -334,9 +338,15 @@ var styles = StyleSheet.create({
   },
   infoContainer: {
     flex:2,
-    padding: 10,
-    marginTop:5,
+    padding:0,
+    marginTop:0,
     paddingBottom: 0,
-    //borderWidth:1
+    borderWidth:0,
+
+  },
+  mapContainer:{
+    flex:0.75, padding: 0,
+    marginTop:5
+
   }
 });

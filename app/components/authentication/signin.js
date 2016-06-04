@@ -5,13 +5,16 @@ import React, {
   TextInput,
   ActivityIndicatorIOS,
   Component,
-  AlertIOS
+  AlertIOS,
+  TouchableOpacity
 } from 'react-native';
 
 
 import store from 'react-native-simple-store';
 import Firebase from 'firebase';
 import TouchID from 'react-native-touch-id';
+import AppConfig from '../common/AppConfig';
+import { SegmentedControls } from 'react-native-radio-buttons'
 
 const ref = new Firebase("https://wots.firebaseio.com");
 var buffer = require('buffer');
@@ -39,50 +42,6 @@ export default class Signin extends Component {
     );
   }
 
-  render() {
-
-
-
-    if ( this.state.showProgress) {
-      return this.renderLoadingView();
-    }
-
-
-
-
-
-    var errorCtrl = <View />;
-
-    if(!this.state.success){
-      errorCtrl = <Text style={Styles.error}>
-      {this.state.message}
-      </Text>;
-    }
-
-    return <View style={Styles.container}>
-
-    <TextInput placeholder='username'
-     autoCapitalize='none'
-     autoCorrect={false}
-     onChangeText={(text)=>this.setState({username: text})}
-
-     style={Styles.input}/>
-
-    <TextInput placeholder='password'
-    autoCapitalize='none'
-    autoCorrect={false}
-    onChangeText={(text)=>this.setState({password: text})}
-
-     secureTextEntry={true} style={Styles.input}/>
-    <Button text={'Sign In'} onPress={this.onSigninPress.bind(this)}/>
-    <Button text={'I need an account'} onPress={this.onSignupPress.bind(this)}/>
-    <Button text={'Authenticate with Touch ID'} onPress={this.onTouchIdPress.bind(this)}/>
-
-
-    {errorCtrl}
-
-    </View>
-  }
 
 
   onTouchIdPress () {
@@ -290,30 +249,105 @@ export default class Signin extends Component {
     //this.props.navigator.push({name:'signup'});
   }
 
+  render() {
+
+    if ( this.state.showProgress) {
+      return this.renderLoadingView();
+    }
+
+    var errorCtrl = <View />;
+
+    if(!this.state.success){
+      errorCtrl = <Text style={styles.error}>
+      {this.state.message}
+      </Text>;
+    }
+
+    var bottomButtons = (
+
+      <View>
+      </View>
+
+    )
+
+    return (
+      <View style={styles.container}>
+        <View style={styles.loginContainer}>
+          <TextInput placeholder='Username'
+            autoCapitalize='none'
+            autoCorrect={false}
+            onChangeText={(text)=>this.setState({username: text})}
+            style={styles.input}
+            clearButtonMode="while-editing"
+          />
+          <TextInput placeholder='Password'
+            autoCapitalize='none'
+            autoCorrect={false}
+            onChangeText={(text)=>this.setState({password: text})}
+            secureTextEntry={true} style={styles.input}
+            clearButtonMode="while-editing"
+          />
+          <TouchableOpacity style={{width:300, alignSelf:'center', borderWidth:0}} onPress={this.onSigninPress.bind(this)}>
+            <Text style={{ alignSelf:'center', justifyContent:'center',fontSize:16, padding:10, color: AppConfig.themeBackgroundColor()}}>Sign In</Text>
+          </TouchableOpacity>
+          {errorCtrl}
+        </View>
+
+        <View style={styles.ribbonContainer}>
+          <TouchableOpacity onPress={this.onSignupPress.bind(this)} style={{flex:1, borderRightWidth:0.0, borderRightColor: AppConfig.themeBackgroundColor(), justifyContent:'center' }}>
+            <Text style={{alignSelf:'center', color: AppConfig.themeBackgroundColor(), fontSize:15}}>Sign Up</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={{flex:2, borderWidth:0, justifyContent:'center',borderRightWidth:0.0, borderRightColor: AppConfig.themeBackgroundColor() }}>
+            <Text style={{alignSelf:'center', color: AppConfig.themeBackgroundColor(), fontSize:15}}>Forgot Password</Text>
+          </TouchableOpacity>
+          <TouchableOpacity  onPress={this.onTouchIdPress.bind(this)} style={{flex:1, borderRightWidth:0.0, justifyContent:'center' }}>
+            <Text style={{alignSelf:'center', color: AppConfig.themeBackgroundColor(), fontSize:15}}>Touch ID</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+    );
+  }
+
+
 
 };
 
-var Styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center'
+var styles = StyleSheet.create({
+
+  container:{
+    flex:1,
+    backgroundColor: AppConfig.themeColor(),
   },
+  loginContainer: {
+    flex: 20,
+    justifyContent: 'center',
+    alignItems: 'center', //borderWidth:1,
+  },
+
+  ribbonContainer:{
+    flex:1.5,
+    borderWidth:0,
+    borderTopWidth: 0.0,
+    borderTopColor: AppConfig.themeBackgroundColor(),
+    flexDirection:'row'
+  },
+
   error: {
     color:'red',
     paddingTop: 10
   },
 
   input: {
-    padding: 4,
     height: 40,
     borderColor: 'gray',
-    borderWidth: 1,
+    borderWidth: 0,
+    padding:10,
+    marginBottom:10,
     //borderRadius: 5,
-    margin: 5,
     width: 300,
-    alignSelf: 'center'
-
+    alignSelf: 'center',
+  //  backgroundColor:'white',
+    backgroundColor:AppConfig.themeBackgroundColor(),
   }
 });
 

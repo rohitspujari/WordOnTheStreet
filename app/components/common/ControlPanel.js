@@ -25,7 +25,7 @@ export default class ControlPanel extends Component {
           <Icon name={icon} size={16} color={AppConfig.themeTextColor()} />
         </View>
         <View style={styles.menuTextContainer}>
-          <Text>{text}</Text>
+          <Text style={{color:AppConfig.themeTextColor()}}>{text}</Text>
         </View>
       </View>
     );
@@ -36,7 +36,14 @@ export default class ControlPanel extends Component {
     //console.log(this);
     return (
       <View style={styles.container}>
-        <View style={styles.body}>
+        <View style={styles.profileContainer}>
+          <View style={{borderWidth:0, marginBottom:10, width:100, height: 100, borderRadius: 50, alignItems:'center', backgroundColor: 'lightgray'}}>
+            <Icon style={{marginTop:15}} name="user" size={60} color={AppConfig.themeTextColor()} />
+          </View>
+          <Text>Rohit Pujari</Text>
+          <Text>rohitspujari@gmail.com</Text>
+        </View>
+        <View style={styles.menuContainer}>
           <TouchableOpacity onPress={()=> null}>
            {this.getMenuItem('Payment','credit-card')}
           </TouchableOpacity>
@@ -81,10 +88,24 @@ export default class ControlPanel extends Component {
 var styles = StyleSheet.create({
   container: {
     flex:1,
-    backgroundColor:'white',
-    marginTop:0
+    backgroundColor:AppConfig.themeBackgroundColor(),
+
   },
-  menuItemContainer: {flexDirection:'row', flex:1, alignItems:'center', justifyContent:'flex-start', padding:10},
+  menuContainer:{flex:2},
+  profileContainer:{
+    //borderWidth:1,
+    alignItems:'center',
+    justifyContent:'center',
+    flex:1,
+    shadowColor: "#000000",
+    shadowOpacity: 0.1,
+    borderRadius: 5,
+    shadowOffset: {
+      height: 1,
+      width: 1
+    }
+  },
+  menuItemContainer: {flexDirection:'row', flex:1, alignItems:'center', justifyContent:'flex-start', padding:20, borderWidth:0},
   menuIconContainer: {flex:1, alignItems:'center', borderWidth:0},
   menuTextContainer: {flex:6, alignItems:'flex-start', borderWidth:0},
 

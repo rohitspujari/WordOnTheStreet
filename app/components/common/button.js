@@ -23,9 +23,6 @@ var Button = React.createClass({
         content = <Icon name={this.props.icon} size={30} color={AppConfig.themeTextColor()} />;
         break;
 
-
-
-
       case 'inline':
         content= (<GenericButton containerStyle={Styles.inlineButton}
                        style={Styles.buttonText}
@@ -61,10 +58,8 @@ var Button = React.createClass({
 
     return (
 
-      <TouchableHighlight underlayColor={AppConfig.themeColor()}
-        onPress={this.props.onPress}
-        style={buttonStyle}>
-        <View>
+      <TouchableHighlight underlayColor={AppConfig.themeColor()} onPress={this.props.onPress}>
+        <View style={[buttonStyle, (this.props.width?{width:this.props.width}:null)]}>
           {content}
         </View>
       </TouchableHighlight>
@@ -102,19 +97,13 @@ var Button = React.createClass({
 var Styles = StyleSheet.create({
   button: {
     flex:1,
+    borderWidth:0,
+    borderColor:'red',
     justifyContent: 'center',
     alignItems: 'center',
-    borderWidth: 0,
-    borderRadius: 3,
+    borderRadius: 0,
     padding: 10,
-    borderColor: 'black',
-    margin:0,
-    width: 320,
-    backgroundColor:'#f6f7f8'
-
-  },
-  inlineButtonText:{
-
+    width: 300,
   },
 
   inlineButton: {
@@ -164,20 +153,7 @@ var Styles = StyleSheet.create({
 
   },
 
-  buttonText: {
-    //flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    fontSize: 15,
 
-    fontWeight: '400',
-    //padding: 5,
-    //borderRadius:5,
-    //backgroundColor:'#dce79e',
-    //backgroundColor:'blue',
-
-    color:AppConfig.themeTextColor(),
-  }
 });
 
 module.exports = Button;
