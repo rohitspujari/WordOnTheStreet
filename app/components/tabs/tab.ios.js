@@ -31,7 +31,7 @@ class Tab extends Component {
   constructor(props){
     super(props);
     this.state ={
-      selectedTab: 'cash'
+      selectedTab: 'reviews'
     };
 
   }
@@ -75,14 +75,14 @@ class Tab extends Component {
 
         <Icon.TabBarItemIOS
         selected={this.state.selectedTab ==='cash'}
-        title="Cash"
+        title="Wallet"
         iconName="money"
         onPress={()=> {
           this.setState({
             selectedTab: 'cash'
           });
         }}>
-        <ExampleMaps />
+        <Cash {...this.props} />
         </Icon.TabBarItemIOS>
         </TabBarIOS>
 

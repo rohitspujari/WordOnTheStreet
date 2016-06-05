@@ -58,7 +58,7 @@ var Button = React.createClass({
 
     return (
 
-      <TouchableHighlight underlayColor={AppConfig.themeColor()} onPress={this.props.onPress}>
+      <TouchableHighlight underlayColor="black" onPress={this.props.onPress}>
         <View style={[buttonStyle, (this.props.width?{width:this.props.width}:null)]}>
           {content}
         </View>
@@ -97,6 +97,7 @@ var Button = React.createClass({
 var Styles = StyleSheet.create({
   button: {
     flex:1,
+    opacity:10,
     borderWidth:0,
     borderColor:'red',
     justifyContent: 'center',
@@ -104,8 +105,13 @@ var Styles = StyleSheet.create({
     borderRadius: 0,
     padding: 10,
     width: 300,
+    height:45,
+    backgroundColor: AppConfig.themeColor()
   },
 
+  buttonText:{
+    color: 'white'
+  },
   inlineButton: {
     justifyContent: 'center',
     alignItems: 'center',

@@ -3,9 +3,12 @@ import React, {
   Text,
   View,
   Component,
-  TouchableOpacity
+  TouchableOpacity,
+
 } from 'react-native';
 
+
+import Icon from 'react-native-vector-icons/FontAwesome';
 import StarRating from 'react-native-star-rating';
 import Touchable from '../common/Touchable';
 import AppConfig from '../common/AppConfig';
@@ -42,16 +45,17 @@ export default class Item extends Component{
       <View style={styles.container}>
         <View style={styles.container_itemReview}>
           <View style={styles.name}>
-            <TouchableOpacity onPress={this.props.itemPress.bind(this,this.props)}>
+            <TouchableOpacity style={{flexDirection:'row'}} onPress={this.props.itemPress.bind(this,this.props)}>
               <Text style={styles.nameText}>{this.props.itemName}</Text>
+              <Icon style={{borderWidth:0, alignSelf:'center', marginLeft:5}} name="edit" size={14} color={'gray'} />
             </TouchableOpacity>
           </View>
+
           <View style={styles.price}>
           <Text style={{fontWeight:'300'}}>5.743</Text>
           </View>
-
         </View>
-       </View>
+      </View>
     );
   }
 }
@@ -60,7 +64,7 @@ var styles = StyleSheet.create({
   container:{
     flex:1,
     borderWidth:0,
-    paddingBottom:6
+    paddingBottom:10
   },
   container_itemReview:{
     flex: 1,
@@ -71,6 +75,7 @@ var styles = StyleSheet.create({
   },
   name:{
     flex:6,
+
     alignItems: 'flex-start',
     borderWidth:0,
     //borderColor:'red'
@@ -78,8 +83,6 @@ var styles = StyleSheet.create({
 
   price:{flex:1, borderWidth:0, alignItems:'flex-end'},
   nameText:{
-
-    fontWeight:'normal',
     color:AppConfig.themeTextColor()
   },
   rating:{

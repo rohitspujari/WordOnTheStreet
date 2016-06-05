@@ -220,7 +220,11 @@ export default class ReviewList extends Component {
         <Text style={{marginTop:5, fontSize:13, color:'gray'}}>{placeType}</Text>
         <View style={{ flex:1, borderWidth:0,marginTop:10,flexDirection: 'row', alignItems:'center'}}>
           <Icon style={{paddingBottom:1}}name={'map-marker'} size={12} color='gray' />
-          <TouchableOpacity>
+          <TouchableOpacity onPress={()=> {
+            Linking.openURL('comgooglemaps://?q='+placeDetails.formatted_address)
+            //Linking.openURL('http://maps.apple.com/?q='+placeDetails.formatted_address)
+
+          }}>
             <Text style={{marginLeft:10, fontSize: 14, color: AppConfig.themeTextColor()}}>{placeDetails.formatted_address}</Text>
           </TouchableOpacity>
 

@@ -119,7 +119,7 @@ export default class ReviewCard extends Component {
     let time = moment.unix(this.props.data[this.props.index].time).format("MM/DD/YYYY HH:mm A");
     let amount = this.props.data[this.props.index].amount;
     let items = this.props.data[this.props.index].order_details;
-    let question = "How likely will you recommend this restaurant?"
+    let question = "Will you recommend this restaurant?"
 
     let title = (
       <View>
@@ -140,11 +140,11 @@ export default class ReviewCard extends Component {
             {title}
            </View>
            <View style={styles.rewardContainer}>
-            {this.getRewardCoin(95,'cent')}
+           {null}
            </View>
         </View>
 
-        <View style={{flexDirection:'row', alignItems:'flex-start', paddingHorizontal:15, paddingTop:15, borderWidth:0}}>
+        <View style={styles.pricePaidContainer}>
           <View style={{flex:1,flexDirection:'row', alignItems:'center', borderWidth:0}}>
             <Icon style={{padding:2}} name="dollar" size={13} color={AppConfig.themeTextColor()}/>
             <Text style={{alignSelf:'center', fontSize:25, fontWeight:'normal', color:AppConfig.themeTextColor()}}>{amount}</Text>
@@ -154,31 +154,41 @@ export default class ReviewCard extends Component {
           </View>
         </View>
 
-        <View style={{margin:15, borderBottomWidth:0.5, borderBottomColor: 'lightgray'}}>
-        {this.getDetails(items)}
-        </View>
-        <View style={{marginHorizontal:15}}>
-        <Text style={{marginBottom:20, borderWidth:0, alignSelf:'center'}}>{question}</Text>
-        <SegmentedControls
-          containerBorderRadius={2}
-          tint={AppConfig.themeStarColor()}
-          containerBorderWidth={0}
-          options={ ['Yes','No','Maybe'] }
-          onSelection={()=>null }
-          selectedOption={ () => null }
-        />
-        </View>
-        <View style={{padding:15, alignItems:'center'}}>
-        <TouchableOpacity>
-          <View style={{flexDirection:'row', alignItems:'center', justifyContent:'center'}}>
-            <Text style={{marginRight:7,alignSelf:'flex-start', borderWidth:0, color:AppConfig.themeTextColor()}}>Leave a comment</Text>
-            <Icon style={{borderWidth:0, alignSelf:'center'}} name="edit" size={14} color={AppConfig.themeTextColor()} />
-          </View>
-        </TouchableOpacity>
+        <View style={styles.serviceDetailContainer}>
+          {this.getDetails(items)}
         </View>
 
-        <View style={{justifyContent:'center',alignItems:'center', marginTop:10}}>
-          <Button  text="Submit" onPress={ () => {this.props.onSubmitPress.bind(this);this.onSubmitPress()}}/>
+
+        <View style={styles.surveryContainer}>
+          <Text style={{marginTop:10, marginBottom:15, borderWidth:0, alignSelf:'center'}}>{question}</Text>
+          <SegmentedControls
+            containerBorderRadius={2}
+            tint={AppConfig.themeColor()}
+            backTint= {AppConfig.themeBackgroundColor()}
+            paddingTop={5}
+            paddingBottom={5}
+            containerBorderWidth={0}
+            options={ ['Yes','No','Maybe'] }
+            onSelection={()=>null }
+            selectedOption={ () => null }
+            textAlign="center"
+            containerStyle={{flex:0, height:35, width:300, alignSelf :'center',  borderWidth:1}}
+            optionStyle={{fontWeight:'normal', marginTop: 3, color:'red'}}
+          />
+          <TouchableOpacity onPress={this.props.itemPress.bind(this,this.props)} style={{marginTop:15, alignItems:'center'}}>
+            <View style={{flexDirection:'row', alignItems:'center', justifyContent:'center'}}>
+              <Text style={{marginRight:7,alignSelf:'flex-start', borderWidth:0, color:AppConfig.themeTextColor()}}>Let us know what you think!</Text>
+              <Icon style={{borderWidth:0, alignSelf:'center'}} name="edit" size={14} color={'gray'} />
+            </View>
+          </TouchableOpacity>
+
+          <View style={{justifyContent:'center',alignItems:'center', marginTop:15}}>
+            <Button  text="Submit" onPress={ () => {this.props.onSubmitPress.bind(this);this.onSubmitPress()}}/>
+          </View>
+        </View>
+
+        <View style={{position:'absolute', top:15, left:(width-115)}}>
+        {this.getRewardCoin(95,'cent')}
         </View>
 
     </View>
@@ -192,7 +202,7 @@ styles = StyleSheet.create({
     flex:5,
     borderRadius: 5,
     //margin:20,
-    marginTop: 50,
+    marginTop: 40,
     marginBottom:7,
     marginHorizontal:3.5,
     backgroundColor: AppConfig.themeBackgroundColor(),
@@ -213,10 +223,11 @@ styles = StyleSheet.create({
     }
   },
 
-  rewardCoin: { margin: 0, padding:0, backgroundColor: 'gold', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', borderWidth:0, borderRadius:30 , height:60, width:60},
+  rewardCoin: { margin: 0, padding:0, backgroundColor: 'gold', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', borderWidth:0, borderRadius:35 , height:70, width:70},
   rewardCurrency: {alignSelf:'flex-end',fontWeight: 'bold', color: 'gray', marginBottom:18, paddingHorizontal:0 },
   rewardAmount: {fontSize: 25,fontWeight: 'bold', color: 'gray', },
   offerContainer: {
+    flex:2,
     flexDirection:'row', padding:15, borderWidth:0,
     shadowColor: "#000000",
     shadowOpacity: 0.1,
@@ -226,9 +237,12 @@ styles = StyleSheet.create({
       width: 1
     }
   },
+  pricePaidContainer: { borderWidth:0, flex:1,flexDirection:'row', alignItems:'flex-start', paddingHorizontal:15, paddingTop:15,},
+  serviceDetailContainer: { flex:2, padding:15, borderWidth:0, borderBottomWidth:0, borderBottomColor:'lightgray'},
+  surveryContainer: { flex: 5, paddingHorizontal:15, borderWidth:0},
+
   titleContainer: {flex:3, alignItems:'flex-start', justifyContent:'flex-start', padding:0 ,borderWidth:0},
   rewardContainer: {flex:1, alignItems:'flex-end', borderWidth:0, shadowRadius:50, shadowColor:'gray', padding:0,},
-
   titleText: {
     fontSize:25, fontWeight:'400', color:AppConfig.themeTextColor(), borderWidth:0,
   },
