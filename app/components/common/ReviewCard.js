@@ -4,7 +4,10 @@ import React, {
   ListContainer,
   TextInput,
   View,
-  TouchableOpacity
+  TouchableOpacity,
+  Animated,
+  Dimensions,
+  Alert,
 } from 'react-native';
 
 const StyleSheet = require('F8StyleSheet');
@@ -16,6 +19,7 @@ import ItemList from '../common/ItemList';
 import Button from '../common/button';
 import AppConfig from './AppConfig';
 import { SegmentedControls } from 'react-native-radio-buttons'
+var { width, height } = Dimensions.get('window');
 
 
 
@@ -58,11 +62,30 @@ export default class ReviewCard extends Component {
     if(currency==='dollar'){
       currencySymbol='$';
     }
+    this.anim = new Animated.Value(0);
+
+    var animateFlip = this.anim.interpolate({
+      inputRange: [0,1],
+      outputRange: ['0deg','720deg'],
+    });
+
+    var animateY = this.anim.interpolate({
+      inputRange: [0,1],
+      outputRange: [0, (height+10)],
+
+    });
     return(
-      <View style={styles.rewardCoin}>
+
+
+      <Animated.View style={[styles.rewardCoin, {transform:[
+        {skewY: animateFlip}, {translateY: animateY}
+      ]}]}>
+
         <Text style={styles.rewardAmount}>{amount}</Text>
         <Text style={styles.rewardCurrency}>{currencySymbol}</Text>
-      </View>
+
+      </Animated.View>
+
     );
   }
 
@@ -80,6 +103,15 @@ export default class ReviewCard extends Component {
       return null;
 
   }
+
+  onSubmitPress(){
+    Animated.spring(this.anim,{
+      toValue:1,
+      tension:0,
+      friction:15,
+    }).start();
+  }
+
   render() {
     //console.log("im in RCard render");
     let placeName = this.props.data[this.props.index].name;
@@ -101,6 +133,7 @@ export default class ReviewCard extends Component {
 
     return(
       <View style={styles.container}>
+
 
         <View style={styles.offerContainer}>
            <View style={styles.titleContainer}>
@@ -145,8 +178,9 @@ export default class ReviewCard extends Component {
         </View>
 
         <View style={{justifyContent:'center',alignItems:'center', marginTop:10}}>
-          <Button  text="Submit" onPress={this.props.onSubmitPress}/>
+          <Button  text="Submit" onPress={ () => {this.props.onSubmitPress.bind(this);this.onSubmitPress()}}/>
         </View>
+
     </View>
     );
   }
@@ -161,7 +195,7 @@ styles = StyleSheet.create({
     marginTop: 50,
     marginBottom:7,
     marginHorizontal:3.5,
-    backgroundColor: 'white',
+    backgroundColor: AppConfig.themeBackgroundColor(),
     //borderWidth:1
   },
 

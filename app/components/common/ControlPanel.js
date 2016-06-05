@@ -33,15 +33,14 @@ export default class ControlPanel extends Component {
 
   render() {
 
-    //console.log(this);
+    console.log(this.props);
     return (
       <View style={styles.container}>
         <View style={styles.profileContainer}>
           <View style={{borderWidth:0, marginBottom:10, width:100, height: 100, borderRadius: 50, alignItems:'center', backgroundColor: 'lightgray'}}>
             <Icon style={{marginTop:15}} name="user" size={60} color={AppConfig.themeTextColor()} />
           </View>
-          <Text>Rohit Pujari</Text>
-          <Text>rohitspujari@gmail.com</Text>
+          <Text>{'rohitspujari@gmail.com'}</Text>
         </View>
         <View style={styles.menuContainer}>
           <TouchableOpacity onPress={()=> null}>

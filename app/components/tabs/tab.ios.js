@@ -16,7 +16,7 @@ import Drawer from 'react-native-drawer'
 //var Reviews = require('./reviews.ios');
 import Cash from './cash.ios';
 var Example = require('../common/modal')
-var ExampleMaps = require('../../examples/CustomAutocomplete')
+import ExampleMaps from '../../examples/PlayGround';
 
 
 // var Tab = React.createClass({
@@ -31,7 +31,7 @@ class Tab extends Component {
   constructor(props){
     super(props);
     this.state ={
-      selectedTab: 'reviews'
+      selectedTab: 'cash'
     };
 
   }

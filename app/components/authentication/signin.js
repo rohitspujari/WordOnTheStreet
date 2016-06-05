@@ -65,7 +65,13 @@ export default class Signin extends Component {
       message: 'success',
       success: true
     });
-    this.props.navigator.immediatelyResetRouteStack([{ name:'tab', type:'FadeAndroid'}]);
+    this.props.navigator.immediatelyResetRouteStack([{
+      name:'tab', type:'FadeAndroid',
+      passProps : {
+        username: store.get('username')
+
+      }
+    }]);
   }
 
 
@@ -145,7 +151,7 @@ export default class Signin extends Component {
     var username = this.props.username?this.props.username:this.state.username;
     var password = this.props.password?this.props.password:this.state.password;
 
-    console.log(username);
+    //console.log(username);
     var check = this.validation(username,password)
 
     if(check.success) {
@@ -240,6 +246,7 @@ export default class Signin extends Component {
 
 
   }
+
   onSignupPress(){
 
     this.props.navigator.push({
