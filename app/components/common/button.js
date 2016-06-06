@@ -4,12 +4,15 @@ import React, {
  TouchableHighlight,
  View,
  Platform,
+ TouchableOpacity,
  ActivityIndicatorIOS,
+
 } from 'react-native';
 
 import GenericButton from 'react-native-button';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import AppConfig from './AppConfig';
+import Touchable from './Touchable';
 
 var Button = React.createClass({
   render: function(){
@@ -38,9 +41,9 @@ var Button = React.createClass({
       case 'search':
         buttonStyle = Styles.searchButton;
         content = (
-          <View style={{flexDirection:'row', alignItems:'center'}}>
-            {this.props.showProgress===true?this.getLoader():<Text style={Styles.buttonText}>{this.props.text}</Text>}
-          </View>
+          <TouchableOpacity style={{flexDirection:'row', alignItems:'center', borderWidth:0, marginRight:10}}>
+            {this.props.showProgress===true?this.getLoader():<Text style={{color:AppConfig.themeTextColor()}}>{this.props.text}</Text>}
+          </TouchableOpacity>
         );
         break;
 
@@ -51,6 +54,9 @@ var Button = React.createClass({
 
 
     if(this.props.type === 'inline'){
+      return content;
+    }
+    if(this.props.type == 'search') {
       return content;
     }
 

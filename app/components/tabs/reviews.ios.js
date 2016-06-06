@@ -6,16 +6,19 @@ import React, {
   Text,
   ActivityIndicatorIOS,
   StatusBar,
-  Alert
+  Alert,
+  TouchableOpacity
 } from 'react-native';
 
+import Icon from 'react-native-vector-icons/FontAwesome'
 import CommentModal from '../common/CommentModal';
 import ReviewsModal from '../common/ReviewsModal';
 import RestaurantCard from '../common/RestaurantCard';
 import ReviewCard from '../common/ReviewCard';
 import Carousel from '../common/Carousel';
 import Firebase from 'firebase';
-import Button from '../common/button';
+import Button from 'react-native-button';
+//import Button from '../common/button';
 import AppConfig from '../common/AppConfig';
 import NavigationBar from 'react-native-navbar';
 import Drawer from 'react-native-drawer'
@@ -184,6 +187,13 @@ export default class Reviews extends Component{
       title: 'Word on the street',
     };
 
+    var navButton = (
+      <TouchableOpacity  onPress={()=> this.refs.drawer.open()} style={{borderWidth:0, padding:15, marginLeft:0, marginTop:0}}>
+        <Icon name="navicon" size={15} color={AppConfig.themeTextColor()} />
+      </TouchableOpacity>
+    );
+
+
     //console.log("im in review render");
     //console.log(this.props);
     return (
@@ -208,7 +218,7 @@ export default class Reviews extends Component{
      <NavigationBar
         statusBar={{hidden:false}}
         tintColor={AppConfig.themeColor()}
-        leftButton={<Button type="navBar" icon="navicon" onPress={()=> this.refs.drawer.open()}/>}
+        leftButton={navButton}
         title={titleConfig}/>
      </View>
         <Carousel
@@ -299,6 +309,7 @@ var styles = StyleSheet.create({
      borderWidth:0,
      marginTop:0,
      marginBottom:50, //This is a tab margin
+     //backgroundColor: 'gray'
      backgroundColor: AppConfig.themeColor()
      //backgroundColor: '#f87931'
   },

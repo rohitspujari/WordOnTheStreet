@@ -16,7 +16,7 @@ import Drawer from 'react-native-drawer'
 //var Reviews = require('./reviews.ios');
 import Cash from './cash.ios';
 var Example = require('../common/modal')
-import ExampleMaps from '../../examples/PlayGround';
+import ExampleMaps from '../../examples/LinearGradientExample';
 
 
 // var Tab = React.createClass({
@@ -82,7 +82,7 @@ class Tab extends Component {
             selectedTab: 'cash'
           });
         }}>
-        <Cash {...this.props} />
+        <ExampleMaps {...this.props} />
         </Icon.TabBarItemIOS>
         </TabBarIOS>
 

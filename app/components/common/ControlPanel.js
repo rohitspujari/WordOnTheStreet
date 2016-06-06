@@ -33,7 +33,7 @@ export default class ControlPanel extends Component {
 
   render() {
 
-    console.log(this.props);
+    //console.log(this.props);
     return (
       <View style={styles.container}>
         <View style={styles.profileContainer}>

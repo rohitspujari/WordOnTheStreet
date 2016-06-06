@@ -112,6 +112,10 @@ export default class ReviewCard extends Component {
     }).start();
   }
 
+  setSelectedOption(){
+   Alert.alert("Hello")
+  }
+
   render() {
     //console.log("im in RCard render");
     let placeName = this.props.data[this.props.index].name;
@@ -165,6 +169,8 @@ export default class ReviewCard extends Component {
             containerBorderRadius={2}
             tint={AppConfig.themeColor()}
             backTint= {AppConfig.themeBackgroundColor()}
+            onSelection={this.setSelectedOption.bind(this)}
+            selectedOption={'Yes'}
             paddingTop={5}
             paddingBottom={5}
             containerBorderWidth={0}
@@ -172,7 +178,7 @@ export default class ReviewCard extends Component {
             onSelection={()=>null }
             selectedOption={ () => null }
             textAlign="center"
-            containerStyle={{flex:0, height:35, width:300, alignSelf :'center',  borderWidth:1}}
+            containerStyle={{flex:0, height:35, width:300, alignSelf :'center',  borderWidth:0}}
             optionStyle={{fontWeight:'normal', marginTop: 3, color:'red'}}
           />
           <TouchableOpacity onPress={this.props.itemPress.bind(this,this.props)} style={{marginTop:15, alignItems:'center'}}>

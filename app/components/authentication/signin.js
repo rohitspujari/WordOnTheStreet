@@ -15,6 +15,7 @@ import Firebase from 'firebase';
 import TouchID from 'react-native-touch-id';
 import AppConfig from '../common/AppConfig';
 import { SegmentedControls } from 'react-native-radio-buttons'
+import LinearGradient from 'react-native-linear-gradient';
 
 const ref = new Firebase("https://wots.firebaseio.com");
 var buffer = require('buffer');
@@ -278,7 +279,8 @@ export default class Signin extends Component {
     )
 
     return (
-      <View style={styles.container}>
+      <LinearGradient colors={['#E4FF7F','#B3CD52','#739711']}  style={styles.container}>
+
         <View style={styles.loginContainer}>
           <TextInput placeholder='Username'
             autoCapitalize='none'
@@ -311,7 +313,8 @@ export default class Signin extends Component {
             <Text style={{alignSelf:'center', color: AppConfig.themeBackgroundColor(), fontSize:15}}>Touch ID</Text>
           </TouchableOpacity>
         </View>
-      </View>
+
+      </LinearGradient>
     );
   }
 
@@ -323,7 +326,8 @@ var styles = StyleSheet.create({
 
   container:{
     flex:1,
-    backgroundColor: AppConfig.themeColor(),
+    //backgroundColor: AppConfig.themeColor(),
+    //borderWidth:1
   },
   loginContainer: {
     flex: 20,

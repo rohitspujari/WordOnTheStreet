@@ -12,6 +12,7 @@ import React, {
   TouchableOpacity,
   Alert
 } from 'react-native';
+import { SegmentedControls } from 'react-native-radio-buttons'
 import MapComponent from '../common/MapComponent';
 import Cash from './cash.ios';
 var {GooglePlacesAutocomplete} = require('react-native-google-places-autocomplete');
@@ -64,6 +65,7 @@ export default class Search extends Component{
 
     if(this.state.nearbyPlaces){
       if(this.state.nearbyPlaces.length === 0){
+
         Alert.alert('No Results');
         return;
       }
@@ -329,6 +331,29 @@ export default class Search extends Component{
     />
   );
 
+    var x = (
+      <SegmentedControls
+        containerBorderRadius={2}
+        tint={AppConfig.themeColor()}
+        backTint= {AppConfig.themeBackgroundColor()}
+        selectedOption={'Map'}
+        selectedTint={AppConfig.themeTextColor()}
+        onSelection={(selectedSegment)=> {
+          if(selectedSegment === 'List') {
+            this.displayTypePressed();
+          }
+        }}
+        paddingTop={5}
+        paddingBottom={5}
+        containerBorderWidth={0}
+        options={ ['Map','List'] }
+
+        textAlign="center"
+        containerStyle={{flex:0,  width:100, alignSelf :'center',  borderWidth:0}}
+        optionStyle={{fontWeight:'normal'}}
+      />
+    );
+
 
     return(
 
@@ -337,9 +362,9 @@ export default class Search extends Component{
       <NavigationBar
         statusBar={{hidden:false}}
         tintColor= {AppConfig.themeColor()}
-        title={<Button type= 'inline'  text= "List" onPress={this.displayTypePressed.bind(this)}/>}
+        title={x}
         rightButton={<Button type="search" text="Search" showProgress={this.state.isSearching} onPress={this.searchPress.bind(this)}/>}
-        leftButton={<Button type="navBar" icon="filter" onPress={()=> null}/>}/>
+        />
 
       <View style={styles.textInputContainer}>
         {this.getPlaceTypeTextInput()}

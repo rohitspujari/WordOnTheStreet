@@ -8,7 +8,7 @@ import React, {
 
  TextInput
 } from 'react-native';
-
+import LinearGradient from 'react-native-linear-gradient';
 var Button = require('../common/button');
 import Firebase from 'firebase';
 const ref = new Firebase("https://wots.firebaseio.com");
@@ -155,7 +155,7 @@ export default class SignUp extends Component {
       errorMsg = <Text style={styles.error}>{this.state.message}</Text>;
     }
     return (
-      <View style={styles.container}>
+      <LinearGradient colors={['#E4FF7F','#B3CD52','#739711']} style={styles.container}>
         <View style={styles.loginContainer}>
           <TextInput placeholder='Username'
             autoCapitalize='none'
@@ -195,7 +195,7 @@ export default class SignUp extends Component {
             <Text style={{alignSelf:'center', color: AppConfig.themeBackgroundColor(), fontSize:15}}>Touch ID</Text>
           </TouchableOpacity>
         </View>
-      </View>
+      </LinearGradient>
     );
   }
 
@@ -205,7 +205,7 @@ var styles = StyleSheet.create({
 
   container:{
     flex:1,
-    backgroundColor: AppConfig.themeColor(),
+    //backgroundColor: AppConfig.themeColor(),
   },
   loginContainer: {
     flex: 20,

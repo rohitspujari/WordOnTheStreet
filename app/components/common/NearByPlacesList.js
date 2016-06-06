@@ -5,7 +5,9 @@ import React, {
   ListView,
   ScrollView,
   Text,
+  TouchableOpacity
 } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome'
 import Button from '../common/button';
 import AppConfig from '../common/AppConfig';
 import NavigationBar from 'react-native-navbar';
@@ -33,6 +35,12 @@ export default class NearByPlacesList extends Component {
 
 
   render(){
+    navBackButton = (
+      <TouchableOpacity  onPress={() => this.props.navigator.pop()} style={{borderWidth:0, marginLeft:15, marginTop:15}}>
+        <Icon name="chevron-left" size={15} color={AppConfig.themeTextColor()} />
+      </TouchableOpacity>
+    );
+
     if(this.state.isLoaded === false){
       return <ActivityProgress/>
     }
@@ -41,7 +49,7 @@ export default class NearByPlacesList extends Component {
         <NavigationBar
           statusBar={{hidden:false}}
           tintColor= {AppConfig.themeColor()}
-          leftButton={<Button type="navBar" icon="chevron-left" onPress={() => this.props.navigator.pop()}/>}
+          leftButton={navBackButton}
           title={{
             tintColor: AppConfig.themeTextColor(),
             title: 'Places',

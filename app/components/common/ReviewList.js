@@ -189,13 +189,20 @@ export default class ReviewList extends Component {
       placeType = ((placeDetails.types.toString()).replace(/_/g, " ")).replace(/,/g, ", ")
     }
 
+    var navCloseButton = (
+      <TouchableOpacity  onPress={() => this.props.navigator.pop()} style={{borderWidth:0, marginRight:15, marginTop:15}}>
+        <Icon name="close" size={15} color={AppConfig.themeTextColor()} />
+      </TouchableOpacity>
+    );
+
+
     return(
       <View style={{flex:1}}>
         <NavigationBar
           title={titleConfig}
           statusBar={{hidden:false}}
           tintColor={AppConfig.themeColor()}
-          rightButton={<Button type="navBar" icon="close" onPress={() => this.props.navigator.pop()}/>}
+          rightButton={navCloseButton}
         />
 
         <View style={styles.container}>
