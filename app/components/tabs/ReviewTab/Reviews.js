@@ -11,21 +11,17 @@ import React, {
 } from 'react-native';
 
 import Icon from 'react-native-vector-icons/FontAwesome'
-import CommentModal from '../common/CommentModal';
-import ReviewsModal from '../common/ReviewsModal';
-import RestaurantCard from '../common/RestaurantCard';
-import ReviewCard from '../common/ReviewCard';
-import Carousel from '../common/Carousel';
-import Firebase from 'firebase';
 import Button from 'react-native-button';
-//import Button from '../common/button';
-import AppConfig from '../common/AppConfig';
 import NavigationBar from 'react-native-navbar';
 import Drawer from 'react-native-drawer'
-import ControlPanel from '../common/ControlPanel';
-var ExampleMaps = require('../../examples/EventListner')
+import Firebase from 'firebase';
 
+import CommentModal from './CommentModal';
+import ReviewCard from './ReviewCard';
+import Carousel from './Carousel';
 
+import AppConfig from '../../common/AppConfig';
+import ControlPanel from '../../common/ControlPanel';
 
 const firebaseReceiptsRef = new Firebase('https://wots.firebaseio.com/receipts');
 const firebaseUrl = 'https://wots.firebaseio.com/';
@@ -33,7 +29,6 @@ const firebaseReceiptUrl = 'https://wots.firebaseio.com/receipts/';
 const firebaseReviewUrl = 'https://wots.firebaseio.com/reviews/';
 
 var REQUEST_URL = 'https://maps.googleapis.com/maps/api/place/details/json?placeid=ChIJN1t_tDeuEmsRUsoyG83frY4&key=AIzaSyAmbpYyzqv7aPDFpdbvsHo5zIEruNBuiNI';
-//var REQUEST_URL = 'https://www.googleapis.com/books/v1/volumes?q=subject:suspense';
 
 export default class Reviews extends Component{
 
@@ -48,9 +43,6 @@ export default class Reviews extends Component{
       isDisabled: false,
       isLoaded: false,
       isStatusBarHidden: false
-
-      // swipeToClose: true,
-      // sliderValue: 0.3
     };
     this.onSelectedIndexChange = this.onSelectedIndexChange.bind(this);
     this.renderCard = this.renderCard.bind(this);
@@ -66,14 +58,6 @@ export default class Reviews extends Component{
   }
 
   openCommentModal(itemProps) {
-
-    // this.props.navigator.push({
-    //   name: 'comment',
-    //   type: 'bottomUp',
-    //   passProps : {
-    //     item: itemProps
-    //   }
-    // });
     this.setState({isCommentModalOpen: true, isReviewModalOpen: false, itemProps:itemProps });
     console.log("this is openModal5 ")
     //console.log(itemProps);
@@ -109,8 +93,7 @@ export default class Reviews extends Component{
     console.log("this is closeModal5 ")
   }
 
-  openReviewsModal(){
-
+  openReviews(){
     //console.log(this);
     this.props.navigator.push({
       name: 'reviewList',
@@ -121,13 +104,6 @@ export default class Reviews extends Component{
         showMap: true
       }
     });
-
-    //this.setState({isReviewModalOpen: true, isCommentModalOpen: false});
-    //console.log("this is reviewsPress, fetching reviews ");
-
-
-
-    //this.fetchData(REQUEST_URL);
   }
 
   fetchData(url){
@@ -148,16 +124,6 @@ export default class Reviews extends Component{
     console.log("this is onSubmitPress ")
   }
 
-  titlePress(){
-    //console.log(this);
-    console.log("this is titletPress ")
-    // this.props.navigator.push({
-    //   name:'search'
-    // });
-    console.log(this.props.switchTab);
-
-  }
-
   renderLoadingView() {
     return (
       <View style={{flex:1, justifyContent:'center', alignItems:'center'}}>
@@ -169,8 +135,6 @@ export default class Reviews extends Component{
   }
 
   render(){
-
-
 
     if (!this.state.isLoaded) {
       return this.renderLoadingView();
@@ -192,8 +156,6 @@ export default class Reviews extends Component{
         <Icon name="navicon" size={15} color={AppConfig.themeTextColor()} />
       </TouchableOpacity>
     );
-
-
     //console.log("im in review render");
     //console.log(this.props);
     return (
@@ -234,31 +196,13 @@ export default class Reviews extends Component{
           onClosed={this.closeCommentModal}
           onPress={this.onAddComment.bind(this)}
         />
-        <ReviewsModal
-          isOpen={this.state.isReviewModalOpen}
-          place={this.state.cards[this.state.selectedIndex]}
-        />
-
-
       </Drawer>
     </View>
 
     );
   }
 
-  getResturantCard(index, data) {
-    return (
-      <RestaurantCard
-        key={index}
-        data={data}
-        index={index}
-        reviewsPress={this.openReviewsModal.bind(this)}
-        titleClick={this.openReviewsModal.bind(this)}
-        itemPress={this.openCommentModal.bind(this)}
-        onSubmitPress={this.onSubmitPress.bind(this)}
-      />
-    );
-  }
+
 
   getReviewCard(index, data) {
     return (
@@ -266,19 +210,16 @@ export default class Reviews extends Component{
         key={index}
         data={data}
         index={index}
-        reviewsPress={this.openReviewsModal.bind(this)}
-        titlePress={this.openReviewsModal.bind(this)}
+
+        titlePress={this.openReviews.bind(this)}
         itemPress={this.openCommentModal.bind(this)}
         onSubmitPress={this.onSubmitPress.bind(this)}
       />
     );
   }
 
-
-
   renderCard(index, data): ReactElement {
     let nullCard = <View key={index}/>;
-    let RestaurantCard  = this.getResturantCard(index, data)
     let ReviewCard = this.getReviewCard(index, data)
 
     return(

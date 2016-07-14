@@ -7,13 +7,14 @@ import React, {
   Text,
   TouchableOpacity
 } from 'react-native';
+
 import Icon from 'react-native-vector-icons/FontAwesome'
-import Button from '../common/button';
-import AppConfig from '../common/AppConfig';
 import NavigationBar from 'react-native-navbar';
-import Item from '../reviewcard/Item';
+
+import Button from '../../common/button';
+import AppConfig from '../../common/AppConfig';
 import PlaceCell from './PlaceCell';
-import ActivityProgress from './ActivityProgress';
+import ActivityProgress from '../../common/ActivityProgress';
 
 export default class NearByPlacesList extends Component {
   constructor(props) {

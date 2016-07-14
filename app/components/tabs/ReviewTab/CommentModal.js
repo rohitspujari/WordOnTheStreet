@@ -7,9 +7,9 @@ import React, {
   View
 } from 'react-native';
 import Modal from 'react-native-modalbox';
-import Button from '../common/button';
+import Button from '../../common/button';
 import StarRating from 'react-native-star-rating';
-import AppConfig from './AppConfig';
+import AppConfig from '../../common/AppConfig';
 
 
 export default class CommentModal extends Component {

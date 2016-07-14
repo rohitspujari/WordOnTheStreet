@@ -11,8 +11,9 @@ import React, {
 
 //import Button from '../common/button';
 import Button from 'react-native-button';
-import AppConfig from '../common/AppConfig';
 import StarRating from 'react-native-star-rating';
+import AppConfig from '../../common/AppConfig';
+
 
 export default class PlaceCell extends Component {
 

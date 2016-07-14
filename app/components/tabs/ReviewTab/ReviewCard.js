@@ -12,12 +12,12 @@ import React, {
 
 const StyleSheet = require('F8StyleSheet');
 import moment from 'moment';
-import Touchable from '../common/Touchable';
+import Touchable from '../../common/Touchable';
 import StarRating from 'react-native-star-rating';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import ItemList from '../common/ItemList';
-import Button from '../common/button';
-import AppConfig from './AppConfig';
+import ItemList from './ItemList';
+import Button from '../../common/button';
+import AppConfig from '../../common/AppConfig';
 import { SegmentedControls } from 'react-native-radio-buttons'
 var { width, height } = Dimensions.get('window');
 
@@ -29,28 +29,29 @@ export default class ReviewCard extends Component {
     this.state = {};
   }
 
-  getStarRating () {
+  getPriceRating () {
     return(
-     <View>
-      <Text style={{fontSize:11, fontWeight:'300'}}>How satisfied are you with your purchase?</Text>
-      <View style={{width:100, borderWidth:0}}>
-        <StarRating
-        disabled={false}
-        emptyStar={'ios-star-outline'}
-        fullStar={'ios-star'}
-        halfStar={'ios-star-half'}
-        iconSet={'Ionicons'}
-        maxStars={5}
-        rating={1}
-        selectedStar={() => null}
-        starColor={AppConfig.themeStarColor()}
-        starSize={20}
-      />
-    </View>
-
-
-
-    </View>
+       <View>
+       <SegmentedControls
+         containerBorderRadius={2}
+         tint={AppConfig.themeColor()}
+         backTint= {AppConfig.themeBackgroundColor()}
+         onSelection={this.setSelectedOption.bind(this)}
+         separatorWidth={0}
+         selectedOption={'Yes'}
+         paddingTop={10}
+         paddingBottom={5}
+         containerBorderWidth={0}
+         options={ [<Text style={{fontSize:17, fontWeight:'500', }}>$</Text>,
+                    <Text style={{fontSize:17,fontWeight:'500', }}>$$</Text>,
+                    <Text style={{fontSize:17,fontWeight:'500', }}>$$$</Text>] }
+         onSelection={()=>null }
+         selectedOption={ () => null }
+         textAlign="center"
+         containerStyle={{flex:0, height:40, width:170, alignSelf :'center',  borderWidth:0}}
+         optionStyle={{fontWeight:'normal', marginTop: 0, color:'red'}}
+       />
+      </View>
     );
   }
 
@@ -72,20 +73,14 @@ export default class ReviewCard extends Component {
     var animateY = this.anim.interpolate({
       inputRange: [0,1],
       outputRange: [0, (height+10)],
-
     });
     return(
-
-
       <Animated.View style={[styles.rewardCoin, {transform:[
         {skewY: animateFlip}, {translateY: animateY}
       ]}]}>
-
         <Text style={styles.rewardAmount}>{amount}</Text>
         <Text style={styles.rewardCurrency}>{currencySymbol}</Text>
-
       </Animated.View>
-
     );
   }
 
@@ -93,15 +88,12 @@ export default class ReviewCard extends Component {
       if (items && items.length > 0){
         return (
           <View>
-          <Text style={{marginBottom:5, fontSize:11, fontWeight:'300' }}>Details</Text>
-
-          <ItemList itemPress={this.props.itemPress} items={items} {...this.props}/>
-
+            <Text style={{marginBottom:5, fontSize:11, fontWeight:'300' }}>Details</Text>
+            <ItemList itemPress={this.props.itemPress} items={items} {...this.props}/>
           </View>
         );
       }
-      return null;
-
+      return null
   }
 
   onSubmitPress(){
@@ -123,28 +115,26 @@ export default class ReviewCard extends Component {
     let time = moment.unix(this.props.data[this.props.index].time).format("MM/DD/YYYY HH:mm A");
     let amount = this.props.data[this.props.index].amount;
     let items = this.props.data[this.props.index].order_details;
-    let question = "Will you recommend this restaurant?"
+    let question = "How satisfied are you with your purchase?"
 
     let title = (
       <View>
         <TouchableOpacity onPress={this.props.titlePress}>
           <Text style={styles.titleText}>{placeName}</Text>
         </TouchableOpacity>
-        <Text style={{color:'black', }}>{address}</Text>
-        <Text style={{color:'black', fontSize:11, marginTop: 5, fontWeight:'300'}}>{time}</Text>
+        <Text style={{color:'black', marginTop:10 }}>{address}</Text>
+        <Text style={{color:'gray', marginTop: 10}}>{time}</Text>
       </View>
     );
 
     return(
       <View style={styles.container}>
-
-
         <View style={styles.offerContainer}>
            <View style={styles.titleContainer}>
             {title}
            </View>
            <View style={styles.rewardContainer}>
-           {null}
+            {null}
            </View>
         </View>
 
@@ -154,7 +144,7 @@ export default class ReviewCard extends Component {
             <Text style={{alignSelf:'center', fontSize:25, fontWeight:'normal', color:AppConfig.themeTextColor()}}>{amount}</Text>
           </View>
           <View style={{flex:3, alignItems:'flex-end', borderWidth:0,}}>
-            {this.getStarRating()}
+            {this.getPriceRating()}
           </View>
         </View>
 
@@ -170,15 +160,18 @@ export default class ReviewCard extends Component {
             tint={AppConfig.themeColor()}
             backTint= {AppConfig.themeBackgroundColor()}
             onSelection={this.setSelectedOption.bind(this)}
+            separatorWidth={0}
             selectedOption={'Yes'}
             paddingTop={5}
             paddingBottom={5}
             containerBorderWidth={0}
-            options={ ['Yes','No','Maybe'] }
+            options={ [<Icon style={{borderWidth:0, alignSelf:'center', marginLeft:5}} name="frown-o" size={25}  />,
+                       <Icon style={{borderWidth:0, alignSelf:'center', marginLeft:5}} name="meh-o" size={25}  />,
+                       <Icon style={{borderWidth:0, alignSelf:'center', marginLeft:5}} name="smile-o" size={25}  />] }
             onSelection={()=>null }
             selectedOption={ () => null }
             textAlign="center"
-            containerStyle={{flex:0, height:35, width:300, alignSelf :'center',  borderWidth:0}}
+            containerStyle={{flex:0, height:40, width:170, alignSelf :'center',  borderWidth:0}}
             optionStyle={{fontWeight:'normal', marginTop: 3, color:'red'}}
           />
           <TouchableOpacity onPress={this.props.itemPress.bind(this,this.props)} style={{marginTop:15, alignItems:'center'}}>
@@ -188,7 +181,7 @@ export default class ReviewCard extends Component {
             </View>
           </TouchableOpacity>
 
-          <View style={{justifyContent:'center',alignItems:'center', marginTop:15}}>
+          <View style={{justifyContent:'center',alignItems:'center', marginTop:30}}>
             <Button  text="Submit" onPress={ () => {this.props.onSubmitPress.bind(this);this.onSubmitPress()}}/>
           </View>
         </View>
@@ -208,26 +201,13 @@ styles = StyleSheet.create({
     flex:5,
     borderRadius: 5,
     //margin:20,
-    marginTop: 40,
+    marginTop: 0,
     marginBottom:7,
     marginHorizontal:3.5,
     backgroundColor: AppConfig.themeBackgroundColor(),
-    //borderWidth:1
+    borderWidth:0
   },
 
-  info: {
-    ios: {
-      alignSelf: 'center',
-      backgroundColor: 'white',
-      marginTop:20,
-      marginBottom:0,
-      justifyContent: 'center',
-      alignItems: 'center',
-      borderRadius: 2,
-      marginHorizontal: 3,
-      backgroundColor: 'white'
-    }
-  },
 
   rewardCoin: { margin: 0, padding:0, backgroundColor: 'gold', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', borderWidth:0, borderRadius:35 , height:70, width:70},
   rewardCurrency: {alignSelf:'flex-end',fontWeight: 'bold', color: 'gray', marginBottom:18, paddingHorizontal:0 },
@@ -243,7 +223,7 @@ styles = StyleSheet.create({
       width: 1
     }
   },
-  pricePaidContainer: { borderWidth:0, flex:1,flexDirection:'row', alignItems:'flex-start', paddingHorizontal:15, paddingTop:15,},
+  pricePaidContainer: { borderWidth:0, flex:1,flexDirection:'row', alignItems:'center', paddingHorizontal:15, paddingTop:10,},
   serviceDetailContainer: { flex:2, padding:15, borderWidth:0, borderBottomWidth:0, borderBottomColor:'lightgray'},
   surveryContainer: { flex: 5, paddingHorizontal:15, borderWidth:0},
 

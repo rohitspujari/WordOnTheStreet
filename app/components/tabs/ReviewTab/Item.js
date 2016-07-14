@@ -10,8 +10,8 @@ import React, {
 
 import Icon from 'react-native-vector-icons/FontAwesome';
 import StarRating from 'react-native-star-rating';
-import Touchable from '../common/Touchable';
-import AppConfig from '../common/AppConfig';
+import Touchable from '../../common/Touchable';
+import AppConfig from '../../common/AppConfig';
 
 export default class Item extends Component{
 

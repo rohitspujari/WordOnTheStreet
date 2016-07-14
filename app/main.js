@@ -7,19 +7,16 @@
   StatusBar,
   TouchableOpacity
 } from 'react-native';
-var Parse = require('parse/react-native')
-import Signin from './components/authentication/signin';
-var Signup = require('./components/authentication/signup');
-var Tab = require('./components/tabs/tab.ios');
-var AuthService = require('./components/authentication/authservice');
-import Reviews from './components/tabs/reviews.ios';
-import Search from './components/tabs/search.ios';
-import ReviewsModal from './components/common/ReviewsModal';
-import Comment from './components/common/Comment';
-import ReviewList from './components/common/ReviewList';
-import MapComponent from './components/common/MapComponent';
-import NearByPlacesList from './components/common/NearByPlacesList';
-import PlaceDetails from './components/common/PlaceDetails';
+
+import Signin from './components/authentication/SignIn';
+import Signup from './components/authentication/SignUp';
+import Tab from './components/tabs/Tabs';
+import Reviews from './components/tabs/ReviewTab/Reviews';
+import Search from './components/tabs//SearchTab/Search';
+import ReviewList from './components/tabs/ReviewTab/ReviewList';
+import MapComponent from './components/tabs/SearchTab/MapComponent';
+import NearByPlacesList from './components/tabs/SearchTab/NearByPlacesList';
+//import PlaceDetails from './components/common/PlaceDetails';
 
 var ROUTES = {
   signin: Signin,
@@ -27,12 +24,12 @@ var ROUTES = {
   signup: Signup,
   tab: Tab,
   reviews: Reviews,
-  reviewsModal: ReviewsModal,
+
   reviewList: ReviewList,
-  comment: Comment,
+  //comment: Comment,
   search: Search,
   mapComponent: MapComponent,
-  placeDetails: PlaceDetails
+  //placeDetails: PlaceDetails
 };
 
 var NavigationBarRouteMapper = {
@@ -78,15 +75,6 @@ var NavigationBarRouteMapper = {
 
 export default class Main extends Component {
 
-  componentDidMount(){
-
-    AuthService.getAuthInfo((err,authInfo)=>{
-      this.setState({
-        checkingAuth: false,
-        isLoggedIn: authInfo !=null
-      })
-    });
-  }
 
   renderScene (route, navigator){
     var Component = ROUTES[route.name];
@@ -125,16 +113,13 @@ export default class Main extends Component {
 
   render() {
     return (
-
         <Navigator
           ref="nav"
           style={styles.container}
           initialRoute={false?{name:'tab'}:{name:'signin'}}
           renderScene={this.renderScene}
           configureScene={this.configureScene}
-
         />
-
     );
   }
 }

@@ -13,10 +13,10 @@ import React, {
 } from 'react-native';
 
 import NavigationBar from 'react-native-navbar';
-import AppConfig from '../common/AppConfig';
 
-import Button from '../common/button';
-import ReviewList from '../common/ReviewList';
+import AppConfig from '../../common/AppConfig';
+import Button from '../../common/button';
+
 
 import { AnimatedCircularProgress } from 'react-native-circular-progress';
 

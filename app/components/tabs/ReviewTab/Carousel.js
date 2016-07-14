@@ -1,7 +1,7 @@
 'use strict';
 
 const React = require('react-native');
-const ViewPage = require('./ViewPage');
+import ViewPage from './ViewPage';
 const StyleSheet = require('F8StyleSheet');
 
 type Props = {
@@ -42,7 +42,7 @@ var styles = StyleSheet.create({
       //borderWidth: 1,
       overflow: 'visible',// thi is overflow property
       marginHorizontal: 10, //This is space for the overflow
-      
+
     },
   }
 });

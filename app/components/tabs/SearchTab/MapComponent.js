@@ -13,8 +13,9 @@ import React, {
 import MapView from 'react-native-maps';
 import StarRating from 'react-native-star-rating';
 import NavigationBar from 'react-native-navbar';
-import AppConfig from './AppConfig';
-import Button from '../common/button';
+
+import AppConfig from '../../common/AppConfig';
+import Button from '../../common/button';
 
 export default class MapComponent extends Component {
   constructor(props) {

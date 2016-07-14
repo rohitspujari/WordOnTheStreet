@@ -12,18 +12,19 @@ import React, {
   TouchableOpacity,
   Alert
 } from 'react-native';
-import { SegmentedControls } from 'react-native-radio-buttons'
-import MapComponent from '../common/MapComponent';
-import Cash from './cash.ios';
-var {GooglePlacesAutocomplete} = require('react-native-google-places-autocomplete');
-import NavigationBar from 'react-native-navbar';
-import Autocomplete from '../common/Autocomplete';
 
-import Button from '../common/button';
-import AppConfig from '../common/AppConfig';
-import ActivityProgress from '../common/ActivityProgress';
-import GoogleService from '../common/GoogleService';
-import PlaceType from '../common/PlaceType.json';
+import { SegmentedControls } from 'react-native-radio-buttons'
+import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
+import NavigationBar from 'react-native-navbar';
+
+
+import MapComponent from './MapComponent';
+import Autocomplete from './Autocomplete';
+import Button from '../../common/button';
+import AppConfig from '../../common/AppConfig';
+import ActivityProgress from '../../common/ActivityProgress';
+import GoogleService from '../../common/GoogleService';
+import PlaceType from '../../../data/PlaceType.json';
 
 var { width, height } = Dimensions.get('window');
 const ASPECT_RATIO = width / height;
@@ -199,30 +200,30 @@ export default class Search extends Component{
   getPlaceTypeTextInput() {
     return (
       <Autocomplete
-      data={PlaceType}
-      placeholder={'bar, food, etc ..'}
-      limitItems={10}
-      filterResults={(results, text)=> {
-        if(results && results.length > 0 && text!=="")
-        {
-          this.setState({
-            filterResults: results,
-            hideLocationSearch:true,
-            placeTypeText: text
-          });
-        } else {
-          this.setState({
-            hideLocationSearch:false,
-            placeTypeText: text
-          });
-        }
-      }}
-      styles={this.getCustomAutocompleteStyle()}
-      displayField={'description'}
-      onPress={(rowData) => {
-        this.setState({placeTypeText: rowData['type'], })
-        this.searchPress()
-      }}
+        data={PlaceType}
+        placeholder={'bar, food, etc ..'}
+        limitItems={10}
+        filterResults={(results, text)=> {
+          if(results && results.length > 0 && text!=="")
+          {
+            this.setState({
+              filterResults: results,
+              hideLocationSearch:true,
+              placeTypeText: text
+            });
+          } else {
+            this.setState({
+              hideLocationSearch:false,
+              placeTypeText: text
+            });
+          }
+        }}
+        styles={this.getCustomAutocompleteStyle()}
+        displayField={'description'}
+        onPress={(rowData) => {
+          this.setState({placeTypeText: rowData['type'], })
+          this.searchPress()
+        }}
         textInputProps={{
           autoFocus:false,
           onSubmitEditing: this.searchPress.bind(this),

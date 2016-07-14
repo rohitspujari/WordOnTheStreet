@@ -94,9 +94,9 @@ export default class Signin extends Component {
         //console.log('Username not present')
         this.setState({showProgress: false});
       }
-    }).then((token) => {
-      if(token) {
-        ref.authWithCustomToken(token, (error, authData) => {
+    }).then((auth) => {
+      if(auth) {
+        ref.authWithCustomToken(auth.token, (error, authData) => {
           if (error) {
             //console.log("Token Failed!", error);
             this.setState({showProgress: false});
@@ -176,7 +176,7 @@ export default class Signin extends Component {
           });
         } else {
           store.save('username',username);
-          store.save( username, authData.token);
+          store.save( username, authData);
           //console.log("Authenticated successfully with payload:", authData);
           this.success()
         }
@@ -190,63 +190,7 @@ export default class Signin extends Component {
     }
   }
 
-  onSigninPress__GITHUB(){
-    this.setState({showProgress: true})
-
-    var authService = require('./authservice');
-
-    authService.login({
-      username: this.state.username,
-      password: this.state.password
-    },(results)=>{
-      this.setState(
-        Object.assign({
-          showProgress:false
-        },results));
-
-     if(this.state.success){
-       this.props.navigator.immediatelyResetRouteStack([{ name:'tab' }]);
-     }
-
-    });
-
-
-    //
-    //
-    // var b = new buffer.Buffer(this.state.username+':'+this.state.password);
-    // var encodedAuth = b.toString('base64');
-    //
-    // fetch('https://api.github.com/user',{
-    //   headers: {
-    //     'Authorization' : 'Basic ' + encodedAuth
-    //   }
-    // })
-    // .then((response)=> {
-    //   if(response.status >= 200 && response.status < 300){
-    //     return response;
-    //   }
-    //   throw {
-    //     badCredentials: response.status == 401,
-    //     unknownError: response.status !=401
-    //   }
-    // })
-    // .then((results)=> {
-    //   console.log(results);
-    //   this.setState({success: true})
-    //   this.setState({showProgress:false});
-    //   this.props.navigator.immediatelyResetRouteStack([{ name:'tab' }]);
-    // })
-    // .catch((err)=>{
-    //   console.log('login failed ' + err);
-    //   this.setState(err);
-    // })
-    // .finally(()=>{
-    //   this.setState({showProgress:false});
-    // });
-    //
-
-
-  }
+  
 
   onSignupPress(){
 
@@ -354,7 +298,7 @@ var styles = StyleSheet.create({
     borderWidth: 0,
     padding:10,
     marginBottom:10,
-    //borderRadius: 5,
+    borderRadius: 2,
     width: 300,
     alignSelf: 'center',
   //  backgroundColor:'white',
@@ -364,3 +308,4 @@ var styles = StyleSheet.create({
 
 
 //module.exports = Signin;
+rts = Signin;

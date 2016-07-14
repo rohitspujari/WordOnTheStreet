@@ -12,16 +12,18 @@ import React, {
   Linking,
   ScrollView,
 } from 'react-native';
-import DataService from './DataService';
+
 import moment from 'moment';
 import NavigationBar from 'react-native-navbar';
 import StarRating from 'react-native-star-rating';
-import MapComponent from './MapComponent';
-import Button from '../common/button';
-import AppConfig from '../common/AppConfig';
 import Icon from 'react-native-vector-icons/FontAwesome';
-const PLACE_DETAILS = 'https://maps.googleapis.com/maps/api/place/details/json?key=AIzaSyAmbpYyzqv7aPDFpdbvsHo5zIEruNBuiNI&placeid=';
 
+import DataService from '../../common/DataService';
+import MapComponent from '../SearchTab/MapComponent';
+import Button from '../../common/button';
+import AppConfig from '../../common/AppConfig';
+
+const PLACE_DETAILS = 'https://maps.googleapis.com/maps/api/place/details/json?key=AIzaSyAmbpYyzqv7aPDFpdbvsHo5zIEruNBuiNI&placeid=';
 var { width, height } = Dimensions.get('window');
 const ASPECT_RATIO = width / height;
 const LATITUDE_DELTA = 0.0922;
@@ -35,7 +37,6 @@ export default class ReviewList extends Component {
       dataSource: new ListView.DataSource({
         rowHasChanged: (r1, r2) => r1 !== r2
       })
-
     };
     //console.log('in reviewlist constructor');
   }

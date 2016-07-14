@@ -8,24 +8,16 @@ import React, {
   StatusBar
 } from 'react-native';
 
-import Reviews from './reviews.ios';
-import  Search from './search.ios';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Drawer from 'react-native-drawer'
 
-//var Reviews = require('./reviews.ios');
-import Cash from './cash.ios';
-var Example = require('../common/modal')
+import Reviews from './ReviewTab/Reviews';
+import Search from './SearchTab/Search';
+import Wallet from './WalletTab/Wallet';
 import ExampleMaps from '../../examples/LinearGradientExample';
 
 
-// var Tab = React.createClass({
-//   render: function(){
-//     return <View style={Styles.container}>
-//     <Text>Hello Tab</Text>
-//     </View>
-//   }
-// });
+
 class Tab extends Component {
 
   constructor(props){
@@ -42,17 +34,12 @@ class Tab extends Component {
 
   render() {
 
-
-
-
     return (
-
-
       <TabBarIOS selectedTab={this.state.selectedTab}>
         <Icon.TabBarItemIOS
         selected={this.state.selectedTab ==='search'}
         iconName='search'
-        title='search'
+        title='Search'
         onPress={()=> {
           this.setState({
             selectedTab: 'search'
@@ -74,15 +61,15 @@ class Tab extends Component {
         </Icon.TabBarItemIOS>
 
         <Icon.TabBarItemIOS
-        selected={this.state.selectedTab ==='cash'}
+        selected={this.state.selectedTab ==='wallet'}
         title="Wallet"
         iconName="money"
         onPress={()=> {
           this.setState({
-            selectedTab: 'cash'
+            selectedTab: 'wallet'
           });
         }}>
-        <ExampleMaps {...this.props} />
+        <Wallet {...this.props} />
         </Icon.TabBarItemIOS>
         </TabBarIOS>
 
