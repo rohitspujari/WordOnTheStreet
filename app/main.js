@@ -8,6 +8,7 @@
   TouchableOpacity
 } from 'react-native';
 
+import Payment from './components/tabs/ReviewTab/Control/Payment'
 import Signin from './components/authentication/SignIn';
 import Signup from './components/authentication/SignUp';
 import Tab from './components/tabs/Tabs';
@@ -19,6 +20,7 @@ import NearByPlacesList from './components/tabs/SearchTab/NearByPlacesList';
 //import PlaceDetails from './components/common/PlaceDetails';
 
 var ROUTES = {
+  payment: Payment,
   signin: Signin,
   nearbyPlacesList: NearByPlacesList,
   signup: Signup,

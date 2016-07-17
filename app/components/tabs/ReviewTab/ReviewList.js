@@ -14,13 +14,14 @@ import React, {
 } from 'react-native';
 
 import moment from 'moment';
-import NavigationBar from 'react-native-navbar';
 import StarRating from 'react-native-star-rating';
+import NavigationBar from 'react-native-navbar';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import Button from 'react-native-button';
 
 import DataService from '../../common/DataService';
 import MapComponent from '../SearchTab/MapComponent';
-import Button from '../../common/button';
+
 import AppConfig from '../../common/AppConfig';
 
 const PLACE_DETAILS = 'https://maps.googleapis.com/maps/api/place/details/json?key=AIzaSyAmbpYyzqv7aPDFpdbvsHo5zIEruNBuiNI&placeid=';
@@ -191,9 +192,12 @@ export default class ReviewList extends Component {
     }
 
     var navCloseButton = (
-      <TouchableOpacity  onPress={() => this.props.navigator.pop()} style={{borderWidth:0, marginRight:15, marginTop:15}}>
+      <Button
+        containerStyle={{padding:15, overflow:'hidden', borderRadius:4, backgroundColor: AppConfig.themeColor()}}
+        onPress={() => this.props.navigator.pop()}
+        style={{fontSize: 20, color: 'green'}}>
         <Icon name="close" size={15} color={AppConfig.themeTextColor()} />
-      </TouchableOpacity>
+      </Button>
     );
 
 

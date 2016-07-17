@@ -100,7 +100,7 @@ export default class Reviews extends Component{
       type: 'Modal',
       title:'Reviews',
       passProps : {
-        placeId: this.state.cards[this.state.selectedIndex].place_id,
+        placeId: this.state.cards[this.state.selectedIndex].data.place_id,
         showMap: true
       }
     });

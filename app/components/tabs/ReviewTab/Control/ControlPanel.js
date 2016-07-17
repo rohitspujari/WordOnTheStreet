@@ -41,10 +41,19 @@ export default class ControlPanel extends Component {
           <View style={{borderWidth:0, marginBottom:10, width:100, height: 100, borderRadius: 50, alignItems:'center', backgroundColor: 'lightgray'}}>
             <Icon style={{marginTop:15}} name="user" size={60} color={AppConfig.themeTextColor()} />
           </View>
-          <Text>{'rohitspujari@gmail.com'}</Text>
+          <Text>{'i am static change me'}</Text>
         </View>
         <View style={styles.menuContainer}>
-          <TouchableOpacity onPress={()=> null}>
+          <TouchableOpacity onPress={()=> {
+            this.props.navigator.push({
+              name: 'payment',
+              type: 'Modal',
+              title:'Payment',
+              passProps : {
+
+              }
+            });
+          }}>
            {this.getMenuItem('Payment','credit-card')}
           </TouchableOpacity>
           <TouchableOpacity onPress={()=> null}>
@@ -67,8 +76,6 @@ export default class ControlPanel extends Component {
     );
   }
   logout() {
-
-
 
     store.get('username').then((username)=>{
       if(username) {
