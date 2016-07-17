@@ -21,9 +21,9 @@ import ReviewCard from './ReviewCard';
 import Carousel from './Carousel';
 
 import AppConfig from '../../common/AppConfig';
-import ControlPanel from '../../common/ControlPanel';
+import ControlPanel from './Control/ControlPanel';
 
-const firebaseReceiptsRef = new Firebase('https://wots.firebaseio.com/receipts');
+//const firebaseReceiptsRef = new Firebase('https://wots.firebaseio.com/receipts');
 const firebaseUrl = 'https://wots.firebaseio.com/';
 const firebaseReceiptUrl = 'https://wots.firebaseio.com/receipts/';
 const firebaseReviewUrl = 'https://wots.firebaseio.com/reviews/';
@@ -208,7 +208,7 @@ export default class Reviews extends Component{
     return (
       <ReviewCard
         key={index}
-        data={data}
+        receiptData={data}
         index={index}
 
         titlePress={this.openReviews.bind(this)}
@@ -232,9 +232,16 @@ export default class Reviews extends Component{
   }
 
   fetchReceipts(){
+    //const firebaseUrl = 'https://wots.firebaseio.com/';
+    var firebaseReceiptsRef =  new Firebase(firebaseUrl+'receipts/'+this.props.uid)
   //  this.firebaseRef = new Firebase('https://wots.firebaseio.com/receipts');
-    firebaseReceiptsRef.on("value",(dataSnapshot)=>{
-      var items = dataSnapshot.val();
+    var items = [];
+    firebaseReceiptsRef.on("child_added",(snapshot)=>{
+      var key = snapshot.key();
+      var childData = snapshot.val();
+      items.push({key: key, data: childData});
+
+
       this.setState({
         cards: items,
         isLoaded: true

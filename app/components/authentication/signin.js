@@ -48,7 +48,7 @@ export default class Signin extends Component {
   onTouchIdPress () {
     TouchID.authenticate('Word On The Street')
       .then(success => {
-        this.success();
+        this.success("");
       })
       .catch(error => {
         AlertIOS.alert('Authentication Failed');
@@ -60,16 +60,20 @@ export default class Signin extends Component {
 
   }
 
-  success() {
+  success(uid) {
     this.setState({
       showProgress: false,
       message: 'success',
-      success: true
+      success: true,
+      uid: uid
     });
+
+
     this.props.navigator.immediatelyResetRouteStack([{
       name:'tab', type:'FadeAndroid',
       passProps : {
-        username: store.get('username')
+        username: this.state.username,
+        uid: this.state.uid
 
       }
     }]);
@@ -88,6 +92,7 @@ export default class Signin extends Component {
     //this.setState({showLogInWindow:false})
     store.get('username').then((username) => {
       if(username) {
+
         return store.get(username)
       }
       else {
@@ -101,8 +106,9 @@ export default class Signin extends Component {
             //console.log("Token Failed!", error);
             this.setState({showProgress: false});
           } else {
+
             //console.log("Authenticated successfully from AsyncStorage:", authData);
-            this.success()
+            this.success(authData.uid)
           }
         });
       } else{
@@ -176,9 +182,10 @@ export default class Signin extends Component {
           });
         } else {
           store.save('username',username);
+          //store.save('uid',authData.uid);
           store.save( username, authData);
           //console.log("Authenticated successfully with payload:", authData);
-          this.success()
+          this.success(authData.uid)
         }
       });
     }
@@ -190,7 +197,7 @@ export default class Signin extends Component {
     }
   }
 
-  
+
 
   onSignupPress(){
 

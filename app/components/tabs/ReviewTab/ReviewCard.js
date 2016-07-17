@@ -110,11 +110,11 @@ export default class ReviewCard extends Component {
 
   render() {
     //console.log("im in RCard render");
-    let placeName = this.props.data[this.props.index].name;
-    let address = this.props.data[this.props.index].address;
-    let time = moment.unix(this.props.data[this.props.index].time).format("MM/DD/YYYY HH:mm A");
-    let amount = this.props.data[this.props.index].amount;
-    let items = this.props.data[this.props.index].order_details;
+    let placeName = this.props.receiptData[this.props.index].data.name;
+    let address = this.props.receiptData[this.props.index].data.address;
+    let time = moment.unix(this.props.receiptData[this.props.index].data.time).format("MM/DD/YYYY HH:mm A");
+    let amount = this.props.receiptData[this.props.index].data.amount;
+    let items = this.props.receiptData[this.props.index].data.order_details;
     let question = "How satisfied are you with your purchase?"
 
     let title = (

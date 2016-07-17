@@ -5,14 +5,15 @@ import React, {
   Text,
   StatusBar,
   TouchableOpacity
-
 } from 'react-native';
 
-import Touchable from './Touchable';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import AppConfig from './AppConfig';
-
 import store from 'react-native-simple-store';
+
+import Touchable from '../../../common/Touchable';
+import AppConfig from '../../../common/AppConfig';
+
+
 
 
 export default class ControlPanel extends Component {
