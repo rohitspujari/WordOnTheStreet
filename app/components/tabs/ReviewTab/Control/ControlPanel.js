@@ -50,7 +50,7 @@ export default class ControlPanel extends Component {
               type: 'Modal',
               title:'Payment',
               passProps : {
-
+                uid:this.props.uid
               }
             });
           }}>
