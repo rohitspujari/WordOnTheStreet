@@ -233,7 +233,7 @@ export default class Reviews extends Component{
 
   fetchReceipts(){
     //const firebaseUrl = 'https://wots.firebaseio.com/';
-    var firebaseReceiptsRef =  new Firebase(firebaseUrl+'receipts/'+this.props.uid)
+    var firebaseReceiptsRef =  new Firebase(firebaseUrl+'users/'+this.props.uid+'/receipts/')
   //  this.firebaseRef = new Firebase('https://wots.firebaseio.com/receipts');
     var items = [];
     firebaseReceiptsRef.on("child_added",(snapshot)=>{

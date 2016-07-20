@@ -41,7 +41,7 @@ export default class ControlPanel extends Component {
           <View style={{borderWidth:0, marginBottom:10, width:100, height: 100, borderRadius: 50, alignItems:'center', backgroundColor: 'lightgray'}}>
             <Icon style={{marginTop:15}} name="user" size={60} color={AppConfig.themeTextColor()} />
           </View>
-          <Text>{'i am static change me'}</Text>
+          <Text>{this.props.username}</Text>
         </View>
         <View style={styles.menuContainer}>
           <TouchableOpacity onPress={()=> {

@@ -6,7 +6,7 @@ import React, {
   StatusBar,
   TouchableOpacity,
   TouchableHighlight,
-  Modal, TextInput,
+  Modal, TextInput, ListView
 } from 'react-native';
 
 import NavigationBar from 'react-native-navbar';
@@ -15,13 +15,38 @@ import Button from 'react-native-button';
 import Firebase from 'firebase';
 
 import AppConfig from '../../../common/AppConfig';
+import ActivityProgress from '../../../common/ActivityProgress';
 
 const firebaseUrl = 'https://wots.firebaseio.com/';
 export default class Payemnt extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {modalVisible: false}
+    this.state = {
+      modalVisible: false,
+      isLoaded: false,
+      dataSource: new ListView.DataSource({
+        rowHasChanged: (r1, r2) => r1 !== r2
+        //forcing true to activate dimming effect
+        //rowHasChanged: (r1, r2) => true
+      })
+    }
+
+  }
+
+  componentDidMount(){
+    let paymentRef = new Firebase(firebaseUrl)
+    let payments = [];
+    paymentRef.child('users/' + this.props.uid + '/payments/')
+    .on('child_added',(snapshot) => {
+      var key = snapshot.key();
+      var data = snapshot.val();
+      payments.push({key: key, data: {cc: data.cc, cvc: data.cvc, expiry: data.expiry, uid: data.uid}});
+      this.setState({
+        isLoaded: true,
+        payments: payments
+      });
+    })
   }
 
   getButtons () {
@@ -49,22 +74,36 @@ export default class Payemnt extends Component {
         >
            <Text style={{color:AppConfig.themeTextColor() }}>Cancel</Text>
         </Button>
-
       </View>
     )
+  }
+
+  getBackgroundColor() {
+      return this.state.modalVisible === true?'rgba(0, 0, 0, 0.1)':AppConfig.themeBackgroundColor()
+  }
+
+  removePaymentCard() {
+    let paymentRef = new Firebase(firebaseUrl)
+    paymentRef.child('all_payments/'+this.state.selectedRow.data.cc).remove()
+      .then(paymentRef.child('users/'+this.props.uid+'/payments/'+this.state.selectedRow.key).remove())
+      .then( () => {
+        this.state.payments.splice(this.state.arrayIndex,1);
+        this.setState({payments: this.state.payments })
+        this.setModalVisible(!this.state.modalVisible)
+      })
   }
 
   addPaymentCard(){
 
     let paymentInfo = {uid: this.props.uid, cc:this.state.inputCC, cvc:this.state.inputCVC, expiry: this.state.inputExpiry}
-    paymentRef = new Firebase(firebaseUrl)
-    paymentRef.child('payment/'+this.state.inputCC).set(paymentInfo, function(err){
+    let paymentRef = new Firebase(firebaseUrl)
+    paymentRef.child('all_payments/'+this.state.inputCC).set(paymentInfo, function(err){
         if(err){
           console.log('Error writing!');
         }
       })
       .then(
-        paymentRef.child('users/'+this.props.uid).push(paymentInfo, function(err){
+        paymentRef.child('users/'+this.props.uid+'/payments/').push(paymentInfo, function(err){
           if(err){
             console.log('Error writing!');
           }
@@ -73,9 +112,40 @@ export default class Payemnt extends Component {
 
   }
 
-  getModal() {
+  getPayment(){
+    return(
+      <View style={{marginTop:20, marginBottom: 20, borderWidth:0}}>
+        <ListView
+          dataSource={this.state.dataSource.cloneWithRows(this.state.payments)}
+          renderRow={(row, section, index)=>{
+            return(
+              <View  key={row.key} style={{borderWidth:0, padding:10, marginTop: 3 , flexDirection:'row', justifyContent: 'flex-start', backgroundColor: this.getBackgroundColor()
+            }}>
+                <Button
+                  containerStyle={{ overflow:'hidden', backgroundColor: 'white', borderRadius:5, padding: 5, justifyContent:'center' }}
+                  style={{fontSize: 15, color: 'black'}}
+                  onPress={() => {this.setModalVisible(true, 'removePayment', row, index)}}
+                >
+                  <Icon name="minus" size={15} color={AppConfig.themeTextColor()} />
+
+                </Button>
+                <View style={{marginLeft: 10,borderWidth:0, justifyContent:'center' }}>
+                  <Text>{row.data.cc}</Text>
+                </View>
+                <View style={{marginLeft: 10, borderWidth:0, justifyContent:'center'}}>
+                  <Text>{row.data.expiry}</Text>
+                </View>
+              </View>
+            );
+          }}
+        />
+      </View>
+    )
+  }
+
+  addPaymentModal() {
     return (
-      <View style={{ alignItems: 'center', marginTop: 100, padding: 15, borderWidth:0, marginHorizontal: 20, backgroundColor: AppConfig.themeBackgroundColor()}}>
+      <View style={{ alignItems: 'center', marginTop: 200, padding: 15, borderWidth:0, marginHorizontal: 20, backgroundColor: AppConfig.themeBackgroundColor()}}>
         <View style={{flexDirection: 'row', borderWidth: 0, alignItems: 'center',}}>
               <View>
                 <Text>16 Digit Number </Text>
@@ -102,22 +172,46 @@ export default class Payemnt extends Component {
             <View style={styles.inputIcon}>
               <Icon name="credit-card" size={15} color={AppConfig.themeTextColor()} />
               </View>
-
-
-
           {this.getButtons()}
-
       </View>
     )
   }
 
-  setModalVisible(visible) {
-    this.setState({modalVisible: visible});
+  getModal() {
+
+    if(this.state.modalType === 'removePayment'){
+      return (
+        <View style={{ alignItems: 'center', marginTop: 200, padding: 15, borderWidth:0, marginHorizontal: 20, backgroundColor: AppConfig.themeBackgroundColor()}}>
+          <Text> Do you want to remove card</Text>
+          <Text> {this.state.selectedRow.data.cc + '?'}</Text>
+          <View style={{flexDirection:'row', marginTop: 10}}>
+            <Button
+              containerStyle={{padding:10, width: 100, height: 35, justifyContent: 'center', alignItems:'center',overflow:'hidden', borderRadius:4, backgroundColor: AppConfig.themeColor()}}
+              onPress={this.removePaymentCard.bind(this)}
+            >
+               <Text style={{color:AppConfig.themeTextColor() }}>Yes</Text>
+            </Button>
+            <Button
+              containerStyle={{ marginLeft: 10,padding:10, width: 100, height: 35, justifyContent: 'center', alignItems:'center',overflow:'hidden', borderRadius:4, backgroundColor: AppConfig.themeColor()}}
+              onPress={() => {this.setModalVisible(!this.state.modalVisible)}}
+            >
+               <Text style={{color:AppConfig.themeTextColor() }}>No</Text>
+            </Button>
+          </View>
+        </View>
+      )
+    }
+    else
+      return this.addPaymentModal();
+  }
+
+  setModalVisible(visible, modalType=null, selectedRow=null, arrayIndex=null) {
+    this.setState({modalVisible: visible, modalType: modalType, selectedRow: selectedRow, arrayIndex: arrayIndex});
   }
   render(){
 
     var modalBackgroundStyle = {
-      backgroundColor: this.state.modalVisible === true ? 'rgba(0, 0, 0, 0.5)' : '#f5fcff',
+      backgroundColor: this.state.modalVisible === true ? 'rgba(0, 0, 0, 0.3)' : 'white',
     };
 
     var navCloseButton = (
@@ -134,14 +228,14 @@ export default class Payemnt extends Component {
     };
 
     return (
-      <View style={[styles.container]}>
+      <View style={[styles.container, modalBackgroundStyle]}>
       <NavigationBar
         title={titleConfig}
         statusBar={{hidden:false}}
         tintColor={AppConfig.themeColor()}
         leftButton={this.state.modalVisible === false ? navCloseButton:<Text></Text>}
       />
-      <View style={styles.content}>
+      <View style={[styles.content]}>
         <Modal
           animated = {true}
           animationType={"fade"}
@@ -151,14 +245,17 @@ export default class Payemnt extends Component {
         >
           {this.getModal()}
         </Modal>
+        {this.state.isLoaded === false?<ActivityProgress/>: this.getPayment()}
+
         <Button
-          containerStyle={{padding:10, overflow:'hidden', borderRadius:0, backgroundColor: AppConfig.themeBackgroundColor()}}
+          containerStyle={{padding:10, overflow:'hidden', borderRadius:0, backgroundColor: this.getBackgroundColor() }}
           style={{fontSize: 15, color: 'black'}}
           onPress={() => {this.setModalVisible(true)}}
         >
           <Icon name="plus" size={15} color={AppConfig.themeTextColor()} />
           <Text style={{marginLeft:5, color:AppConfig.themeTextColor() }}>Add Payment</Text>
         </Button>
+
       </View>
       </View>
     )
@@ -174,7 +271,7 @@ var styles = StyleSheet.create({
   content:{
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center',
+    //justifyContent: 'center',
     //borderWidth: 1,
     borderColor:  'red'
   },
