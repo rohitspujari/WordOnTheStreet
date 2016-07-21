@@ -7,10 +7,12 @@ import React, {
   ActivityIndicatorIOS,
   StatusBar,
   Alert,
-  TouchableOpacity
+  TouchableOpacity,
+  Modal, TextInput,
 } from 'react-native';
 
 import Icon from 'react-native-vector-icons/FontAwesome'
+import StarRating from 'react-native-star-rating';
 import Button from 'react-native-button';
 import NavigationBar from 'react-native-navbar';
 import Drawer from 'react-native-drawer'
@@ -38,6 +40,7 @@ export default class Reviews extends Component{
     this.state = {
       cards: [],
       selectedIndex: 0,
+      modalVisible: false,
       isCommentModalOpen: false,
       isReviewModalOpen: false,
       isDisabled: false,
@@ -52,16 +55,12 @@ export default class Reviews extends Component{
     //console.log('selectedIndexChanged')
     this.setState({
       selectedIndex: selectedIndex,
-      isCommentModalOpen: false,
-      isReviewModalOpen: false
+      //isCommentModalOpen: false,
+      //isReviewModalOpen: false
     });
   }
 
-  openCommentModal(itemProps) {
-    this.setState({isCommentModalOpen: true, isReviewModalOpen: false, itemProps:itemProps });
-    console.log("this is openModal5 ")
-    //console.log(itemProps);
-  }
+
 
   onAddComment(comment) {
 
@@ -160,46 +159,63 @@ export default class Reviews extends Component{
     //console.log(this.props);
     return (
     <View style={styles.container}>
-    <StatusBar hidden={this.state.isStatusBarHidden}/>
-    <Drawer
-      type="overlay"
-      ref={"drawer"}
-      content={<ControlPanel {...this.props} />}
-      captureGestures={true}
-      openDrawerOffset={0.3}
-      panOpenMask={0}
-      negotiatePan={false}
-      panCloseMask={0}
-      tapToClose={true}
-      closedDrawerOffset={0}
-      onOpenStart={()=> this.setState({isStatusBarHidden: true})}
-      onClose={()=> this.setState({isStatusBarHidden: false})}
-      tweenHandler={(ratio) => ({ main: { opacity: (2 - ratio) / 2 } })}
-    >
-     <View style={{borderWidth:0}}>
-     <NavigationBar
-        statusBar={{hidden:false}}
-        tintColor={AppConfig.themeColor()}
-        leftButton={navButton}
-        title={titleConfig}/>
-     </View>
+      <StatusBar hidden={this.state.isStatusBarHidden}/>
+      <Drawer
+        type="overlay"
+        ref={"drawer"}
+        content={<ControlPanel {...this.props} />}
+        captureGestures={true}
+        openDrawerOffset={0.3}
+        panOpenMask={0}
+        negotiatePan={false}
+        panCloseMask={0}
+        tapToClose={true}
+        closedDrawerOffset={0}
+        onOpenStart={()=> this.setState({isStatusBarHidden: true})}
+        onClose={()=> this.setState({isStatusBarHidden: false})}
+        tweenHandler={(ratio) => ({ main: { opacity: (2 - ratio) / 2 } })}
+      >
+        <View style={{borderWidth:0}}>
+          <NavigationBar
+            statusBar={{hidden:false}}
+            tintColor={AppConfig.themeColor()}
+            leftButton={navButton}
+            title={titleConfig}
+          />
+        </View>
         <Carousel
           data={this.state.cards}
           selectedIndex={this.state.selectedIndex}
           onSelectedIndexChange={this.onSelectedIndexChange}
           renderCard={this.renderCard}
         />
-        <CommentModal
-          isOpen={this.state.isCommentModalOpen}
-          isDisabled={false}
-          backdropPressToClose={true}
-          onClosed={this.closeCommentModal}
-          onPress={this.onAddComment.bind(this)}
-        />
+        <Modal
+          animated = {true}
+          animationType={"fade"}
+          transparent={true}
+          visible={this.state.modalVisible}
+          onRequestClose={() => {alert("Modal has been closed.")}}
+        >
+          <CommentModal {...this.props} itemProps={this.state.itemProps} onButtonPressed={this.commentButtonPressed.bind(this)}/>
+        </Modal>
       </Drawer>
     </View>
-
     );
+  }
+
+  openCommentModal(itemProps) {
+    //this.setState({isCommentModalOpen: true, isReviewModalOpen: false, itemProps:itemProps });
+    //console.log("this is openModal5 ")
+    //console.log(itemProps);
+    this.setState({
+      modalVisible:true,
+      itemProps:itemProps
+    })
+  }
+
+  commentButtonPressed(operation){
+
+    this.setState({modalVisible:false})
   }
 
 
@@ -210,10 +226,11 @@ export default class Reviews extends Component{
         key={index}
         receiptData={data}
         index={index}
-
+        dimmed={this.state.modalVisible}
         titlePress={this.openReviews.bind(this)}
         itemPress={this.openCommentModal.bind(this)}
         onSubmitPress={this.onSubmitPress.bind(this)}
+        {...this.props}
       />
     );
   }

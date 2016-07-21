@@ -50,6 +50,7 @@ export default class ItemList extends Component{
                 <Item
                   key={index}
                   itemName={rowData.order}
+                  itemIndex={index}
                   onPress={this.props.itemPress}
                   {...this.props}
                 />

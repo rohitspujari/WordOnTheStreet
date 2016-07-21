@@ -25,8 +25,13 @@ export default class AppConfig {
    return textColor;
  }
 
+ static themeTransperentColor() {
+   return 'rgba(255,255,255,0.6)'
+ }
+
  static themeBackgroundColor() {
   //return '#b3cd52';
+  //return 'rgba(255,255,255,0.6)'
   return backgroundColor;
 }
 
@@ -35,7 +40,7 @@ export default class AppConfig {
    return lemonGreen;
  }
 
- 
+
 
  static getDistance (lat1, lon1, lat2, lon2, unit) {
    var radlat1 = Math.PI * lat1/180

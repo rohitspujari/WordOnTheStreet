@@ -16,10 +16,11 @@ import Touchable from '../../common/Touchable';
 import StarRating from 'react-native-star-rating';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import ItemList from './ItemList';
-import Button from '../../common/button';
+import Button from 'react-native-button';
 import AppConfig from '../../common/AppConfig';
 import { SegmentedControls } from 'react-native-radio-buttons'
 var { width, height } = Dimensions.get('window');
+const firebaseUrl = 'https://wots.firebaseio.com/';
 
 
 
@@ -33,20 +34,19 @@ export default class ReviewCard extends Component {
     return(
        <View>
        <SegmentedControls
-         containerBorderRadius={2}
+         containerBorderRadius={5}
          tint={AppConfig.themeColor()}
          backTint= {AppConfig.themeBackgroundColor()}
-         onSelection={this.setSelectedOption.bind(this)}
-         separatorWidth={0}
-         selectedOption={'Yes'}
+         onSelection={this.setSelectedPriceOption.bind(this)}
+         separatorWidth={1}
+         selectedOption={this.state.selectedPriceSegment}
          paddingTop={10}
          paddingBottom={5}
          containerBorderWidth={0}
-         options={ [<Text style={{fontSize:17, fontWeight:'500', }}>$</Text>,
-                    <Text style={{fontSize:17,fontWeight:'500', }}>$$</Text>,
-                    <Text style={{fontSize:17,fontWeight:'500', }}>$$$</Text>] }
-         onSelection={()=>null }
-         selectedOption={ () => null }
+         options={ ['$',
+                    '$$',
+                    '$$$'] }
+
          textAlign="center"
          containerStyle={{flex:0, height:40, width:170, alignSelf :'center',  borderWidth:0}}
          optionStyle={{fontWeight:'normal', marginTop: 0, color:'red'}}
@@ -97,25 +97,59 @@ export default class ReviewCard extends Component {
   }
 
   onSubmitPress(){
-    Animated.spring(this.anim,{
-      toValue:1,
-      tension:0,
-      friction:15,
-    }).start();
+
+    Alert.alert("Hello")
+
+
+
   }
 
-  setSelectedOption(){
-   Alert.alert("Hello")
+  submitReceipt(){
+    //console.log('hello');
   }
+
+
+
+  setSelectedPriceOption(selectedPriceSegment){
+    let ref = new Firebase(firebaseUrl);
+    let receiptID = this.props.receiptData[this.props.index].key
+    ref.child('users/'+this.props.uid+'/receipts/'+receiptID+'/').child('price_experience').set(selectedPriceSegment, (err)=> {
+      if(err){
+        console.log('writing price_experience failed')
+      }
+      else{
+        this.setState({selectedPriceSegment})
+      }
+    })
+  }
+
+  setSelectedExperienceOption(selectedExperienceSegment){
+
+    let ref = new Firebase(firebaseUrl);
+    let receiptID = this.props.receiptData[this.props.index].key
+    ref.child('users/'+this.props.uid+'/receipts/'+receiptID+'/').child('customer_experience').set(selectedExperienceSegment, (err)=> {
+      if(err){
+        console.log('writing customer_experience failed')
+      }
+      else{
+        this.setState({selectedExperienceSegment})
+      }
+    })
+  }
+
 
   render() {
     //console.log("im in RCard render");
+
+    let cardBackgroundColor = {
+      backgroundColor: this.props.dimmed === true ? 'rgba(255,255,255, 0.5)' : AppConfig.themeBackgroundColor(),
+    }
     let placeName = this.props.receiptData[this.props.index].data.name;
     let address = this.props.receiptData[this.props.index].data.address;
     let time = moment.unix(this.props.receiptData[this.props.index].data.time).format("MM/DD/YYYY HH:mm A");
     let amount = this.props.receiptData[this.props.index].data.amount;
     let items = this.props.receiptData[this.props.index].data.order_details;
-    let question = "How satisfied are you with your purchase?"
+    let question = "How was your experience?"
 
     let title = (
       <View>
@@ -128,7 +162,7 @@ export default class ReviewCard extends Component {
     );
 
     return(
-      <View style={styles.container}>
+      <View style={[styles.container]}>
         <View style={styles.offerContainer}>
            <View style={styles.titleContainer}>
             {title}
@@ -156,22 +190,20 @@ export default class ReviewCard extends Component {
         <View style={styles.surveryContainer}>
           <Text style={{marginTop:10, marginBottom:15, borderWidth:0, alignSelf:'center'}}>{question}</Text>
           <SegmentedControls
-            containerBorderRadius={2}
+            containerBorderRadius={5}
             tint={AppConfig.themeColor()}
             backTint= {AppConfig.themeBackgroundColor()}
-            onSelection={this.setSelectedOption.bind(this)}
-            separatorWidth={0}
-            selectedOption={'Yes'}
-            paddingTop={5}
+            onSelection={(this.setSelectedExperienceOption.bind(this))}
+            separatorWidth={0.5}
+            selectedOption={this.state.selectedExperienceSegment}
+            paddingTop={8}
             paddingBottom={5}
             containerBorderWidth={0}
-            options={ [<Icon style={{borderWidth:0, alignSelf:'center', marginLeft:5}} name="frown-o" size={25}  />,
-                       <Icon style={{borderWidth:0, alignSelf:'center', marginLeft:5}} name="meh-o" size={25}  />,
-                       <Icon style={{borderWidth:0, alignSelf:'center', marginLeft:5}} name="smile-o" size={25}  />] }
-            onSelection={()=>null }
-            selectedOption={ () => null }
+            options={ ['Bad', 'Ok', 'Good']  }
+
             textAlign="center"
-            containerStyle={{flex:0, height:40, width:170, alignSelf :'center',  borderWidth:0}}
+
+            containerStyle={{flex:0, height:40, width:170, alignSelf :'center', justifyContent:'center' , borderWidth:0, }}
             optionStyle={{fontWeight:'normal', marginTop: 3, color:'red'}}
           />
           <TouchableOpacity onPress={this.props.itemPress.bind(this,this.props)} style={{marginTop:15, alignItems:'center'}}>
@@ -182,7 +214,39 @@ export default class ReviewCard extends Component {
           </TouchableOpacity>
 
           <View style={{justifyContent:'center',alignItems:'center', marginTop:30}}>
-            <Button  text="Submit" onPress={ () => {this.props.onSubmitPress.bind(this);this.onSubmitPress()}}/>
+          <Button
+            containerStyle={{padding:10, width: 170, height: 40, alignItems:'center',overflow:'hidden', borderRadius:4, backgroundColor: AppConfig.themeColor()}}
+            onPress={() => {
+              let ref = new Firebase(firebaseUrl)
+              let receiptID = this.props.receiptData[this.props.index].key
+              ref.child('users').child(this.props.uid).child('receipts').child(receiptID).once('value', (snapshot)=>{
+                let data = snapshot.val();
+                let customer_experience = data.customer_experience;
+                if(customer_experience){
+                  ref.child('users').child(this.props.uid).child('receipts').child(receiptID).child('active').set('0', (err)=>{
+                    if(err){
+                      console.log('error submitting')
+                    }
+                    else{
+                      Animated.spring(this.anim,{
+                        toValue:1,
+                        tension:0,
+                        friction:15,
+                      }).start();
+                    }
+                  })
+                }
+                else{
+                  Alert.alert('Please provide your feedback')
+                }
+                //console.log(customer_experience)
+              })
+            }}
+
+
+          >
+             <Text style={{color:'white' }}>Submit</Text>
+          </Button>
           </View>
         </View>
 
@@ -204,7 +268,9 @@ styles = StyleSheet.create({
     marginTop: 0,
     marginBottom:7,
     marginHorizontal:3.5,
-    backgroundColor: AppConfig.themeBackgroundColor(),
+    //backgroundColor: 'transparent',
+    backgroundColor:  AppConfig.themeTransperentColor(),
+    //backgroundColor: AppConfig.themeBackgroundColor(),
     borderWidth:0
   },
 
@@ -215,13 +281,13 @@ styles = StyleSheet.create({
   offerContainer: {
     flex:2,
     flexDirection:'row', padding:15, borderWidth:0,
-    shadowColor: "#000000",
-    shadowOpacity: 0.1,
-    borderRadius: 5,
-    shadowOffset: {
-      height: 1,
-      width: 1
-    }
+    // shadowColor: "#000000",
+    // shadowOpacity: 0.1,
+    // borderRadius: 5,
+    // shadowOffset: {
+    //   height: 1,
+    //   width: 1
+    // }
   },
   pricePaidContainer: { borderWidth:0, flex:1,flexDirection:'row', alignItems:'center', paddingHorizontal:15, paddingTop:10,},
   serviceDetailContainer: { flex:2, padding:15, borderWidth:0, borderBottomWidth:0, borderBottomColor:'lightgray'},
